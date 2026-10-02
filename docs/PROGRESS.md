@@ -1,13 +1,13 @@
 # Implementation progress
 
-Last updated: 2 October 2026
+Last updated: 3 October 2026
 
 ## Milestones
 
 | Phase | Mode | Status | Acceptance check |
 | --- | --- | --- | --- |
 | A — Foundation and interaction design (Steps 1–5) | Demo foundation; no live integration | Complete | Baseline is reproducible; runtime/workspaces are installable; route and return behavior is specified; desktop/mobile wireframes are complete; a four-analyst/four-desk production SVG contract is defined. |
-| B — Working frontend demonstration (Steps 6–13) | Demo only; simulated agents/reports/runs, no model or OpenClaw calls | In progress | Four analysts and desks work by keyboard/touch; reports, filters, profiles, demo run lifecycle, and reduced-motion behavior are available. |
+| B — Working frontend demonstration (Steps 6–13) | Demo only; simulated agents/reports/runs, no model or OpenClaw calls | In progress | Four analysts and desks work by keyboard/touch; the concept-quality native visual system, reports, filters, profiles, demo run lifecycle, and reduced-motion behavior are available. |
 | C1 — Private backend and app database (Steps 14–19) | Live app foundation; owner-authenticated, with genuine empty states | Not started | Auth, ownership controls, migrations, API contracts, durable run requests, and live-empty UI are verified. |
 | C2 — OpenClaw setup and first live report (Steps 20–29) | Live integration | Not started | A captured, authenticated OpenClaw completion becomes exactly one persisted report; a controlled run is reconciled after disconnect/restart. |
 | D — Four analysts and dependable schedules (Steps 30–36) | Live integration | Not started | Four reviewed tasks and saved schedules use dated inputs, map to verified agent/job IDs, and reconcile without duplicates. |
@@ -31,9 +31,16 @@ Last updated: 2 October 2026
 - Completed Step 11 with service-owned queued/running/terminal run timers, active-task reuse, atomic success/report persistence, explicit interruption on full page refresh, reset cancellation, and report-scoped canned follow-up responses with no model or network traffic.
 - Confirmed typecheck, lint, and production build pass; the Vite development server starts at `127.0.0.1:5173`.
 
+## Visual fidelity target
+
+The seven files in `design-concepts/` remain the visual acceptance references for the frontend. The product should recreate their visual language with native SVG, HTML, and CSS rather than embed the concept PNGs. The target includes the shallow-isometric office composition, illustrated desks and analysts, clear zone hierarchy, selected analyst treatment, status language, responsive desktop/phone composition, and the spacing, colour, depth, and surface quality shown in the references.
+
+The current Step 5 assets provide the stable production contract for that work: four typed analyst identities, four desks, five static poses per analyst, normalized anchors, and accessible HTML boundaries. The functional scene built through Step 11 is a working foundation, but the visual refinement pass against `02-office-layout.png`, `03-avatar-states.png`, `04-desktop-ui.png`, `05-mobile-ui.png`, `06-motion-storyboard.png`, and `07-visual-clarity-system.png` remains outstanding.
+
 ## Current limits
 
 - The workspace has no live agents, backend service, database, real holdings, or market feed; reports exist only as local illustrative demo fixtures.
-- The frontend has the Step 11 demo lifecycle; reduced-motion and full keyboard verification remain upcoming.
+- The frontend has the Step 11 demo lifecycle, but Step 12 is not complete: concept-quality visual refinement, reduced-motion behavior, document-visibility pausing, meaningful run/report announcements, and full keyboard verification remain upcoming.
+- The current office scene and shell are functional native UI scaffolding. They do not yet meet the concept-quality visual acceptance target documented above.
 - Node 26.10.0 remains the local pin; package engines also allow Node 24.x for Vercel, which currently builds with Node 24.21.0.
 - No infrastructure, account, paid service, or public deployment has been provisioned.

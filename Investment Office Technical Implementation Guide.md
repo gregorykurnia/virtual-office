@@ -48,6 +48,14 @@ Carry forward the shallow isometric room, warm palette, clear desk targets, and 
 
 The primary destinations are **Office** and **Reports**. A shared agent panel contains **Overview**, **Assignment**, and **Reports**. Holdings, settings, and run history enter the live phases. Do not make pan/zoom or a three-column monitoring dashboard prerequisites for reading reports.
 
+#### Visual fidelity rule for the frontend prototype
+
+The concept images are the visual acceptance references for the frontend experience. “Treat concept PNGs as references” means recreate their visual language with native SVG, HTML, and CSS so the interface remains responsive, semantic, and accessible; it does not lower the expected finish quality or permit a permanently low-fidelity placeholder.
+
+The implementation should carry forward the concepts' shallow-isometric room, readable zone composition, illustrated desk and character treatment, warm neutral surfaces, restrained status colours, selection states, depth, spacing, and responsive composition. The desktop reference in `design-concepts/04-desktop-ui.png` and the phone reference in `design-concepts/05-mobile-ui.png` describe the intended visual bar for the product. `02-office-layout.png`, `03-avatar-states.png`, `06-motion-storyboard.png`, and `07-visual-clarity-system.png` provide the corresponding scene, pose, motion, and status references.
+
+The Step 5 SVG set is the technical asset foundation: it establishes stable identities, anchors, pose keys, and accessible boundaries. A simple first asset set can validate geometry and interaction, but the frontend milestone is not visually complete while the office scene, responsive layout, controls, and artwork still read as a basic scaffold. The concept-quality refinement must happen before the Step 13 frontend handoff, with reduced-motion mode retaining a complete, readable static presentation.
+
 ### 1.3 Proposed technology choices
 
 | Area | Proposed choice | Implementation reason |
@@ -310,10 +318,12 @@ Create `docs/INTERACTIONS.md` with these proposed routes:
 4. Define consistent bounds, anchor points, and export sizes for each pose.
 5. Produce static idle, reading, typing, report-ready, and attention poses first. Walking can follow later.
 6. Keep labels and status text as HTML, separate from illustration.
-7. Treat concept PNGs as references; do not use a desktop mockup PNG as the application UI.
+7. Treat concept PNGs as visual references to recreate with native product UI; do not use a desktop mockup PNG as the application UI.
 
 **Deliverables:** asset manifest and first coherent four-character set.  
 **Done when:** every character and desk is identifiable at phone scale with motion disabled.
+
+The asset contract is a technical boundary for consistent artwork, not a visual-fidelity waiver. The final scene must use these stable symbols inside a concept-quality composition and preserve the same visual clarity when motion is disabled.
 
 ## 4. Phase B: working frontend demonstration
 
@@ -425,6 +435,8 @@ Use namespaced storage such as `investment-office:demo:v1`. Add fixture-version 
 
 ### Step 12 — Add basic motion and accessibility
 
+Step 12 is implemented on the concept-quality frontend presentation. Basic motion and accessibility complete the visual system; they do not substitute for the visual refinement described in section 1.2. Before calling this step complete, the native UI should visibly carry the reference composition at desktop and phone widths while remaining usable with motion disabled.
+
 1. Add idle/reading/typing poses and restrained UI transitions.
 2. Keep decorative motion separate from verified state fields.
 3. Pause ambient animation when the document is hidden.
@@ -433,12 +445,16 @@ Use namespaced storage such as `investment-office:demo:v1`. Add fixture-version 
 6. Announce meaningful report/run updates without announcing every pose change.
 7. Ensure report text and essential status remain readable without motion or color cues.
 
+The visual acceptance check for this step covers the office scene, analyst selection, profile surface, Reports list, report detail, and phone presentation. Compare the rendered UI with the concept references at the required viewport sizes and record any deliberate differences in the verification notes.
+
 **Deliverables:** accessible interactive demo with motion controls.  
 **Done when:** the same workflows work with keyboard only and reduced motion.
 
 ### Step 13 — Verify and hand off the frontend milestone
 
 Run typecheck, lint, build, and focused browser checks. Inspect screenshots at 360, 390, 768, and 1440 px.
+
+Include a visual-fidelity comparison against the concept references. Confirm that the native implementation preserves the intended composition, artwork quality, spacing, status language, selected states, and responsive behaviour; record deliberate deviations rather than treating the references as optional inspiration.
 
 Verify all four character/desk mappings, profile tabs, search/filters, unread persistence, detail/back context, duplicate run prevention, failure/offline scenarios, Reset demo, and demo chat labelling. Inspect browser traffic to confirm no model or OpenClaw calls occur.
 
@@ -1639,9 +1655,12 @@ Although service supervision and private connectivity appear again in Phase F, t
 - [x] Step 8 — Application shell, header/demo/preferences controls, Reports list/detail routes, URL-preserving filters and debounced search, safe Markdown rendering, report metadata/source references, read tracking, and loading/empty/not-found/unavailable states implemented; typecheck, lint, build, and desktop/mobile visual inspection completed.
 - [x] Step 9 — Shared analyst profiles implemented for all four demo agents with Overview, Assignment, Reports, task-input guidance, recent reports, run history, persisted simulated Run now state, nonmodal desktop behavior, and full-width mobile back behavior.
 - [x] Step 10 — Shared-coordinate SVG office scene implemented with four clickable desk/character controls, per-agent report shortcuts, shared briefing shortcut, visible selection rings, and an accessible analyst-card mirror; desktop and 360 px/390 px scene layouts visually inspected.
+- [x] Step 11 — Bounded demo run controller implemented with service-owned lifecycle timers, duplicate activation protection, reset/refresh handling, and labelled canned follow-up responses.
+- [ ] Visual fidelity pass — native SVG/HTML/CSS office, responsive shell, controls, analyst surfaces, and status treatment brought to the quality and composition of the design-concept references.
+- [ ] Step 12 — Concept-quality frontend verified with idle/reading/typing poses, restrained motion, document-visibility pausing, system and stored reduced-motion preferences, visible focus, labelled controls, 44 px touch targets, meaningful run/report announcements, and readable motion-free status.
+- [ ] Step 13 — Typecheck, lint, build, focused browser checks, required viewport screenshots, visual-fidelity comparison, and frontend handoff evidence recorded.
 - [x] Frontend demo runnable with four analysts and clickable desks.
 - [ ] Reports, profile tabs, filters, unread state, back navigation, and demo runs verified.
-- [ ] Reduced motion and phone/keyboard workflows verified.
 - [ ] Owner-only login/API and database migrations implemented.
 - [ ] Database constraints, RLS, and ownership failures verified.
 - [ ] Durable manual-run requests and ambiguous-dispatch handling implemented.
