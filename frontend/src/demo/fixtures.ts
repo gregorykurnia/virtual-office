@@ -414,7 +414,7 @@ export function createDemoFixture(scenario: DemoScenario): DemoSnapshot {
     reports: structuredClone(reports),
     runs: structuredClone(runs),
     idempotencyKeys: {},
-    preferences: AppPreferencesSchema.parse({ timezone: "Asia/Jakarta", reducedMotion: false, theme: "system" })
+    preferences: AppPreferencesSchema.parse({ timezone: "Asia/Jakarta", reducedMotion: false, theme: "light" })
   };
 
   if (scenario === "offline") {

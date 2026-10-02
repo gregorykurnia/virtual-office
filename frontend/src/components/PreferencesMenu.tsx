@@ -23,12 +23,10 @@ export default function PreferencesMenu() {
   }, [open]);
 
   useEffect(() => {
-    const theme = preferencesQuery.data?.data.theme ?? "system";
     const reducedMotion = preferencesQuery.data?.data.reducedMotion ?? false;
-    const systemTheme = theme === "system" && window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
-    document.documentElement.dataset.theme = theme === "system" ? systemTheme : theme;
+    document.documentElement.dataset.theme = "light";
     document.documentElement.dataset.motion = reducedMotion ? "reduced" : "full";
-  }, [preferencesQuery.data?.data.reducedMotion, preferencesQuery.data?.data.theme]);
+  }, [preferencesQuery.data?.data.reducedMotion]);
 
   const preferences = preferencesQuery.data?.data;
 
@@ -66,17 +64,6 @@ export default function PreferencesMenu() {
                   <option value="Asia/Jakarta">Asia/Jakarta · WIB</option>
                   <option value="UTC">UTC</option>
                   <option value="America/New_York">America/New_York</option>
-                </select>
-              </label>
-              <label className="preference-field">
-                <span>Theme</span>
-                <select
-                  value={preferences.theme}
-                  onChange={(event) => void officeService.updatePreferences({ theme: event.currentTarget.value as typeof preferences.theme })}
-                >
-                  <option value="system">System</option>
-                  <option value="light">Light</option>
-                  <option value="dark">Dark</option>
                 </select>
               </label>
               <label className="preference-toggle">
