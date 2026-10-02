@@ -1,0 +1,27 @@
+# Dependencies and build output
+node_modules/
+**/node_modules/
+dist/
+build/
+coverage/
+playwright-report/
+test-results/
+
+# Local environment and credentials
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+
+# Logs and local runtime state
+*.log
+.openclaw/
+openclaw-state/
+*.tsbuildinfo
+
+# Operating system / editor files
+.DS_Store
+.idea/
+.vscode/*
+!.vscode/extensions.json

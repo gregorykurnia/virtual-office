@@ -2,6 +2,14 @@
 
 These are direction-setting references, not final production assets. They translate the recommendations in [the visual UI direction brief](../VISUAL_UI_DIRECTION.md) into a consistent visual system.
 
+## Step 4 layout review
+
+Open [the Step 4 wireframes](./step-4-wireframes.html) in a browser to review the annotated desktop and 360 px phone layouts for Office, analyst profile, Reports, and report detail. The companion [token file](./step-4-tokens.css) records the colors, type scale, spacing, shape, focus, and motion values shown in the wireframes.
+
+## Step 5 production asset contract
+
+The visual direction is now expressed as native, reusable SVG sprites rather than embedded concept art. See [the asset contract](../docs/ASSET_CONTRACT.md) for the four analysts, desks, role distinctions, pose keys, anchors, and export rules. Run the local frontend and open `/assets/office/index.html` to review all twenty static poses and four desks at browser scale.
+
 ## 1. Art direction comparison
 
 Recommended: the shallow, soft 2D isometric approach on the left. The overhead workspace map on the right is the simpler alternate.

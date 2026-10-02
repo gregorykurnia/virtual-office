@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Investment Office asset review</title>
+    <style>
+      :root { color: #263244; background: #f7f8fa; font-family: Inter, ui-sans-serif, system-ui, sans-serif; }
+      body { max-width: 74rem; margin: 0 auto; padding: 2rem; }
+      h1 { margin-bottom: .35rem; letter-spacing: -.03em; }
+      p { color: #536176; line-height: 1.5; }
+      .legend { display: flex; gap: .5rem; flex-wrap: wrap; margin: 1.25rem 0; }
+      .legend span { padding: .35rem .6rem; border: 1px solid #d9e1ea; border-radius: 999px; background: #fff; font-size: .8rem; }
+      .grid { display: grid; gap: 1rem; grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr)); }
+      article { overflow: hidden; border: 1px solid #d9e1ea; border-radius: 1rem; background: #fff; box-shadow: 0 1px 2px rgb(30 42 59 / .05); }
+      h2 { margin: 0; padding: 1rem 1rem .15rem; font-size: 1rem; }
+      .roles { padding: 0 1rem; font-size: .82rem; }
+      .poses { display: grid; grid-template-columns: repeat(5, 1fr); gap: .1rem; padding: .65rem; background: #eef2f7; }
+      .poses svg { width: 100%; aspect-ratio: 1; }
+      .desks { display: grid; gap: .75rem; grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr)); margin-top: 2rem; }
+      .desk { padding: .75rem; border: 1px solid #d9e1ea; border-radius: .8rem; background: #fff; text-align: center; }
+      .desk svg { width: 100%; max-width: 15rem; }
+      .caption { margin: .25rem 0 0; color: #536176; font-size: .78rem; }
+      @media (max-width: 420px) { body { padding: 1rem; } .grid { grid-template-columns: 1fr; } }
+    </style>
+  </head>
+  <body>
+    <h1>Office asset review</h1>
+    <p>Static, motion-free production symbols. Names and status text stay outside the artwork in the application.</p>
+    <div class="legend"><span>idle</span><span>reading</span><span>typing</span><span>report-ready</span><span>attention</span></div>
+    <main class="grid">
+      <article><h2>Maya</h2><p class="roles">Market Analyst · headset and chart badge</p><div class="poses"><svg aria-label="Maya idle" role="img"><use href="analysts.svg#market-bot-idle"/></svg><svg aria-label="Maya reading" role="img"><use href="analysts.svg#market-bot-reading"/></svg><svg aria-label="Maya typing" role="img"><use href="analysts.svg#market-bot-typing"/></svg><svg aria-label="Maya report ready" role="img"><use href="analysts.svg#market-bot-report-ready"/></svg><svg aria-label="Maya attention" role="img"><use href="analysts.svg#market-bot-attention"/></svg></div></article>
+      <article><h2>Adrian</h2><p class="roles">Portfolio Analyst · ledger badge and folio</p><div class="poses"><svg aria-label="Adrian idle" role="img"><use href="analysts.svg#portfolio-bot-idle"/></svg><svg aria-label="Adrian reading" role="img"><use href="analysts.svg#portfolio-bot-reading"/></svg><svg aria-label="Adrian typing" role="img"><use href="analysts.svg#portfolio-bot-typing"/></svg><svg aria-label="Adrian report ready" role="img"><use href="analysts.svg#portfolio-bot-report-ready"/></svg><svg aria-label="Adrian attention" role="img"><use href="analysts.svg#portfolio-bot-attention"/></svg></div></article>
+      <article><h2>Clara</h2><p class="roles">Investment Research Analyst · book badge</p><div class="poses"><svg aria-label="Clara idle" role="img"><use href="analysts.svg#research-bot-idle"/></svg><svg aria-label="Clara reading" role="img"><use href="analysts.svg#research-bot-reading"/></svg><svg aria-label="Clara typing" role="img"><use href="analysts.svg#research-bot-typing"/></svg><svg aria-label="Clara report ready" role="img"><use href="analysts.svg#research-bot-report-ready"/></svg><svg aria-label="Clara attention" role="img"><use href="analysts.svg#research-bot-attention"/></svg></div></article>
+      <article><h2>Theo</h2><p class="roles">Risk Analyst · shield badge and alert light</p><div class="poses"><svg aria-label="Theo idle" role="img"><use href="analysts.svg#risk-bot-idle"/></svg><svg aria-label="Theo reading" role="img"><use href="analysts.svg#risk-bot-reading"/></svg><svg aria-label="Theo typing" role="img"><use href="analysts.svg#risk-bot-typing"/></svg><svg aria-label="Theo report ready" role="img"><use href="analysts.svg#risk-bot-report-ready"/></svg><svg aria-label="Theo attention" role="img"><use href="analysts.svg#risk-bot-attention"/></svg></div></article>
+    </main>
+    <section class="desks" aria-label="Desk asset review">
+      <div class="desk"><svg aria-label="Market terminal desk" role="img" viewBox="0 0 192 128"><use href="desks.svg#market-terminal"/></svg><p class="caption">Market terminal</p></div>
+      <div class="desk"><svg aria-label="Portfolio ledger desk" role="img" viewBox="0 0 192 128"><use href="desks.svg#portfolio-ledger"/></svg><p class="caption">Portfolio ledger</p></div>
+      <div class="desk"><svg aria-label="Research library desk" role="img" viewBox="0 0 192 128"><use href="desks.svg#research-library"/></svg><p class="caption">Research library</p></div>
+      <div class="desk"><svg aria-label="Risk console desk" role="img" viewBox="0 0 192 128"><use href="desks.svg#risk-console"/></svg><p class="caption">Risk console</p></div>
+    </section>
+  </body>
+</html>

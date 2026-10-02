@@ -1,0 +1,55 @@
+/*
+ * Step 4 visual tokens
+ * These are review tokens for the wireframes. Step 6 will promote the
+ * approved values into the application stylesheet.
+ */
+:root {
+  --wire-ink: #1e2a3b;
+  --wire-muted: #64748b;
+  --wire-subtle: #94a3b8;
+  --wire-canvas: #eef2f7;
+  --wire-surface: #ffffff;
+  --wire-surface-soft: #f8fafc;
+  --wire-line: #d9e1ea;
+  --wire-line-strong: #bdcad8;
+  --wire-blue: #3867e8;
+  --wire-blue-soft: #e8efff;
+  --wire-green: #16845b;
+  --wire-green-soft: #e6f7ef;
+  --wire-amber: #aa6712;
+  --wire-amber-soft: #fff3db;
+  --wire-red: #c53b4a;
+  --wire-red-soft: #ffeaed;
+  --wire-violet: #7759c7;
+  --wire-violet-soft: #f0edff;
+
+  --wire-font: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --wire-text-xs: 0.6875rem;
+  --wire-text-sm: 0.8125rem;
+  --wire-text-base: 0.9375rem;
+  --wire-text-lg: 1.125rem;
+  --wire-text-xl: 1.5rem;
+  --wire-text-2xl: clamp(2rem, 4vw, 3.5rem);
+
+  --wire-space-1: 0.25rem;
+  --wire-space-2: 0.5rem;
+  --wire-space-3: 0.75rem;
+  --wire-space-4: 1rem;
+  --wire-space-5: 1.25rem;
+  --wire-space-6: 1.5rem;
+  --wire-space-8: 2rem;
+  --wire-space-10: 2.5rem;
+  --wire-space-12: 3rem;
+
+  --wire-radius-sm: 0.5rem;
+  --wire-radius-md: 0.75rem;
+  --wire-radius-lg: 1rem;
+  --wire-radius-xl: 1.5rem;
+  --wire-radius-pill: 999px;
+  --wire-shadow-sm: 0 1px 2px rgb(30 42 59 / 0.05), 0 1px 3px rgb(30 42 59 / 0.04);
+  --wire-shadow-md: 0 12px 32px rgb(30 42 59 / 0.12);
+  --wire-focus: 0 0 0 3px rgb(56 103 232 / 0.28);
+  --wire-motion-fast: 160ms;
+  --wire-motion-ui: 220ms;
+  --wire-motion-scene: 520ms;
+}

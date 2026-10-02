@@ -1,0 +1,151 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="color-scheme" content="light" />
+    <title>Investment Office — Step 4 wireframes</title>
+    <link rel="stylesheet" href="step-4-wireframes.css" />
+  </head>
+  <body>
+    <main class="wireframe-document">
+      <header class="document-hero">
+        <p class="eyebrow">Investment Office · Step 4</p>
+        <h1>Desktop and mobile layouts for review</h1>
+        <p>
+          A medium-fidelity wireframe set that turns the approved visual direction into
+          primary screens, responsive behavior, and reusable visual tokens.
+        </p>
+        <div class="review-meta" aria-label="Wireframe scope">
+          <span>Office overview</span>
+          <span>Analyst profile</span>
+          <span>Reports</span>
+          <span>Report detail</span>
+          <span>360 px mobile behavior</span>
+        </div>
+      </header>
+
+      <div class="wireframe-content">
+        <aside class="review-notice">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 8v4m0 4h.01M10.2 3.7 2.6 17a2 2 0 0 0 1.74 3h15.32A2 2 0 0 0 21.4 17L13.8 3.7a2.07 2.07 0 0 0-3.6 0Z" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" /></svg>
+          <div><strong>Review artifact, not product UI.</strong> The screens show hierarchy, surfaces, labels, feedback, and responsive decisions. Controls are intentionally static here; interactive behavior is defined in <code>docs/INTERACTIONS.md</code> and will be built in the next phase.</div>
+        </aside>
+
+        <section aria-labelledby="desktop-title">
+          <div class="section-heading">
+            <p class="eyebrow">Wide screens · 1440 px reference</p>
+            <h2 id="desktop-title">The office remains the center of gravity</h2>
+            <p>Search and analyst selection live at the left, while details stay visible without burying the office. Each screen keeps the demo and data freshness context in view.</p>
+          </div>
+
+          <article class="screen-block">
+            <div class="screen-card">
+              <div class="screen-card__label"><span>01 · Office overview</span><span>1440 px</span></div>
+              <div class="app-mockup">
+                <header class="app-topbar">
+                  <div class="mini-brand"><span class="brand-square">IO</span><span>Investment Office</span><nav class="mini-nav" aria-label="Example navigation"><span class="active">Office</span><span>Reports</span></nav></div>
+                  <div class="header-actions"><span class="sync-dot"></span><span>Demo ready</span><span class="circle-button">?</span><span class="circle-button">GK</span></div>
+                </header>
+                <div class="demo-strip"><b>Demo mode</b><span>Simulated activity only · no live research or market data connected.</span></div>
+                <div class="office-layout">
+                  <aside class="side-list">
+                    <div class="search-box">⌕ <span>Search analysts</span></div>
+                    <p class="filter-label">Status</p>
+                    <div class="filter-stack"><span class="filter-chip selected">All</span><span class="filter-chip">Active</span><span class="filter-chip">Thinking</span></div>
+                    <p class="filter-label">Analysts</p>
+                    <div class="analyst-mini-list">
+                      <div class="analyst-mini"><span class="agent-dot blue">M</span><div><b>Market scanner</b><small>Active · Work floor</small></div></div>
+                      <div class="analyst-mini"><span class="agent-dot violet">R</span><div><b>Risk analyst</b><small>Thinking · Meeting</small></div></div>
+                      <div class="analyst-mini"><span class="agent-dot teal">P</span><div><b>Portfolio review</b><small>Active · Work floor</small></div></div>
+                      <div class="analyst-mini"><span class="agent-dot coral">O</span><div><b>Operations</b><small>Needs attention · Server</small></div></div>
+                    </div>
+                  </aside>
+                  <section class="office-scene" aria-label="Illustrative office canvas">
+                    <div class="scene-title"><span>Office overview</span><small>4 analysts · 1 scheduled task</small></div>
+                    <div class="office-floor">
+                      <div class="zone zone-work">Work floor<span>Focus and research</span></div><div class="zone zone-lounge">Lounge<span>Idle and review</span></div><div class="zone zone-meet">Meeting nook<span>Collaboration</span></div><div class="zone zone-server">Server area<span>Operations</span></div>
+                      <span class="desk desk-one"></span><span class="desk desk-two"></span><span class="desk desk-three"></span><span class="desk desk-four"></span><span class="table"></span><span class="sofa"></span><span class="server-rack"></span><span class="plant plant-a"></span><span class="plant plant-b"></span><span class="plant plant-c"></span>
+                      <span class="scene-agent blue scene-agent-a"><em>Market scanner</em>M</span><span class="scene-agent violet scene-agent-b"><em>Risk analyst</em><span class="thinking">···</span></span><span class="scene-agent teal scene-agent-c">P</span><span class="scene-agent coral scene-agent-d">O</span>
+                    </div>
+                    <div class="canvas-controls"><button aria-label="Zoom out">−</button><button aria-label="Fit office">⌘</button><button aria-label="Zoom in">+</button></div>
+                  </section>
+                  <aside class="office-details"><p class="details-kicker">Selection</p><div class="details-empty"><div><span>⌁</span>Select an analyst or desk to view their work, assignment, reports, and current state.</div></div></aside>
+                </div>
+              </div>
+            </div>
+            <aside class="callouts"><h3>What this establishes</h3><ol><li>The demo banner is persistent and cannot be mistaken for live data.</li><li>The left rail provides search and status filters without relying on scene precision.</li><li>The scene is readable as four distinct zones, with wide tap/click targets around each analyst.</li><li>Selection opens a shared contextual panel in the existing layout.</li></ol></aside>
+          </article>
+
+          <article class="screen-block">
+            <div class="screen-card">
+              <div class="screen-card__label"><span>02 · Analyst profile</span><span>1440 px</span></div>
+              <div class="app-mockup">
+                <header class="app-topbar"><div class="mini-brand"><span class="brand-square">IO</span><span>Investment Office</span><nav class="mini-nav" aria-label="Example navigation"><span class="active">Office</span><span>Reports</span></nav></div><div class="header-actions"><span class="sync-dot"></span><span>Demo ready</span><span class="circle-button">?</span><span class="circle-button">GK</span></div></header>
+                <div class="demo-strip"><b>Demo mode</b><span>Simulated activity only · no live research or market data connected.</span></div>
+                <div class="office-layout">
+                  <aside class="side-list"><div class="search-box">⌕ <span>Search analysts</span></div><p class="filter-label">Status</p><div class="filter-stack"><span class="filter-chip selected">All</span><span class="filter-chip">Active</span><span class="filter-chip">Thinking</span></div><p class="filter-label">Analysts</p><div class="analyst-mini-list"><div class="analyst-mini selected"><span class="agent-dot blue">M</span><div><b>Market scanner</b><small>Active · Work floor</small></div></div><div class="analyst-mini"><span class="agent-dot violet">R</span><div><b>Risk analyst</b><small>Thinking · Meeting</small></div></div><div class="analyst-mini"><span class="agent-dot teal">P</span><div><b>Portfolio review</b><small>Active · Work floor</small></div></div><div class="analyst-mini"><span class="agent-dot coral">O</span><div><b>Operations</b><small>Needs attention · Server</small></div></div></div></aside>
+                  <section class="office-scene" aria-label="Illustrative office canvas with selected analyst"><div class="scene-title"><span>Office overview</span><small>4 analysts · 1 scheduled task</small></div><div class="office-floor"><div class="zone zone-work">Work floor<span>Focus and research</span></div><div class="zone zone-lounge">Lounge<span>Idle and review</span></div><div class="zone zone-meet">Meeting nook<span>Collaboration</span></div><div class="zone zone-server">Server area<span>Operations</span></div><span class="desk desk-one"></span><span class="desk desk-two"></span><span class="desk desk-three"></span><span class="desk desk-four"></span><span class="table"></span><span class="sofa"></span><span class="server-rack"></span><span class="plant plant-a"></span><span class="plant plant-b"></span><span class="plant plant-c"></span><span class="scene-agent blue scene-agent-a selected"><em>Market scanner</em>M</span><span class="scene-agent violet scene-agent-b"><span class="thinking">···</span></span><span class="scene-agent teal scene-agent-c">P</span><span class="scene-agent coral scene-agent-d">O</span></div><div class="canvas-controls"><button aria-label="Zoom out">−</button><button aria-label="Fit office">⌘</button><button aria-label="Zoom in">+</button></div></section>
+                  <aside class="office-details"><p class="details-kicker">Analyst profile</p><div class="selected-profile"><div class="profile-top"><span class="agent-dot blue">M</span><div><h4>Market scanner</h4><p>Market intelligence</p></div></div><div class="status-line"><i></i>Active · Work floor</div><div class="tab-line"><span class="selected">Overview</span><span>Assignment</span><span>Reports</span></div><div class="info-block"><b>Current focus</b><span>Opening scan: Asia equities</span></div><div class="info-block"><b>Next scheduled task</b><span>Daily premarket brief · 08:30 WIB</span></div><button class="mini-button">Focus in office</button><button class="mini-button secondary">View reports</button></div></aside>
+                </div>
+              </div>
+            </div>
+            <aside class="callouts"><h3>Profile behavior</h3><ol><li>One profile surface handles Overview, Assignment, and Reports.</li><li>A visible status label supports the color indicator.</li><li>Task and schedule data have explicit labels and cannot imply a live schedule in demo mode.</li><li>The selected ring keeps the relationship between profile and scene obvious.</li></ol></aside>
+          </article>
+
+          <article class="screen-block">
+            <div class="screen-card">
+              <div class="screen-card__label"><span>03 · Reports list</span><span>1440 px</span></div>
+              <div class="app-mockup">
+                <header class="app-topbar"><div class="mini-brand"><span class="brand-square">IO</span><span>Investment Office</span><nav class="mini-nav" aria-label="Example navigation"><span>Office</span><span class="active">Reports</span></nav></div><div class="header-actions"><span class="sync-dot"></span><span>Demo ready</span><span class="circle-button">?</span><span class="circle-button">GK</span></div></header>
+                <div class="demo-strip"><b>Demo mode</b><span>All reports below are illustrative sample data.</span></div>
+                <section class="reports-layout"><div class="reports-heading"><div><h3>Reports</h3><p>Review dated analyst notes and simulated research outputs.</p></div><span class="next-run">Next simulated run · 08:30 WIB</span></div><div class="report-filters"><div class="search-box">⌕ <span>Search titles and source dates</span></div><span class="small-filter on">All analysts</span><span class="small-filter">Unread</span><span class="small-filter">Newest first</span></div><div class="report-table"><div class="report-row head"><span></span><span>Report</span><span>Analyst</span><span>Data date</span><span>Status</span></div><div class="report-row"><span class="unread-dot"></span><div class="report-name"><b>Asia market opening scan</b><span>Macro signals, moves, and watchpoints</span></div><div class="table-agent"><span class="agent-dot blue">M</span>Market scanner</div><span>02 Oct 2026</span><span>New</span></div><div class="report-row"><span></span><div class="report-name"><b>Concentration check</b><span>Illustrative risk memo for review</span></div><div class="table-agent"><span class="agent-dot violet">R</span>Risk analyst</div><span>01 Oct 2026</span><span>Read</span></div><div class="report-row"><span></span><div class="report-name"><b>Allocation observations</b><span>Portfolio construction notes</span></div><div class="table-agent"><span class="agent-dot teal">P</span>Portfolio review</div><span>30 Sep 2026</span><span>Read</span></div><div class="report-row"><span></span><div class="report-name"><b>Source health summary</b><span>Scheduled-data availability</span></div><div class="table-agent"><span class="agent-dot coral">O</span>Operations</div><span>29 Sep 2026</span><span>Read</span></div></div></section>
+              </div>
+            </div>
+            <aside class="callouts"><h3>Report review</h3><ol><li>Search, agent, unread, and ordering controls stay above results.</li><li>Each row carries analyst identity, report type, and a data date for evaluating freshness.</li><li>Unread state adds a dot and text, avoiding a color-only indicator.</li><li>The next scheduled task remains available as context without dominating the list.</li></ol></aside>
+          </article>
+
+          <article class="screen-block">
+            <div class="screen-card">
+              <div class="screen-card__label"><span>04 · Report detail</span><span>1440 px</span></div>
+              <div class="app-mockup">
+                <header class="app-topbar"><div class="mini-brand"><span class="brand-square">IO</span><span>Investment Office</span><nav class="mini-nav" aria-label="Example navigation"><span>Office</span><span class="active">Reports</span></nav></div><div class="header-actions"><span class="sync-dot"></span><span>Demo ready</span><span class="circle-button">?</span><span class="circle-button">GK</span></div></header>
+                <div class="demo-strip"><b>Demo mode</b><span>Illustrative report content · no market or portfolio data is connected.</span></div>
+                <section class="report-detail"><div class="crumbs"><b>‹ Reports</b><span>/</span><span>Market scanner</span></div><div class="detail-grid"><article class="report-paper"><p class="report-kicker">Market scanner · simulated report</p><h3>Asia market opening scan</h3><div class="report-meta"><span>Data date: 02 Oct 2026</span><span>·</span><span>08:15 WIB</span><span>·</span><span>4 min read</span></div><p class="reading-block"></p><p class="reading-block short"></p><div class="key-takeaway"><b>Key takeaway</b><br />A compact, dated summary gives the reader a fast decision frame before detail and cited sources.</div><p class="reading-block"></p><p class="reading-block"></p><p class="reading-block tiny"></p><div class="citation-row"><span class="citation-circle">1</span><span>Source date and availability are shown with each supporting reference.</span></div></article><aside class="detail-side"><h4>Report context</h4><div class="meta-card"><b>Analyst</b><span>Market scanner</span></div><div class="meta-card"><b>State</b><span>Simulated · complete</span></div><div class="meta-card"><b>Freshness</b><span>Data date: 02 Oct 2026</span></div><button class="mini-button secondary">Open analyst profile</button></aside></div></section>
+              </div>
+            </div>
+            <aside class="callouts"><h3>Reading first</h3><ol><li>The back route is explicit and preserves report-list context.</li><li>The report has a clear date, analyst identity, and simulated state above the content.</li><li>The main reading column stays calm and narrow enough for scanning.</li><li>Metadata and analyst navigation are available beside the report without interrupting reading.</li></ol></aside>
+          </article>
+        </section>
+
+        <section aria-labelledby="mobile-title">
+          <div class="section-heading">
+            <p class="eyebrow">Phone screens · 360 px reference</p>
+            <h2 id="mobile-title">The office stays visible; focused content gets its own space</h2>
+            <p>Mobile removes the persistent desktop rails. Every action has a labeled touch target, and profiles/reports occupy a full, readable surface instead of a cramped overlay.</p>
+          </div>
+          <article class="screen-block screen-block--mobile">
+            <div class="mobile-grid">
+              <section class="phone" aria-label="Mobile office overview wireframe"><div class="phone__status"><span>9:41</span><span>●●● ᯤ</span></div><div class="phone__bar"><b>Investment Office</b><button>Filters</button></div><div class="phone-demo">Demo mode · simulated activity</div><div class="mobile-office"><div class="office-floor"><div class="zone zone-work">Work floor</div><div class="zone zone-lounge">Lounge</div><div class="zone zone-meet">Meeting</div><div class="zone zone-server">Server</div><span class="desk desk-one"></span><span class="desk desk-two"></span><span class="desk desk-three"></span><span class="desk desk-four"></span><span class="table"></span><span class="sofa"></span><span class="server-rack"></span><span class="plant plant-a"></span><span class="plant plant-b"></span><span class="plant plant-c"></span><span class="scene-agent blue scene-agent-a selected">M</span><span class="scene-agent violet scene-agent-b"><span class="thinking">···</span></span><span class="scene-agent teal scene-agent-c">P</span><span class="scene-agent coral scene-agent-d">O</span></div><div class="canvas-controls"><button>−</button><button>⌘</button><button>+</button></div></div><div class="mobile-controls"><button>Market scanner</button><button>Reports</button></div><div class="bottom-hint">Tap an analyst or desk to open its details.</div></section>
+              <section class="phone" aria-label="Mobile analyst profile wireframe"><div class="phone__status"><span>9:41</span><span>●●● ᯤ</span></div><div class="phone__bar"><button>‹ Office</button><b>Profile</b><button>Close</button></div><div class="mobile-profile"><div class="profile-top"><span class="agent-dot blue">M</span><div><h4>Market scanner</h4><p>Market intelligence · Work floor</p></div></div><div class="status-line"><i></i>Active · simulated state</div><div class="tab-line"><span class="selected">Overview</span><span>Assignment</span><span>Reports</span></div><div class="info-block"><b>Current focus</b><span>Opening scan: Asia equities</span></div><div class="info-block"><b>Next scheduled task</b><span>Daily premarket brief · 08:30 WIB</span></div><button class="mini-button">View reports</button><p class="details-kicker">Recent activity</p><div class="timeline-row"><i></i><div><b>Scan queued</b>Demo activity · 08:15 WIB</div></div><div class="timeline-row"><i></i><div><b>State updated</b>Active in the work floor</div></div></div></section>
+              <section class="phone" aria-label="Mobile reports list wireframe"><div class="phone__status"><span>9:41</span><span>●●● ᯤ</span></div><div class="phone__bar"><b>Reports</b><button>Office</button></div><div class="phone-demo">Demo mode · illustrative reports</div><div class="mobile-reports"><h3>Reports</h3><p>Dated simulated research outputs</p><div class="search-box">⌕ <span>Search reports</span></div><div class="mobile-filter-row"><span class="active">All analysts</span><span>Unread</span><span>Newest</span></div><article class="mobile-report-row"><span class="agent-dot blue">M</span><div><b>Asia market opening scan</b><small>Market scanner · New</small></div><div><span class="unread-dot"></span><time>02 Oct</time></div></article><article class="mobile-report-row"><span class="agent-dot violet">R</span><div><b>Concentration check</b><small>Risk analyst · Read</small></div><time>01 Oct</time></article><article class="mobile-report-row"><span class="agent-dot teal">P</span><div><b>Allocation observations</b><small>Portfolio review · Read</small></div><time>30 Sep</time></article><article class="mobile-report-row"><span class="agent-dot coral">O</span><div><b>Source health summary</b><small>Operations · Read</small></div><time>29 Sep</time></article></div></section>
+              <section class="phone" aria-label="Mobile report detail wireframe"><div class="phone__status"><span>9:41</span><span>●●● ᯤ</span></div><div class="phone__bar"><button>‹ Reports</button><b>Report</b><button>•••</button></div><div class="phone-demo">Simulated report · data date shown below</div><article class="mobile-detail"><span class="mobile-back">Market scanner</span><h3>Asia market opening scan</h3><div class="report-meta"><span>02 Oct 2026</span><span>·</span><span>08:15 WIB</span><span>·</span><span>4 min</span></div><p class="reading-block"></p><p class="reading-block short"></p><div class="key-takeaway"><b>Key takeaway</b><br />A dated summary gives the reader the important context before the report body.</div><p class="reading-block"></p><p class="reading-block"></p><p class="reading-block tiny"></p><div class="citation-row"><span class="citation-circle">1</span><span>Source availability and dates</span></div></article></section>
+            </div>
+            <aside class="callouts"><h3>Mobile rules</h3><ol><li>The compact canvas defaults to a fit-to-office view with visible zoom controls.</li><li>Filters move into a labeled sheet or screen trigger, never hover.</li><li>Analyst profile has a visible back action and a readable full-page layout.</li><li>Report controls, data date, and content stay inside a single-column reading flow.</li></ol></aside>
+          </article>
+        </section>
+
+        <section class="token-section" aria-labelledby="tokens-title">
+          <div class="section-heading"><p class="eyebrow">Foundation tokens</p><h2 id="tokens-title">Values to carry into the frontend</h2><p>These tokens are saved as CSS custom properties in <code>step-4-tokens.css</code>. They establish visual hierarchy before component implementation begins.</p></div>
+          <div class="token-layout">
+            <section class="token-card"><h3>Color roles</h3><div class="swatches"><div class="swatch"><div class="swatch-color" style="background:#1e2a3b"></div><b>Ink</b><small>#1E2A3B</small></div><div class="swatch"><div class="swatch-color" style="background:#3867e8"></div><b>Action</b><small>#3867E8</small></div><div class="swatch"><div class="swatch-color" style="background:#16845b"></div><b>Confirmed</b><small>#16845B</small></div><div class="swatch"><div class="swatch-color" style="background:#aa6712"></div><b>Attention</b><small>#AA6712</small></div><div class="swatch"><div class="swatch-color" style="background:#c53b4a"></div><b>Failure</b><small>#C53B4A</small></div><div class="swatch"><div class="swatch-color" style="background:#f8fafc"></div><b>Soft surface</b><small>#F8FAFC</small></div><div class="swatch"><div class="swatch-color" style="background:#ffffff"></div><b>Surface</b><small>#FFFFFF</small></div><div class="swatch"><div class="swatch-color" style="background:#d9e1ea"></div><b>Border</b><small>#D9E1EA</small></div></div></section>
+            <section class="token-card"><h3>Typography</h3><div class="type-sample"><div class="type-display">Investment Office</div><small>Display · 32–56 px / 750</small><div class="type-title">Asia market opening scan</div><small>Title · 18–24 px / 750</small><div class="type-body">Readable interface and report text holds a restrained density.</div><small>Body · 15 px / 400</small><div class="type-caption">DATA DATE · OCT 2026</div><small>Label · 11 px / 750 / tracked</small></div></section>
+            <section class="token-card"><h3>Space and shape</h3><div class="token-list"><div><b>Controls</b><span>44 px min touch target</span></div><div><b>Compact gap</b><span>8 px</span></div><div><b>Component gap</b><span>16–20 px</span></div><div><b>Screen padding</b><span>16 px phone · 24 px desktop</span></div><div><b>Surface radius</b><span>12 px</span></div><div><b>Panel radius</b><span>16 px</span></div><div><b>Focus</b><span>3 px blue halo</span></div><div><b>Elevation</b><span>Subtle card and panel shadows</span></div></div></section>
+            <section class="token-card"><h3>Motion policy</h3><div class="motion-bars"><div class="motion-bar"><span>Fast UI</span><i></i><small>160 ms</small></div><div class="motion-bar"><span>Panels</span><i></i><small>220 ms</small></div><div class="motion-bar"><span>Scene path</span><i></i><small>520 ms</small></div></div><p style="margin:1rem 0 0;color:#64748b;font-size:.68rem">Use easing for purposeful movement. Reduced-motion settings replace path animation with a fade or instant state change.</p></section>
+          </div>
+        </section>
+
+        <footer class="review-footer"><h2>Step 4 acceptance check</h2><ul><li>All primary destinations have both desktop and phone presentations.</li><li>Selection, back/close, data freshness, simulated status, and next scheduled task have a visible place in the layouts.</li><li>Every required interaction can be reached through a labeled control, sidebar row, analyst card, desk, or scene character.</li><li>The source values are ready for the later application stylesheet at <code>design-concepts/step-4-tokens.css</code>.</li></ul></footer>
+      </div>
+    </main>
+  </body>
+</html>

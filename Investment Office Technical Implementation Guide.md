@@ -1629,8 +1629,11 @@ Although service supervision and private connectivity appear again in Phase F, t
 
 ### 12.2 Progress checklist
 
-- [ ] Repository baseline and decisions documented.
-- [ ] Routes, desktop/mobile interaction design, and production asset contract complete.
+- [x] Step 1 — Repository baseline, progress tracker, and initial decisions documented; baseline commit `7f6c0f5` created.
+- [x] Step 2 — Node 26.10.0 workspace, lockfile, frontend/backend/shared packages, strict TypeScript, and linting configured; typecheck, lint, build, and local dev startup completed.
+- [x] Step 3 — Routes, navigation, return behavior, mobile behavior, and loading/empty/error states specified in `docs/INTERACTIONS.md`.
+- [x] Step 4 — Annotated desktop and 360 px mobile wireframes for Office, analyst profile, Reports, and report detail created in `design-concepts/step-4-wireframes.html`; CSS review tokens added in `design-concepts/step-4-tokens.css`.
+- [x] Step 5 — Production asset contract complete: four coherent analyst/desk SVG assets, five static poses per analyst, typed manifest, normalized bounds/anchors, and accessibility/export rules documented in `docs/ASSET_CONTRACT.md`.
 - [ ] Frontend demo runnable with four analysts and clickable desks.
 - [ ] Reports, profile tabs, filters, unread state, back navigation, and demo runs verified.
 - [ ] Reduced motion and phone/keyboard workflows verified.
@@ -1756,7 +1759,8 @@ Follow the linked primary documentation at the relevant step. This list also ser
 | Guide source inspection | Local brief and related Markdown files read in full |
 | Documentation review | Official OpenClaw, Vite, and relevant Supabase docs checked on 2 October 2026 |
 | Local observed runtime | Node `v20.20.2`, npm `10.8.2`; no `openclaw` on this shell's PATH |
-| Selected application Node version | To be pinned; proposed supported Node 26.x |
+| Selected application Node version | Node `v26.10.0` pinned in `.node-version` and used for typecheck, lint, build, and local dev startup; revisit the production runtime choice before deployment. |
+| Workspace dependency baseline | Exact frontend/shared/tooling versions are recorded in `package-lock.json`; no live integrations are installed or configured. |
 | Deployed OpenClaw version | Not yet verified |
 | Gateway client version, if used | Not yet selected; test against deployed Gateway |
 | Database/Auth environment | Not yet connected in this workspace |

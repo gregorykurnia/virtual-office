@@ -1,0 +1,54 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 192 128" aria-hidden="true">
+  <style>
+    .o { stroke: #263244; stroke-width: 4; stroke-linecap: round; stroke-linejoin: round; }
+    .surface { fill: #ffffff; }
+    .edge { fill: #d9e1ea; }
+    .wood { fill: #f2e7d6; }
+    .ink { fill: #263244; }
+    .accent { fill: currentColor; }
+    .accent-stroke { stroke: currentColor; }
+  </style>
+  <defs>
+    <!-- Every desk uses the same 192 by 128 box and the same 96,99 floor anchor. -->
+    <g id="desk-base">
+      <ellipse cx="96" cy="104" rx="72" ry="12" fill="#aeb9c8" opacity=".28" />
+      <path class="o wood" d="m28 68 70-23 67 24-71 28Z" />
+      <path class="o edge" d="m28 68 66 29v14L28 82Z" />
+      <path class="o surface" d="m94 97 71-28v13l-71 29Z" />
+      <path class="o ink" d="M44 82v27M77 96v21M144 78v27" />
+      <path class="o accent-stroke" fill="none" opacity=".65" d="m104 60 48 17" />
+    </g>
+    <g id="terminal-prop">
+      <path class="o ink" d="M68 38h45v27H68Z" />
+      <path class="accent" d="M73 43h35v17H73Z" />
+      <path d="M78 55h8l5-6 5 5 7-7" fill="none" stroke="#ffffff" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round" />
+      <path class="o ink" d="M90 65v9M79 74h23" />
+    </g>
+    <g id="ledger-prop">
+      <path class="o surface" d="m66 46 34-11 30 11-35 13Z" />
+      <path class="o edge" d="m66 46 29 13v19L66 64Z" />
+      <path class="o surface" d="m95 59 35-13v19L95 78Z" />
+      <path d="m103 58 7 2 11-5M103 64l7 2 11-5" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" />
+      <path class="o accent" d="M116 36h14v16h-14Z" />
+    </g>
+    <g id="library-prop">
+      <path class="o accent" d="m64 51 19-8 0 24-19 8Z" />
+      <path class="o surface" d="m83 43 19 8v24L83 67Z" />
+      <path class="o edge" d="m102 51 17-7v24l-17 7Z" />
+      <path class="o ink" d="M71 47v23M92 48v23M110 47v22" />
+      <path class="o accent" d="M124 33v24" />
+      <path class="o accent" d="m119 33 5-5 5 5" />
+    </g>
+    <g id="console-prop">
+      <path class="o ink" d="M69 40h45v27H69Z" />
+      <path class="accent" d="M74 45h35v17H74Z" />
+      <path d="m92 48 8 13H84Z" fill="none" stroke="#ffffff" stroke-width="2.3" stroke-linejoin="round" />
+      <path class="o ink" d="M91 67v8M80 75h23" />
+      <circle class="o accent" cx="122" cy="43" r="7" />
+    </g>
+    <symbol id="market-terminal" viewBox="0 0 192 128"><g color="#3867e8"><use href="#desk-base"/><use href="#terminal-prop"/></g></symbol>
+    <symbol id="portfolio-ledger" viewBox="0 0 192 128"><g color="#16845b"><use href="#desk-base"/><use href="#ledger-prop"/></g></symbol>
+    <symbol id="research-library" viewBox="0 0 192 128"><g color="#7759c7"><use href="#desk-base"/><use href="#library-prop"/></g></symbol>
+    <symbol id="risk-console" viewBox="0 0 192 128"><g color="#c53b4a"><use href="#desk-base"/><use href="#console-prop"/></g></symbol>
+  </defs>
+</svg>

@@ -1,0 +1,97 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" aria-hidden="true">
+  <style>
+    .o { stroke: #263244; stroke-width: 4; stroke-linecap: round; stroke-linejoin: round; }
+    .soft { fill: #f7f8fa; }
+    .white { fill: #ffffff; }
+    .ink { fill: #263244; }
+    .shade { fill: #d9e1ea; }
+    .accent { fill: currentColor; }
+    .accent-stroke { stroke: currentColor; }
+    .paper { fill: #ffffff; stroke: #263244; stroke-width: 3; stroke-linecap: round; stroke-linejoin: round; }
+  </style>
+  <defs>
+    <!-- Every analyst uses the same 128-unit box and the same 64,110 ground anchor. -->
+    <g id="bot-base">
+      <ellipse cx="64" cy="110" rx="31" ry="7" fill="#aeb9c8" opacity=".34" />
+      <path class="o accent-stroke" fill="none" d="M64 27V16" />
+      <circle class="o accent" cx="64" cy="12" r="7" />
+      <rect class="o shade" x="30" y="26" width="68" height="75" rx="33" />
+      <rect class="o white" x="28" y="23" width="68" height="75" rx="33" />
+      <path class="o accent" d="M34 51a30 30 0 0 1 56 0v13H34Z" opacity=".14" />
+      <rect class="ink" x="39" y="39" width="47" height="29" rx="14" />
+      <path d="M50 54c2-5 7-5 9 0M69 54c2-5 7-5 9 0" fill="none" stroke="#ffffff" stroke-width="3.5" stroke-linecap="round" />
+      <path class="o accent" d="M52 72h24v9H52Z" />
+      <path class="o white" d="M31 75c-8 0-12 7-10 14 2 7 8 10 14 7l8-9-4-10Z" />
+      <path class="o white" d="M95 75c8 0 12 7 10 14-2 7-8 10-14 7l-8-9 4-10Z" />
+      <path class="o ink" d="M46 96v8c0 5 5 8 10 8s10-3 10-8v-2" />
+      <path class="o ink" d="M82 96v8c0 5-5 8-10 8s-10-3-10-8v-2" />
+      <path class="o accent" d="M56 81h16v14H56Z" />
+    </g>
+
+    <g id="market-mark">
+      <path class="o accent-stroke" fill="none" d="M34 52c-5 0-8 4-8 10v8M94 52c5 0 8 4 8 10v8" />
+      <path class="o accent" d="M95 67h9v12h-9Z" />
+      <path d="m60 89 4-4 3 3 6-7" fill="none" stroke="#ffffff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" />
+    </g>
+    <g id="portfolio-mark">
+      <rect class="o accent" x="56" y="80" width="16" height="16" rx="3" />
+      <path d="M60 92v-5M64 92v-8M68 92v-3" fill="none" stroke="#ffffff" stroke-width="2.3" stroke-linecap="round" />
+    </g>
+    <g id="research-mark">
+      <path class="o accent" d="M56 80h16v16l-8-4-8 4Z" />
+      <path d="M60 85h8M60 89h6" fill="none" stroke="#ffffff" stroke-width="2.1" stroke-linecap="round" />
+    </g>
+    <g id="risk-mark">
+      <path class="o accent" d="M64 79l10 4v6c0 6-4 10-10 13-6-3-10-7-10-13v-6Z" />
+      <path d="m59.5 90 3 3 6-7" fill="none" stroke="#ffffff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
+    </g>
+
+    <g id="pose-reading">
+      <path class="paper" d="M34 79c9-4 20-4 30 2v20c-10-6-21-6-30-2Z" />
+      <path class="paper" d="M64 81c10-6 21-6 30-2v20c-9-4-20-4-30 2Z" />
+      <path d="M42 87h14M42 93h11M72 87h14M72 93h10" fill="none" stroke="#64748b" stroke-width="2.4" stroke-linecap="round" />
+      <path class="o white" d="M40 78c5 3 8 7 9 12M88 78c-5 3-8 7-9 12" />
+    </g>
+    <g id="pose-typing">
+      <path class="o soft" d="M25 101h78l8 12H18Z" />
+      <path d="M34 106h6M46 106h6M58 106h6M70 106h6M82 106h6" fill="none" stroke="#64748b" stroke-width="2.5" stroke-linecap="round" />
+      <path class="o white" d="M38 82c7 2 13 8 16 17M90 82c-7 2-13 8-16 17" />
+    </g>
+    <g id="pose-report-ready">
+      <path class="paper" d="M78 72h20v29H78Z" />
+      <path d="M83 80h10M83 85h10" fill="none" stroke="#64748b" stroke-width="2.2" stroke-linecap="round" />
+      <path d="m83 92 3 3 6-7" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round" />
+      <path class="o white" d="M89 75c-5 2-9 5-12 10" />
+    </g>
+    <g id="pose-attention">
+      <path class="o accent" d="M64 69 81 98H47Z" />
+      <path d="M64 79v9M64 93v1" fill="none" stroke="#ffffff" stroke-width="3.5" stroke-linecap="round" />
+      <path class="o white" d="M94 66c6-4 10-8 12-14" />
+      <path class="accent-stroke" d="M105 46l7-4M108 54l8 1" fill="none" stroke-width="3" stroke-linecap="round" />
+    </g>
+
+    <symbol id="market-bot-idle" viewBox="0 0 128 128"><g color="#3867e8"><use href="#bot-base"/><use href="#market-mark"/></g></symbol>
+    <symbol id="market-bot-reading" viewBox="0 0 128 128"><g color="#3867e8"><use href="#bot-base"/><use href="#market-mark"/><use href="#pose-reading"/></g></symbol>
+    <symbol id="market-bot-typing" viewBox="0 0 128 128"><g color="#3867e8"><use href="#bot-base"/><use href="#market-mark"/><use href="#pose-typing"/></g></symbol>
+    <symbol id="market-bot-report-ready" viewBox="0 0 128 128"><g color="#3867e8"><use href="#bot-base"/><use href="#market-mark"/><use href="#pose-report-ready"/></g></symbol>
+    <symbol id="market-bot-attention" viewBox="0 0 128 128"><g color="#3867e8"><use href="#bot-base"/><use href="#market-mark"/><use href="#pose-attention"/></g></symbol>
+
+    <symbol id="portfolio-bot-idle" viewBox="0 0 128 128"><g color="#16845b"><use href="#bot-base"/><use href="#portfolio-mark"/></g></symbol>
+    <symbol id="portfolio-bot-reading" viewBox="0 0 128 128"><g color="#16845b"><use href="#bot-base"/><use href="#portfolio-mark"/><use href="#pose-reading"/></g></symbol>
+    <symbol id="portfolio-bot-typing" viewBox="0 0 128 128"><g color="#16845b"><use href="#bot-base"/><use href="#portfolio-mark"/><use href="#pose-typing"/></g></symbol>
+    <symbol id="portfolio-bot-report-ready" viewBox="0 0 128 128"><g color="#16845b"><use href="#bot-base"/><use href="#portfolio-mark"/><use href="#pose-report-ready"/></g></symbol>
+    <symbol id="portfolio-bot-attention" viewBox="0 0 128 128"><g color="#16845b"><use href="#bot-base"/><use href="#portfolio-mark"/><use href="#pose-attention"/></g></symbol>
+
+    <symbol id="research-bot-idle" viewBox="0 0 128 128"><g color="#7759c7"><use href="#bot-base"/><use href="#research-mark"/></g></symbol>
+    <symbol id="research-bot-reading" viewBox="0 0 128 128"><g color="#7759c7"><use href="#bot-base"/><use href="#research-mark"/><use href="#pose-reading"/></g></symbol>
+    <symbol id="research-bot-typing" viewBox="0 0 128 128"><g color="#7759c7"><use href="#bot-base"/><use href="#research-mark"/><use href="#pose-typing"/></g></symbol>
+    <symbol id="research-bot-report-ready" viewBox="0 0 128 128"><g color="#7759c7"><use href="#bot-base"/><use href="#research-mark"/><use href="#pose-report-ready"/></g></symbol>
+    <symbol id="research-bot-attention" viewBox="0 0 128 128"><g color="#7759c7"><use href="#bot-base"/><use href="#research-mark"/><use href="#pose-attention"/></g></symbol>
+
+    <symbol id="risk-bot-idle" viewBox="0 0 128 128"><g color="#c53b4a"><use href="#bot-base"/><use href="#risk-mark"/></g></symbol>
+    <symbol id="risk-bot-reading" viewBox="0 0 128 128"><g color="#c53b4a"><use href="#bot-base"/><use href="#risk-mark"/><use href="#pose-reading"/></g></symbol>
+    <symbol id="risk-bot-typing" viewBox="0 0 128 128"><g color="#c53b4a"><use href="#bot-base"/><use href="#risk-mark"/><use href="#pose-typing"/></g></symbol>
+    <symbol id="risk-bot-report-ready" viewBox="0 0 128 128"><g color="#c53b4a"><use href="#bot-base"/><use href="#risk-mark"/><use href="#pose-report-ready"/></g></symbol>
+    <symbol id="risk-bot-attention" viewBox="0 0 128 128"><g color="#c53b4a"><use href="#bot-base"/><use href="#risk-mark"/><use href="#pose-attention"/></g></symbol>
+  </defs>
+</svg>

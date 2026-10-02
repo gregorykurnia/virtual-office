@@ -1,0 +1,145 @@
+:root {
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  color: #263244;
+  background: #f7f8fa;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-weight: 400;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  min-width: 320px;
+  min-height: 100vh;
+  margin: 0;
+}
+
+a {
+  color: inherit;
+}
+
+.app-shell {
+  min-height: 100vh;
+}
+
+.topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.9rem clamp(1rem, 5vw, 4rem);
+  background: #fff;
+  border-bottom: 1px solid #e1e6ed;
+}
+
+.brand,
+.topbar nav {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+}
+
+.brand {
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.brand-mark {
+  display: grid;
+  width: 2.25rem;
+  aspect-ratio: 1;
+  place-items: center;
+  border-radius: 0.7rem;
+  color: #fff;
+  background: #4f7df3;
+  font-size: 0.8rem;
+}
+
+.topbar nav a {
+  min-height: 2.75rem;
+  display: inline-flex;
+  align-items: center;
+  padding: 0 0.9rem;
+  border-radius: 0.65rem;
+  color: #536176;
+  font-size: 0.95rem;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.topbar nav a:hover,
+.topbar nav a:focus-visible {
+  color: #244fb9;
+  background: #edf2ff;
+}
+
+.topbar a:focus-visible {
+  outline: 3px solid #9ab4ff;
+  outline-offset: 2px;
+}
+
+main {
+  width: min(100% - 2rem, 76rem);
+  margin: 1.5rem auto;
+}
+
+.demo-banner {
+  margin: 0;
+  padding: 0.85rem 1rem;
+  border: 1px solid #e8c985;
+  border-radius: 0.8rem;
+  color: #674b14;
+  background: #fff8e7;
+  font-size: 0.9rem;
+}
+
+.placeholder {
+  margin-top: 1.25rem;
+  padding: clamp(1.5rem, 5vw, 3.5rem);
+  border: 1px solid #e1e6ed;
+  border-radius: 1.1rem;
+  background: #fff;
+}
+
+.placeholder h1 {
+  margin: 0.4rem 0 0.75rem;
+  font-size: clamp(1.75rem, 4vw, 2.5rem);
+  letter-spacing: -0.035em;
+}
+
+.placeholder p:last-child {
+  max-width: 42rem;
+  margin-bottom: 0;
+  color: #657286;
+  line-height: 1.6;
+}
+
+.eyebrow {
+  margin: 0;
+  color: #536da9;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+@media (max-width: 520px) {
+  .topbar {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .topbar nav {
+    width: 100%;
+  }
+
+  main {
+    width: min(100% - 1.25rem, 76rem);
+    margin-top: 0.75rem;
+  }
+}
