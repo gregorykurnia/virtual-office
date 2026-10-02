@@ -1,6 +1,7 @@
 import { useMemo } from "react";
 import { Link, Navigate, Route, Routes, useLocation, useParams } from "react-router-dom";
 import { AGENT_IDS } from "@investment-office/shared";
+import DemoScenarioControls from "./demo/DemoScenarioControls";
 
 function PagePlaceholder({ title, detail }: { title: string; detail: string }) {
   return (
@@ -62,8 +63,9 @@ export default function App() {
 
       <main>
         <p className="demo-banner" role="status">
-          Demo foundation — no live agents or market data are connected.
+          Demo — simulated agents and illustrative reports; no live market data.
         </p>
+        <DemoScenarioControls />
         <Routes>
           <Route path="/" element={<Navigate to="/office" replace />} />
           <Route path="/office" element={<OfficePage />} />

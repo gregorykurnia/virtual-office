@@ -20,9 +20,9 @@ Firebase project setup is documented in [docs/FIREBASE_SETUP.md](./docs/FIREBASE
 
 ## Project structure
 
-- `frontend/` — React, TypeScript, Vite, and route shell
+- `frontend/` — React, TypeScript, Vite, route shell, and deterministic demo adapter/fixtures
 - `backend/` — inactive Node/TypeScript API workspace for a later phase
-- `shared/` — shared agent identifiers and validation schema
+- `shared/` — app-owned Zod schemas, service contracts, and state-transition policies
 - `docs/` — decisions, progress, and route/interaction specifications
 - `design-concepts/` — visual direction references, not production UI assets
 

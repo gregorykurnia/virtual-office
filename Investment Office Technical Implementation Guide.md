@@ -1634,6 +1634,8 @@ Although service supervision and private connectivity appear again in Phase F, t
 - [x] Step 3 — Routes, navigation, return behavior, mobile behavior, and loading/empty/error states specified in `docs/INTERACTIONS.md`.
 - [x] Step 4 — Annotated desktop and 360 px mobile wireframes for Office, analyst profile, Reports, and report detail created in `design-concepts/step-4-wireframes.html`; CSS review tokens added in `design-concepts/step-4-tokens.css`.
 - [x] Step 5 — Production asset contract complete: four coherent analyst/desk SVG assets, five static poses per analyst, typed manifest, normalized bounds/anchors, and accessibility/export rules documented in `docs/ASSET_CONTRACT.md`.
+- [x] Step 6 — Zod-validated app contracts, `OfficeService`, data-mode/observation envelopes, pagination/filter types, and separate execution, delivery, and report-processing transition policies added under `shared/src/`.
+- [x] Step 7 — Fixed-clock demo fixtures, four agents/tasks, eight complete illustrative reports, failed-run/offline/empty scenarios, versioned `investment-office:demo:v1` persistence, idempotent simulated runs, scenario selector, and Reset demo implemented in `frontend/src/demo/`.
 - [ ] Frontend demo runnable with four analysts and clickable desks.
 - [ ] Reports, profile tabs, filters, unread state, back navigation, and demo runs verified.
 - [ ] Reduced motion and phone/keyboard workflows verified.

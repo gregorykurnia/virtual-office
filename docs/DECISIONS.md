@@ -8,7 +8,7 @@ This file records reversible implementation defaults and facts observed in the w
 | Runtime | Node.js 26.10.0, pinned in `.node-version`; package engines accept 24.x or 26.x | Local work follows the implementation guide; the Vercel log uses Node 24.21.0. Vite 8 supports this build runtime. |
 | Frontend | React 19.3.0 + TypeScript 5.9.3 + Vite 8.3.2 | Proposed default from the guide; exact dependency versions are pinned by `package-lock.json`. |
 | Routing/data | React Router 7.18.4 and TanStack Query 5.104.0 | Added to the route shell; no live API requests are configured. |
-| Shared validation | Zod schema package shared by workspaces | Started with the stable analyst ID schema. |
+| Shared validation | Zod schemas in `shared/src/` define app-owned agent, task, report, run, and preference contracts; `OfficeService` returns a data mode and observation time. | Step 6 complete; these schemas describe the application boundary and are not OpenClaw payload definitions. |
 | Linting | ESLint 10.11.0 with typescript-eslint 8.71.0 | Installed and configured with flat config. |
 | Backend | Minimal inactive Node/TypeScript workspace | No API, database, auth, or agent integration yet. |
 | Application database | Firebase Cloud Firestore web client | The owner supplied a registered web app config for project `virtual-office-77c1d`; modular SDK initialization is wired in `frontend/src/lib/firebase.ts`. Database provisioning, Authentication, Security Rules, and data access are not yet verified or implemented. |
