@@ -28,11 +28,12 @@ Last updated: 2 October 2026
 - Completed Step 8 with the application shell, header/demo/preferences controls, Reports list and stable detail routes, URL-preserving analyst/unread/date filters, debounced search, safe Markdown rendering with controlled links, source and run metadata, detail-time read tracking, and loading/empty/not-found/unavailable states. The affected screens were inspected at desktop and phone widths.
 - Completed Step 9 with a shared analyst profile surface for all four demo agents: Overview, Assignment, and Reports sections; identity/status/observation/task/schedule facts; task inputs and missing-input guidance; recent reports and run history; and a bounded Run now control that observes the existing persisted demo timer. Desktop uses a nonmodal side panel; phone widths use a readable full-width profile with an explicit Back to Office action.
 - Completed Step 10 with a shared-coordinate SVG office room, four clickable desk and character controls using the production sprite assets, per-agent report shortcuts, a shared briefing shortcut to Reports, visible selection rings, and an accessible analyst-card mirror. The scene was visually inspected at 1440, 390, and 360 px widths.
+- Completed Step 11 with service-owned queued/running/terminal run timers, active-task reuse, atomic success/report persistence, explicit interruption on full page refresh, reset cancellation, and report-scoped canned follow-up responses with no model or network traffic.
 - Confirmed typecheck, lint, and production build pass; the Vite development server starts at `127.0.0.1:5173`.
 
 ## Current limits
 
 - The workspace has no live agents, backend service, database, real holdings, or market feed; reports exist only as local illustrative demo fixtures.
-- The frontend now has the Step 10 shell, Reports surfaces, analyst profiles, and clickable office scene; full end-to-end run verification and reduced-motion/keyboard verification remain upcoming.
+- The frontend has the Step 11 demo lifecycle; reduced-motion and full keyboard verification remain upcoming.
 - Node 26.10.0 remains the local pin; package engines also allow Node 24.x for Vercel, which currently builds with Node 24.21.0.
 - No infrastructure, account, paid service, or public deployment has been provisioned.

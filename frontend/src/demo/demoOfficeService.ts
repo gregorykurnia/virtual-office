@@ -78,6 +78,9 @@ type PersistedDemoState = {
   state: DemoSnapshot;
 };
 
+const RUN_START_DELAY_MS = 250;
+const RUN_FINISH_DELAY_MS = 650;
+
 export type DemoControlSnapshot = {
   scenario: DemoScenario;
   label: string;
@@ -232,7 +235,7 @@ export function createDemoOfficeService(storage: Storage | null = getBrowserStor
     pendingTimers.clear();
   }
 
-  function updateRun(runId: string, updater: (run: Run) => Run): Run | null {
+  function updateRun(runId: string, updater: (run: Run) => Run, persist = true): Run | null {
     const index = state.runs.findIndex((candidate) => candidate.id === runId);
     if (index === -1) return null;
     const current = state.runs[index]!;
@@ -247,23 +250,35 @@ export function createDemoOfficeService(storage: Storage | null = getBrowserStor
       throw new OfficeServiceError("conflict", `Report processing cannot move from ${current.reportProcessingStatus} to ${updated.reportProcessingStatus}.`);
     }
     state.runs[index] = updated;
-    persistAndNotify();
+    if (persist) persistAndNotify();
     return updated;
   }
 
   function scheduleRunProgress(runId: string): void {
     const firstTimer = setTimeout(() => {
+      const queued = state.runs.find((run) => run.id === runId);
+      if (!queued || queued.executionStatus !== "queued") {
+        pendingTimers.delete(runId);
+        return;
+      }
+
       const running = updateRun(runId, (run) => ({
         ...run,
         executionStatus: "running",
         startedAt: advanceClock(1)
       }));
-      if (!running) return;
+      if (!running) {
+        pendingTimers.delete(runId);
+        return;
+      }
 
       const finishTimer = setTimeout(() => {
         const current = state.runs.find((run) => run.id === runId);
         const task = current && state.tasks.find((candidate) => candidate.id === current.taskId);
-        if (!current || !task) return;
+        if (!current || current.executionStatus !== "running" || !task) {
+          pendingTimers.delete(runId);
+          return;
+        }
 
         if (state.scenario === "run-fails") {
           updateRun(runId, (run) => ({
@@ -285,16 +300,18 @@ export function createDemoOfficeService(storage: Storage | null = getBrowserStor
             finishedAt,
             reportId: report.id,
             errorSummary: null
-          }));
-          if (complete) state.reports.unshift(report);
-          persistAndNotify();
+          }), false);
+          if (complete) {
+            if (!state.reports.some((candidate) => candidate.runId === runId)) state.reports.unshift(report);
+            persistAndNotify();
+          }
         }
 
         pendingTimers.delete(runId);
-      }, 650);
+      }, RUN_FINISH_DELAY_MS);
 
       pendingTimers.set(runId, [finishTimer]);
-    }, 250);
+    }, RUN_START_DELAY_MS);
 
     pendingTimers.set(runId, [firstTimer]);
   }

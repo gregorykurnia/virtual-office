@@ -122,6 +122,78 @@ function ReportSources({ report }: { report: Report }) {
   );
 }
 
+const CANNED_FOLLOW_UPS = [
+  {
+    id: "takeaway",
+    label: "What is the main takeaway?",
+    respond: (report: Report) => report.summary
+  },
+  {
+    id: "uncertainties",
+    label: "What remains uncertain?",
+    respond: (report: Report) => report.uncertainties.join(" ")
+  },
+  {
+    id: "missing-inputs",
+    label: "Which inputs are missing?",
+    respond: (report: Report) => report.missingInputs.join(" ")
+  }
+] as const;
+
+type CannedFollowUp = (typeof CANNED_FOLLOW_UPS)[number];
+
+function CannedReportFollowUp({ report }: { report: Report }) {
+  const [turns, setTurns] = useState<CannedFollowUp[]>([]);
+
+  return (
+    <section className="report-follow-up" aria-labelledby="report-follow-up-title">
+      <div className="report-follow-up__heading">
+        <div>
+          <p className="eyebrow">Report follow-up · demo</p>
+          <h2 id="report-follow-up-title">Ask about this report</h2>
+        </div>
+        <span className="report-follow-up__badge">Canned responses</span>
+      </div>
+      <p className="report-follow-up__intro">
+        Choose a question to see a response based on this report. No model or network request is made.
+      </p>
+      <div className="report-follow-up__prompts" role="group" aria-label="Canned follow-up questions">
+        {CANNED_FOLLOW_UPS.map((prompt) => (
+          <button
+            className="secondary-button report-follow-up__prompt"
+            key={prompt.id}
+            type="button"
+            onClick={() => setTurns((current) => [...current, prompt])}
+          >
+            {prompt.label}
+          </button>
+        ))}
+      </div>
+      {turns.length > 0 ? (
+        <>
+          <ol className="report-follow-up__turns" aria-label="Demo follow-up conversation" role="log" aria-live="polite" aria-relevant="additions">
+            {turns.map((prompt, index) => (
+              <li className="report-follow-up__turn" key={`${prompt.id}-${index}`}>
+                <div className="report-follow-up__bubble report-follow-up__bubble--question">
+                  <span className="report-follow-up__turn-label">You asked</span>
+                  <p>{prompt.label}</p>
+                </div>
+                <div className="report-follow-up__bubble report-follow-up__bubble--answer">
+                  <span className="report-follow-up__turn-label">Canned demo response</span>
+                  <p>{prompt.respond(report)}</p>
+                </div>
+              </li>
+            ))}
+          </ol>
+          <button className="text-button report-follow-up__clear" type="button" onClick={() => setTurns([])}>
+            Clear conversation
+          </button>
+        </>
+      ) : null}
+    </section>
+  );
+}
+
 function ReportContext({ report, agents, readError }: { report: Report; agents: Agent[]; readError: string | null }) {
   return (
     <aside className="detail-side" aria-label="Report context">
@@ -206,6 +278,7 @@ export default function ReportDetailPage() {
             <ReportContext report={report} agents={agentsQuery.data?.data ?? []} readError={readError} />
           </div>
           <ReportSources report={report} />
+          <CannedReportFollowUp key={report.id} report={report} />
         </>
       )}
     </section>

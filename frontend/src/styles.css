@@ -2155,7 +2155,8 @@ main {
 
 .report-paper,
 .detail-side,
-.report-sources {
+.report-sources,
+.report-follow-up {
   border: 1px solid var(--io-line);
   border-radius: var(--io-radius-lg);
   background: var(--io-surface);
@@ -2421,6 +2422,103 @@ main {
   font-size: 0.68rem;
 }
 
+.report-follow-up {
+  margin-top: 1rem;
+  padding: 1.25rem;
+}
+
+.report-follow-up__heading {
+  display: flex;
+  align-items: start;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+
+.report-follow-up__heading h2 {
+  margin: 0.35rem 0 0;
+  color: var(--io-ink);
+  font-size: 1.15rem;
+  letter-spacing: -0.02em;
+}
+
+.report-follow-up__badge {
+  flex: 0 0 auto;
+  padding: 0.3rem 0.55rem;
+  border-radius: 999px;
+  color: var(--io-action-ink);
+  background: var(--io-action-soft);
+  font-size: 0.67rem;
+  font-weight: 800;
+}
+
+.report-follow-up__intro {
+  margin: 0.65rem 0 0;
+  color: var(--io-muted);
+  font-size: 0.82rem;
+  line-height: 1.5;
+}
+
+.report-follow-up__prompts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 0.9rem;
+}
+
+.report-follow-up__prompt {
+  min-height: 2.75rem;
+  white-space: normal;
+  text-align: left;
+}
+
+.report-follow-up__turns {
+  display: grid;
+  gap: 0.75rem;
+  margin: 1rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.report-follow-up__turn {
+  display: grid;
+  gap: 0.5rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid var(--io-line);
+}
+
+.report-follow-up__bubble {
+  padding: 0.75rem;
+  border-radius: var(--io-radius-md);
+}
+
+.report-follow-up__bubble--question {
+  background: var(--io-action-soft);
+}
+
+.report-follow-up__bubble--answer {
+  background: var(--io-surface-soft);
+}
+
+.report-follow-up__turn-label {
+  color: var(--io-muted);
+  font-size: 0.65rem;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.report-follow-up__bubble p {
+  margin: 0.25rem 0 0;
+  color: var(--io-ink);
+  font-size: 0.82rem;
+  line-height: 1.5;
+  overflow-wrap: anywhere;
+}
+
+.report-follow-up__clear {
+  margin-top: 0.6rem;
+}
+
 .skeleton {
   display: block;
   border-radius: 0.35rem;
@@ -2656,7 +2754,8 @@ main {
 
   .report-paper,
   .report-sources,
-  .detail-side {
+  .detail-side,
+  .report-follow-up {
     border-radius: var(--io-radius-md);
   }
 
