@@ -1636,6 +1636,7 @@ Although service supervision and private connectivity appear again in Phase F, t
 - [x] Step 5 — Production asset contract complete: four coherent analyst/desk SVG assets, five static poses per analyst, typed manifest, normalized bounds/anchors, and accessibility/export rules documented in `docs/ASSET_CONTRACT.md`.
 - [x] Step 6 — Zod-validated app contracts, `OfficeService`, data-mode/observation envelopes, pagination/filter types, and separate execution, delivery, and report-processing transition policies added under `shared/src/`.
 - [x] Step 7 — Fixed-clock demo fixtures, four agents/tasks, eight complete illustrative reports, failed-run/offline/empty scenarios, versioned `investment-office:demo:v1` persistence, idempotent simulated runs, scenario selector, and Reset demo implemented in `frontend/src/demo/`.
+- [x] Step 8 — Application shell, header/demo/preferences controls, Reports list/detail routes, URL-preserving filters and debounced search, safe Markdown rendering, report metadata/source references, read tracking, and loading/empty/not-found/unavailable states implemented; typecheck, lint, build, and desktop/mobile visual inspection completed.
 - [ ] Frontend demo runnable with four analysts and clickable desks.
 - [ ] Reports, profile tabs, filters, unread state, back navigation, and demo runs verified.
 - [ ] Reduced motion and phone/keyboard workflows verified.
