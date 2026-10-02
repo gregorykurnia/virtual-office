@@ -7,6 +7,7 @@ import AnalystProfilePanel, { PROFILE_TABS, type AnalystProfileTab } from "./com
 import PreferencesMenu from "./components/PreferencesMenu";
 import ReportDetailPage from "./components/ReportDetailPage";
 import ReportListPage from "./components/ReportListPage";
+import OfficeScene from "./components/OfficeScene";
 import DemoScenarioControls from "./demo/DemoScenarioControls";
 import { officeService } from "./demo";
 import { useDemoRevision } from "./lib/demoHooks";
@@ -62,7 +63,7 @@ function OfficeRoster({ agents, selectedAgent }: { agents: Agent[]; selectedAgen
     <section className="office-roster" aria-labelledby="analyst-roster-title">
       <div className="office-roster__heading">
         <div>
-          <p className="eyebrow">Accessible analyst list</p>
+          <p className="eyebrow">Accessible scene index</p>
           <h2 id="analyst-roster-title">Choose an analyst</h2>
         </div>
         <span>{agents.length} available</span>
@@ -89,7 +90,12 @@ function OfficePage() {
     queryKey: ["agents", revision],
     queryFn: () => officeService.listAgents()
   });
+  const reportsQuery = useQuery({
+    queryKey: ["office-reports", revision],
+    queryFn: () => officeService.listReports({ pageSize: 50 })
+  });
   const agents = agentsQuery.data?.data ?? [];
+  const reports = reportsQuery.data?.data.items ?? [];
 
   return (
     <section className="office-page" aria-labelledby="office-title">
@@ -113,18 +119,28 @@ function OfficePage() {
                 <p className="eyebrow">Office overview</p>
                 <h2 id="office-overview-title">Four analysts, one shared workspace</h2>
               </div>
-              <span className="office-room-card__badge">Scene foundation</span>
+              <span className="office-room-card__badge">Interactive scene</span>
             </div>
-            <p>The room scene will become clickable in the next frontend milestone. For now, the roster keeps every profile and assignment reachable by keyboard, pointer, and touch.</p>
-            <div className="office-room-card__floor" aria-hidden="true">
-              <span className="office-room-card__floor-line office-room-card__floor-line--one" />
-              <span className="office-room-card__floor-line office-room-card__floor-line--two" />
-              <span className="office-room-card__plant office-room-card__plant--one" />
-              <span className="office-room-card__plant office-room-card__plant--two" />
-              <span className="office-room-card__desk office-room-card__desk--one" />
-              <span className="office-room-card__desk office-room-card__desk--two" />
-              <span className="office-room-card__table" />
-            </div>
+            <p>Select a character for their overview, a desk for the assignment, or a report badge for the latest output. The analyst list below mirrors every scene action for keyboard and touch access.</p>
+            {agentsQuery.isPending ? (
+              <div className="office-scene office-scene--loading" aria-busy="true" aria-label="Loading office scene">
+                <span className="skeleton office-scene__loading-block" />
+              </div>
+            ) : agentsQuery.isError ? (
+              <OfficeState
+                title="The office scene could not be loaded"
+                detail="The analyst roster is unavailable. Retry without leaving the office."
+                action={<button className="secondary-button" type="button" onClick={() => void agentsQuery.refetch()}>Retry</button>}
+              />
+            ) : (
+              <OfficeScene
+                agents={agents}
+                reports={reports}
+                selectedAgent={selectedAgent}
+                reportsPending={reportsQuery.isPending}
+                reportsUnavailable={reportsQuery.isError}
+              />
+            )}
           </div>
           {agentsQuery.isPending ? (
             <div className="analyst-card-list" aria-label="Loading analysts" aria-busy="true">

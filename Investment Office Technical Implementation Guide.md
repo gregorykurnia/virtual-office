@@ -1638,7 +1638,8 @@ Although service supervision and private connectivity appear again in Phase F, t
 - [x] Step 7 — Fixed-clock demo fixtures, four agents/tasks, eight complete illustrative reports, failed-run/offline/empty scenarios, versioned `investment-office:demo:v1` persistence, idempotent simulated runs, scenario selector, and Reset demo implemented in `frontend/src/demo/`.
 - [x] Step 8 — Application shell, header/demo/preferences controls, Reports list/detail routes, URL-preserving filters and debounced search, safe Markdown rendering, report metadata/source references, read tracking, and loading/empty/not-found/unavailable states implemented; typecheck, lint, build, and desktop/mobile visual inspection completed.
 - [x] Step 9 — Shared analyst profiles implemented for all four demo agents with Overview, Assignment, Reports, task-input guidance, recent reports, run history, persisted simulated Run now state, nonmodal desktop behavior, and full-width mobile back behavior.
-- [ ] Frontend demo runnable with four analysts and clickable desks.
+- [x] Step 10 — Shared-coordinate SVG office scene implemented with four clickable desk/character controls, per-agent report shortcuts, shared briefing shortcut, visible selection rings, and an accessible analyst-card mirror; desktop and 360 px/390 px scene layouts visually inspected.
+- [x] Frontend demo runnable with four analysts and clickable desks.
 - [ ] Reports, profile tabs, filters, unread state, back navigation, and demo runs verified.
 - [ ] Reduced motion and phone/keyboard workflows verified.
 - [ ] Owner-only login/API and database migrations implemented.
