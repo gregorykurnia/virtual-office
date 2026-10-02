@@ -309,6 +309,13 @@ export function createDemoOfficeService(storage: Storage | null = getBrowserStor
     async listTasks(agentId) {
       return currentResult(agentId ? state.tasks.filter((task) => task.agentId === agentId) : state.tasks);
     },
+    async listRuns(agentId) {
+      return currentResult(
+        state.runs
+          .filter((run) => !agentId || run.agentId === agentId)
+          .sort((a, b) => Date.parse(b.queuedAt) - Date.parse(a.queuedAt))
+      );
+    },
     async listReports(filters = {}, cursor = null) {
       const parsedFilters = ReportFiltersSchema.safeParse(filters);
       if (!parsedFilters.success) throw new OfficeServiceError("invalid-argument", "Report filters are invalid.");

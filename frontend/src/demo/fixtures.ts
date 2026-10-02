@@ -12,7 +12,7 @@ import {
 } from "@investment-office/shared";
 import type { DemoScenario } from "./scenarios";
 
-export const DEMO_FIXTURE_VERSION = 1;
+export const DEMO_FIXTURE_VERSION = 2;
 export const DEMO_CLOCK_START = "2026-10-02T01:30:00.000Z";
 export const DEMO_STORAGE_KEY = "investment-office:demo:v1";
 
@@ -132,6 +132,8 @@ const tasks: Task[] = [
     agentId: "market",
     name: "Opening market scan",
     purpose: "Summarize fictional overnight market and macro signals for the demo.",
+    inputs: ["Markets and geography", "Source preferences", "A dated overnight observation window"],
+    missingInputs: ["No live market feed or owner source preferences are connected in demo mode."],
     enabled: true,
     scheduleLabel: "Weekdays · 08:15 WIB",
     timezone: "Asia/Jakarta",
@@ -142,6 +144,8 @@ const tasks: Task[] = [
     agentId: "portfolio",
     name: "Sample portfolio developments",
     purpose: "Review only the fictional sample symbols included with this fixture.",
+    inputs: ["Owner-provided tickers or watchlist", "Dated positions for exposure context"],
+    missingInputs: ["No owner holdings, watchlist, or dated position snapshot is connected."],
     enabled: true,
     scheduleLabel: "Weekdays · 08:30 WIB",
     timezone: "Asia/Jakarta",
@@ -152,6 +156,8 @@ const tasks: Task[] = [
     agentId: "research",
     name: "Illustrative research brief",
     purpose: "Show a research structure with assumptions and unknowns clearly stated.",
+    inputs: ["Selected research topic", "Time horizon", "Research criteria and source preferences"],
+    missingInputs: ["No live research topic, criteria, or verified source set is configured."],
     enabled: true,
     scheduleLabel: "Weekly · Monday 09:00 WIB",
     timezone: "Asia/Jakarta",
@@ -162,6 +168,8 @@ const tasks: Task[] = [
     agentId: "risk",
     name: "Sample exposure challenge",
     purpose: "Demonstrate risk review using fictional sample symbols only.",
+    inputs: ["Dated positions and objectives", "Verified holdings data", "Selected reports to challenge"],
+    missingInputs: ["No dated holdings, position sizes, objectives, or verified look-through data is connected."],
     enabled: true,
     scheduleLabel: "Weekdays · 09:15 WIB",
     timezone: "Asia/Jakarta",

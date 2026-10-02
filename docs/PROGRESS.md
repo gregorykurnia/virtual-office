@@ -26,11 +26,12 @@ Last updated: 2 October 2026
 - Completed Step 6 with Zod-validated app-owned agent/task/report/run/preferences contracts, an `OfficeService` interface with data-mode and observed-time envelopes, filter/page shapes, and separate execution, delivery, and report-processing transition rules.
 - Completed Step 7 with a fixed-clock demo fixture set, four analysts and tasks, eight complete illustrative reports, fictional sample symbols, a failed run, offline/no-report/failing-run scenarios, local-only idempotent run simulation, and versioned `investment-office:demo:v1` persistence. The app shell now exposes a scenario selector and Reset demo control.
 - Completed Step 8 with the application shell, header/demo/preferences controls, Reports list and stable detail routes, URL-preserving analyst/unread/date filters, debounced search, safe Markdown rendering with controlled links, source and run metadata, detail-time read tracking, and loading/empty/not-found/unavailable states. The affected screens were inspected at desktop and phone widths.
+- Completed Step 9 with a shared analyst profile surface for all four demo agents: Overview, Assignment, and Reports sections; identity/status/observation/task/schedule facts; task inputs and missing-input guidance; recent reports and run history; and a bounded Run now control that observes the existing persisted demo timer. Desktop uses a nonmodal side panel; phone widths use a readable full-width profile with an explicit Back to Office action.
 - Confirmed typecheck, lint, and production build pass; the Vite development server starts at `127.0.0.1:5173`.
 
 ## Current limits
 
 - The workspace has no live agents, backend service, database, real holdings, or market feed; reports exist only as local illustrative demo fixtures.
-- The frontend now has the Step 8 shell and Reports surfaces; the Office scene, analyst profiles, clickable desks, full demo run workflow, and end-to-end reduced-motion/keyboard verification remain upcoming.
+- The frontend now has the Step 9 shell, Reports surfaces, and analyst profiles; the illustrated Office scene, clickable desks, full end-to-end run verification, and reduced-motion/keyboard verification remain upcoming.
 - Node 26.10.0 remains the local pin; package engines also allow Node 24.x for Vercel, which currently builds with Node 24.21.0.
 - No infrastructure, account, paid service, or public deployment has been provisioned.

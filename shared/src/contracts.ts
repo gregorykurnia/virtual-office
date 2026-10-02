@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { AgentIdSchema } from "./agent";
+import { AgentIdSchema, type AgentId } from "./agent";
 
 export const DataModeSchema = z.enum(["demo", "live"]);
 export type DataMode = z.infer<typeof DataModeSchema>;
@@ -50,6 +50,8 @@ export const TaskSchema = z.object({
   agentId: AgentIdSchema,
   name: z.string().min(1),
   purpose: z.string().min(1),
+  inputs: z.array(z.string().min(1)).min(1),
+  missingInputs: z.array(z.string().min(1)),
   enabled: z.boolean(),
   scheduleLabel: z.string().min(1),
   timezone: z.string().min(1),
@@ -170,8 +172,9 @@ export type RunRequestResult = {
 
 export interface OfficeService {
   listAgents(): Promise<OfficeResult<Agent[]>>;
-  getAgent(id: AgentRole): Promise<OfficeResult<Agent | null>>;
+  getAgent(id: AgentId): Promise<OfficeResult<Agent | null>>;
   listTasks(agentId?: AgentRole): Promise<OfficeResult<Task[]>>;
+  listRuns(agentId?: AgentId): Promise<OfficeResult<Run[]>>;
   listReports(filters?: ReportFilters, cursor?: string | null): Promise<OfficeResult<ServicePage<Report>>>;
   getReport(id: string): Promise<OfficeResult<Report | null>>;
   markReportRead(id: string): Promise<OfficeResult<Report | null>>;
