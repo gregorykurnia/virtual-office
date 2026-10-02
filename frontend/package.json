@@ -5,6 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
+    "prebuild": "npm run build --workspace @investment-office/shared",
     "build": "tsc -b && vite build",
     "typecheck": "tsc -b",
     "lint": "eslint ."

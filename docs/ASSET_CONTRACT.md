@@ -43,4 +43,4 @@ Use a 44 × 44 CSS px (or larger) semantic button/card as the mobile interaction
 - Avoid embedded raster images, text elements, and one-off labels in the SVG sprites.
 - Keep motion-free fallbacks on these five static poses. Future walking frames must use the same avatar box and anchor.
 
-To inspect the complete set locally, run `npm run dev` and open `/assets/office/index.html`.
+To inspect the complete set, open `frontend/public/assets/office/index.html` directly in a browser, or run `npm run dev` and open `/assets/office/index.html`. The two SVG files also render their sprite sheets when opened directly; the application continues to reference individual symbols by ID.

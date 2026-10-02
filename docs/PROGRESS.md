@@ -29,5 +29,5 @@ Last updated: 2 October 2026
 
 - The workspace has no live agents, backend service, database, holdings, reports, or market feed.
 - The frontend is a route shell, not the completed demonstration in Phase B.
-- Node 26.10.0 is pinned for consistency with the guide; it is not the Node version selected for production hosting yet.
+- Node 26.10.0 remains the local pin; package engines also allow Node 24.x for Vercel, which currently builds with Node 24.21.0.
 - No infrastructure, account, paid service, or public deployment has been provisioned.

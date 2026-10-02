@@ -5,7 +5,7 @@ This file records reversible implementation defaults and facts observed in the w
 | Area | Current decision | Status / evidence |
 | --- | --- | --- |
 | Source baseline | Existing plans, visual direction, and concept assets committed as `7f6c0f5` | Done, 2 Oct 2026 |
-| Runtime | Node.js 26.10.0, pinned in `.node-version` | Selected to follow the implementation guide; installed locally. The default shell had Node 20.20.2 and npm 10.8.2. |
+| Runtime | Node.js 26.10.0, pinned in `.node-version`; package engines accept 24.x or 26.x | Local work follows the implementation guide; the Vercel log uses Node 24.21.0. Vite 8 supports this build runtime. |
 | Frontend | React 19.3.0 + TypeScript 5.9.3 + Vite 8.3.2 | Proposed default from the guide; exact dependency versions are pinned by `package-lock.json`. |
 | Routing/data | React Router 7.18.4 and TanStack Query 5.104.0 | Added to the route shell; no live API requests are configured. |
 | Shared validation | Zod schema package shared by workspaces | Started with the stable analyst ID schema. |
@@ -16,6 +16,6 @@ This file records reversible implementation defaults and facts observed in the w
 | Production office art | SVG sprite symbols with a typed agent manifest | Step 5 added a coherent four-analyst/four-desk set, normalized boxes and anchors, and five static reduced-motion poses per analyst. See `docs/ASSET_CONTRACT.md`. |
 | Product mode | Local foundation/demo only | No OpenClaw, model, market-data, or personal-holdings connection. |
 
-The official Node release page lists Node 26.10.0 as Current and 24.21.0 as LTS as of this baseline. The guide asks for Node 26.x to align with the planned OpenClaw runtime; revisit the production runtime choice before live deployment. See [Node.js releases](https://nodejs.org/en/about/previous-releases).
+The official Node release page lists Node 26.10.0 as Current and 24.21.0 as LTS as of this baseline. The package engine range permits Node 24.x for Vercel builds and Node 26.x locally for the planned OpenClaw runtime. See [Node.js releases](https://nodejs.org/en/about/previous-releases).
 
 The selected Vite 8 line supports Node 20.19+ and 22.12+; this project pins Node 26 per the guide. See the [Vite 8 release notes](https://vite.dev/blog/announcing-vite8).

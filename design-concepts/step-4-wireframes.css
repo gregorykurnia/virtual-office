@@ -51,6 +51,24 @@ button {
   color: #dbe6ff;
 }
 
+.step-five-link {
+  display: inline-flex;
+  margin-top: var(--wire-space-5);
+  padding: .65rem .9rem;
+  color: #fff;
+  border: 1px solid rgb(255 255 255 / .45);
+  border-radius: .7rem;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.step-five-link:hover,
+.step-five-link:focus-visible {
+  background: rgb(255 255 255 / .12);
+  outline: 2px solid #fff;
+  outline-offset: 3px;
+}
+
 .review-meta {
   display: flex;
   flex-wrap: wrap;

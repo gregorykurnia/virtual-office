@@ -1,4 +1,5 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 192 128" aria-hidden="true">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 256" role="img" aria-labelledby="sheet-title">
+  <title id="sheet-title">Office desk sprite sheet</title>
   <style>
     .o { stroke: #263244; stroke-width: 4; stroke-linecap: round; stroke-linejoin: round; }
     .surface { fill: #ffffff; }
@@ -51,4 +52,8 @@
     <symbol id="research-library" viewBox="0 0 192 128"><g color="#7759c7"><use href="#desk-base"/><use href="#library-prop"/></g></symbol>
     <symbol id="risk-console" viewBox="0 0 192 128"><g color="#c53b4a"><use href="#desk-base"/><use href="#console-prop"/></g></symbol>
   </defs>
+  <use href="#market-terminal" x="0" y="0" width="192" height="128"/>
+  <use href="#portfolio-ledger" x="192" y="0" width="192" height="128"/>
+  <use href="#research-library" x="0" y="128" width="192" height="128"/>
+  <use href="#risk-console" x="192" y="128" width="192" height="128"/>
 </svg>
