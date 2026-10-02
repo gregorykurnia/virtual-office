@@ -89,52 +89,104 @@ function OfficeRoomBackground() {
     <svg className="office-scene__background" viewBox="0 0 1000 620" preserveAspectRatio="none" aria-hidden="true">
       <defs>
         <linearGradient id="office-room-gradient" x1="0" y1="0" x2="1" y2="1">
-          <stop offset="0" stopColor="#e9eef5" />
-          <stop offset="0.52" stopColor="#f8fafc" />
-          <stop offset="1" stopColor="#e4ecf4" />
+          <stop offset="0" stopColor="#f8f4ec" />
+          <stop offset="0.5" stopColor="#fffdfa" />
+          <stop offset="1" stopColor="#e9eef1" />
         </linearGradient>
         <pattern id="office-floor-grid" width="58" height="58" patternUnits="userSpaceOnUse">
-          <path d="M 58 0 L 0 0 0 58" fill="none" stroke="#dfe7ee" strokeWidth="2" />
+          <path d="M0 0 29 15 58 0M0 29 29 44 58 29M0 58 29 43 58 58" fill="none" stroke="#d9e1e4" strokeWidth="1.5" />
+          <path d="M0 0v58M29 15v29M58 0v58" fill="none" stroke="#e8eceb" strokeWidth="1" />
         </pattern>
         <linearGradient id="office-briefing-gradient" x1="0" y1="0" x2="1" y2="1">
-          <stop offset="0" stopColor="#dff1ea" />
-          <stop offset="1" stopColor="#c5e5d7" />
+          <stop offset="0" stopColor="#e4f4ec" />
+          <stop offset="1" stopColor="#c0e2d1" />
         </linearGradient>
+        <linearGradient id="office-glass-gradient" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0" stopColor="#f4fbfb" stopOpacity="0.9" />
+          <stop offset="0.55" stopColor="#cfe9e8" stopOpacity="0.6" />
+          <stop offset="1" stopColor="#b6d4df" stopOpacity="0.38" />
+        </linearGradient>
+        <linearGradient id="office-wood-gradient" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stopColor="#f3d5a4" />
+          <stop offset="1" stopColor="#c89557" />
+        </linearGradient>
+        <filter id="office-soft-shadow" x="-20%" y="-20%" width="140%" height="160%">
+          <feDropShadow dx="0" dy="8" stdDeviation="7" floodColor="#657487" floodOpacity="0.18" />
+        </filter>
       </defs>
 
       <rect width="1000" height="620" fill="url(#office-room-gradient)" />
-      <rect x="26" y="24" width="948" height="572" rx="34" fill="#f9fcfd" stroke="#cbd6e1" strokeWidth="4" />
-      <rect x="52" y="50" width="896" height="520" rx="24" fill="url(#office-floor-grid)" opacity="0.74" />
-      <path d="M508 48 L508 572" stroke="#edf2f5" strokeWidth="72" opacity="0.92" />
-      <path d="M52 310 L948 310" stroke="#eef3f6" strokeWidth="40" opacity="0.82" />
+      <rect x="20" y="18" width="960" height="584" rx="42" fill="#fffefa" stroke="#d8d3ca" strokeWidth="4" />
+      <rect x="42" y="40" width="916" height="540" rx="32" fill="#f7f5ef" stroke="#e4e0d8" strokeWidth="2" />
+      <rect x="54" y="52" width="892" height="516" rx="26" fill="url(#office-floor-grid)" opacity="0.5" />
+      <path d="M500 44V576" stroke="#fffdf8" strokeWidth="74" opacity="0.92" />
+      <path d="M48 310H952" stroke="#fffdf8" strokeWidth="42" opacity="0.9" />
+      <path d="M78 310H922M500 68V552" stroke="#e9e3d9" strokeWidth="2" strokeDasharray="5 12" opacity="0.72" />
 
-      <rect x="96" y="94" width="364" height="196" rx="26" fill="#edf3ff" stroke="#b7c9ef" strokeWidth="3" strokeDasharray="10 8" />
-      <rect x="96" y="342" width="364" height="184" rx="26" fill="#f3efff" stroke="#d6caef" strokeWidth="3" strokeDasharray="10 8" />
-      <rect x="540" y="94" width="364" height="196" rx="26" fill="#ecf8f4" stroke="#b8dfd1" strokeWidth="3" strokeDasharray="10 8" />
-      <rect x="540" y="342" width="364" height="184" rx="26" fill="#fff4e7" stroke="#ebd2ad" strokeWidth="3" strokeDasharray="10 8" />
+      <g filter="url(#office-soft-shadow)">
+        <rect x="88" y="92" width="372" height="200" rx="28" fill="#edf3ff" stroke="#adc4f1" strokeWidth="3" strokeDasharray="11 8" />
+        <rect x="88" y="338" width="372" height="192" rx="28" fill="#f4efff" stroke="#d5c8ef" strokeWidth="3" strokeDasharray="11 8" />
+        <rect x="540" y="92" width="372" height="200" rx="28" fill="#eaf7f3" stroke="#addccb" strokeWidth="3" strokeDasharray="11 8" />
+        <rect x="540" y="338" width="372" height="192" rx="28" fill="#fff3e2" stroke="#e8cda5" strokeWidth="3" strokeDasharray="11 8" />
+      </g>
 
-      <rect x="428" y="82" width="144" height="106" rx="26" fill="url(#office-briefing-gradient)" stroke="#a8d2c0" strokeWidth="3" />
-      <ellipse cx="500" cy="138" rx="45" ry="23" fill="#b9dccd" stroke="#83b59e" strokeWidth="4" />
-      <circle cx="474" cy="137" r="6" fill="#ffffff" opacity="0.85" />
-      <circle cx="500" cy="128" r="6" fill="#ffffff" opacity="0.85" />
-      <circle cx="526" cy="137" r="6" fill="#ffffff" opacity="0.85" />
+      <g opacity="0.9">
+        <rect x="112" y="67" width="238" height="18" rx="9" fill="#d7e1e7" stroke="#a6bac9" strokeWidth="4" />
+        <path d="M140 70v12M168 70v12M196 70v12M224 70v12M252 70v12M280 70v12M308 70v12" stroke="#eef4f5" strokeWidth="3" />
+        <rect x="650" y="67" width="238" height="18" rx="9" fill="#d7e1e7" stroke="#a6bac9" strokeWidth="4" />
+        <path d="M678 70v12M706 70v12M734 70v12M762 70v12M790 70v12M818 70v12M846 70v12" stroke="#eef4f5" strokeWidth="3" />
+      </g>
 
-      <g fill="#d8e4ee" stroke="#a7bacb" strokeWidth="4">
-        <rect x="72" y="70" width="126" height="14" rx="7" />
-        <rect x="802" y="70" width="126" height="14" rx="7" />
+      <g opacity="0.78">
+        <path d="M562 116H670L702 138V238H562Z" fill="url(#office-glass-gradient)" stroke="#8eabb5" strokeWidth="3" />
+        <path d="M615 116V238M670 116V238M562 178H702" fill="none" stroke="#abc8cc" strokeWidth="2" />
+        <ellipse cx="634" cy="196" rx="42" ry="17" fill="#e8d1ad" stroke="#b48a55" strokeWidth="3" />
+        <path d="M603 204v24M665 204v24" stroke="#7c8795" strokeWidth="4" />
+        <rect x="582" y="184" width="15" height="15" rx="5" fill="#5f8cb3" />
+        <rect x="671" y="184" width="15" height="15" rx="5" fill="#5f8cb3" />
       </g>
-      <g fill="#9bc9b6" stroke="#78a895" strokeWidth="4">
-        <circle cx="82" cy="548" r="18" />
-        <circle cx="111" cy="538" r="14" />
-        <circle cx="890" cy="548" r="19" />
-        <circle cx="919" cy="538" r="13" />
+
+      <g filter="url(#office-soft-shadow)">
+        <ellipse cx="183" cy="473" rx="76" ry="30" fill="#e9ddcd" opacity="0.8" />
+        <path d="M118 442Q118 428 134 428H228Q244 428 244 442V470H118Z" fill="#fbf6ee" stroke="#cdbda8" strokeWidth="4" />
+        <path d="M118 442h20v28h-20ZM224 442h20v28h-20Z" fill="#e8dac8" />
+        <rect x="136" y="421" width="32" height="17" rx="8" fill="#b9cfae" />
+        <rect x="190" y="421" width="32" height="17" rx="8" fill="#cfddc5" />
+        <ellipse cx="182" cy="507" rx="38" ry="17" fill="#e7c891" stroke="#b68a54" strokeWidth="3" />
+        <path d="M166 507v17M198 507v17" stroke="#9e734b" strokeWidth="3" />
+        <circle cx="182" cy="499" r="8" fill="#80a66d" />
       </g>
-      <g fill="#bd8e65">
-        <rect x="83" y="554" width="8" height="22" rx="4" />
-        <rect x="895" y="554" width="8" height="22" rx="4" />
+
+      <g filter="url(#office-soft-shadow)">
+        <rect x="770" y="405" width="40" height="106" rx="6" fill="#263548" stroke="#162333" strokeWidth="3" />
+        <rect x="816" y="393" width="40" height="118" rx="6" fill="#2f3e51" stroke="#162333" strokeWidth="3" />
+        <rect x="862" y="414" width="40" height="97" rx="6" fill="#263548" stroke="#162333" strokeWidth="3" />
+        <path d="M782 424h16M782 437h16M828 412h16M828 425h16M874 433h16M874 446h16" stroke="#57c7b2" strokeWidth="4" strokeLinecap="round" />
+        <path d="M782 467h16M828 458h16M874 471h16" stroke="#6d89a9" strokeWidth="4" strokeLinecap="round" />
+        <rect x="754" y="512" width="158" height="11" rx="5" fill="#b6a999" opacity="0.6" />
       </g>
-      <rect x="458" y="464" width="84" height="62" rx="12" fill="#dcb77e" stroke="#c29a61" strokeWidth="4" />
-      <path d="M470 480h60M470 496h60M470 512h60" stroke="#f0d0a1" strokeWidth="7" strokeLinecap="round" />
+
+      <g opacity="0.85">
+        <path d="M74 546q23-21 46 0M880 546q23-21 46 0" fill="none" stroke="#d7c4a5" strokeWidth="8" strokeLinecap="round" />
+        <circle cx="84" cy="534" r="18" fill="#91bfa9" stroke="#6d9e88" strokeWidth="4" />
+        <circle cx="112" cy="522" r="15" fill="#a5caae" stroke="#6d9e88" strokeWidth="4" />
+        <circle cx="890" cy="534" r="18" fill="#91bfa9" stroke="#6d9e88" strokeWidth="4" />
+        <circle cx="918" cy="522" r="15" fill="#a5caae" stroke="#6d9e88" strokeWidth="4" />
+        <path d="M84 550v22M890 550v22" stroke="#bb8958" strokeWidth="8" strokeLinecap="round" />
+      </g>
+
+      <g filter="url(#office-soft-shadow)">
+        <rect x="430" y="468" width="140" height="70" rx="16" fill="url(#office-wood-gradient)" stroke="#b98a53" strokeWidth="4" />
+        <path d="M448 486h104M448 504h104M448 522h104" stroke="#f7dfb8" strokeWidth="7" strokeLinecap="round" opacity="0.84" />
+      </g>
+
+      <g>
+        <rect x="428" y="82" width="144" height="106" rx="28" fill="url(#office-briefing-gradient)" stroke="#98ceb4" strokeWidth="4" />
+        <ellipse cx="500" cy="138" rx="45" ry="23" fill="#b9dccd" stroke="#83b59e" strokeWidth="4" />
+        <circle cx="474" cy="137" r="6" fill="#ffffff" opacity="0.9" />
+        <circle cx="500" cy="128" r="6" fill="#ffffff" opacity="0.9" />
+        <circle cx="526" cy="137" r="6" fill="#ffffff" opacity="0.9" />
+      </g>
     </svg>
   );
 }

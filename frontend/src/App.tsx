@@ -33,7 +33,7 @@ function OfficeState({ title, detail, action }: { title: string; detail: string;
 
 function AgentCard({ agent, selected }: { agent: Agent; selected: boolean }) {
   return (
-    <article className={`analyst-card${selected ? " analyst-card--selected" : ""}`}>
+    <article className={`analyst-card analyst-card--${agent.id}${selected ? " analyst-card--selected" : ""}`}>
       <div className="analyst-card__topline">
         <Link className="analyst-card__identity" to={`/office?agent=${agent.id}&tab=overview`}>
           <span className={`analyst-card__avatar analyst-card__avatar--${agent.id}`} aria-hidden="true">
@@ -193,7 +193,8 @@ export default function App() {
 
       <main>
         <p className="demo-banner" role="status">
-          Demo — simulated agents and illustrative reports; no live market data.
+          <span className="demo-banner__icon" aria-hidden="true">✦</span>
+          <span>Demo — simulated agents and illustrative reports; no live market data.</span>
         </p>
         <DemoScenarioControls />
         <Routes>
