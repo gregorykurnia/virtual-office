@@ -2,7 +2,7 @@ import { useMemo, type ReactNode } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { Link, Navigate, Route, Routes, useLocation } from "react-router-dom";
 import { AGENT_IDS, type Agent, type AgentId } from "@investment-office/shared";
-import { avatarAssetHref } from "./assets/officeAssets";
+import AnalystAvatar from "./components/AnalystAvatar";
 import AnalystProfilePanel, { PROFILE_TABS, type AnalystProfileTab } from "./components/AnalystProfilePanel";
 import PreferencesMenu from "./components/PreferencesMenu";
 import ReportDetailPage from "./components/ReportDetailPage";
@@ -37,7 +37,7 @@ function AgentCard({ agent, selected }: { agent: Agent; selected: boolean }) {
       <div className="analyst-card__topline">
         <Link className="analyst-card__identity" to={`/office?agent=${agent.id}&tab=overview`}>
           <span className={`analyst-card__avatar analyst-card__avatar--${agent.id}`} aria-hidden="true">
-            <svg viewBox="0 0 128 128" role="presentation"><use href={avatarAssetHref(agent.id, "idle")} /></svg>
+            <AnalystAvatar agentId={agent.id} pose="idle" context="portrait" eager />
           </span>
           <span>
             <strong>{agent.displayName}</strong>

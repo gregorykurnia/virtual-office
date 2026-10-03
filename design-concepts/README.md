@@ -8,7 +8,7 @@ Open [the Step 4 wireframes](./step-4-wireframes.html) in a browser to review th
 
 ## Step 5 production asset contract
 
-The visual direction is now expressed as native, reusable SVG sprites rather than embedded concept art. See [the asset contract](../docs/ASSET_CONTRACT.md) for the four analysts, desks, role distinctions, pose keys, anchors, and export rules. Open the [asset review page](../frontend/public/assets/office/index.html) directly, or run the local frontend and open `/assets/office/index.html`, to review all twenty static poses and four desks at browser scale.
+The visual direction is now expressed as a bot-free rendered environment plus reusable transparent raster analyst poses rather than embedded concept art. See [the asset contract](../docs/ASSET_CONTRACT.md) for the four analysts, desks, role distinctions, pose keys, anchors, and export rules. Open the [asset review page](../frontend/public/assets/office/index.html) directly, or run the local frontend and open `/assets/office/index.html`, to review all twenty rendered poses and four desks at browser scale.
 
 ## 1. Art direction comparison
 

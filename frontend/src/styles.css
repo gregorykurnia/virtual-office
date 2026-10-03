@@ -1142,17 +1142,13 @@ main {
   margin: 0;
   cursor: pointer;
   transition: filter 160ms ease, transform 160ms ease, box-shadow 160ms ease;
-  will-change: filter, transform;
+  will-change: transform;
 }
 
 .office-scene__control:focus-visible {
   z-index: 12;
   outline: none;
   box-shadow: var(--io-focus);
-}
-
-.office-scene__control:hover:not(:disabled) {
-  filter: brightness(1.04) drop-shadow(0 0.45rem 0.55rem rgb(30 42 59 / 0.16));
 }
 
 .office-scene__agent-layer {
@@ -1175,6 +1171,7 @@ main {
   border-color: rgb(56 103 232 / 0.45);
   background: rgb(255 255 255 / 0.12);
   box-shadow: 0 0 0 0.25rem rgb(56 103 232 / 0.1);
+  filter: brightness(1.04);
 }
 
 .office-scene__desk.is-selected {
@@ -1185,41 +1182,114 @@ main {
 
 .office-scene__character {
   z-index: 7;
-  width: clamp(3rem, 8%, 5.2rem);
+  width: clamp(2.9rem, 7.4%, 4.6rem);
   aspect-ratio: 1;
   padding: 0;
   border: 0;
   border-radius: 50%;
   background: transparent;
-  transform: translate(-50%, -100%);
-  filter: drop-shadow(0 0.32rem 0.45rem rgb(30 42 59 / 0.2));
+  transform: translate(-50%, -50%);
 }
 
 .office-scene__character-avatar {
-  display: grid;
-  width: 100%;
-  height: 100%;
-  place-items: center;
-  overflow: visible;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: clamp(2.5rem, 82%, 3.75rem);
+  height: clamp(2.5rem, 82%, 3.75rem);
+  aspect-ratio: 1;
+  pointer-events: none;
+  transform: translate(-50%, -85.9375%);
 }
 
-.office-scene__character-avatar svg {
+.analyst-avatar {
+  position: relative;
   display: block;
   width: 100%;
   height: 100%;
   overflow: visible;
 }
 
-.office-scene__character.is-selected {
-  outline: 0.2rem solid rgb(56 103 232 / 0.55);
-  outline-offset: 0.28rem;
-  filter: drop-shadow(0 0.55rem 0.7rem rgb(56 103 232 / 0.28));
+.analyst-avatar__picture,
+.analyst-avatar__image {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.analyst-avatar__picture {
+  position: relative;
+  z-index: 1;
+}
+
+.analyst-avatar__loading {
+  position: absolute;
+  inset: 22%;
+  z-index: 0;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, rgb(255 255 255 / 0.96), rgb(198 211 231 / 0.8) 48%, rgb(125 144 172 / 0.42));
+  opacity: 0;
+  pointer-events: none;
+}
+
+.analyst-avatar--loading .analyst-avatar__loading {
+  opacity: 0.72;
+  animation: avatar-art-loading 1.2s ease-in-out infinite;
+}
+
+.analyst-avatar__image {
+  object-fit: contain;
+  transform-origin: 50% 85.9375%;
+  transform: translateY(var(--avatar-art-offset-y, 0%));
+  transition: transform 160ms ease, filter 160ms ease;
+}
+
+.analyst-avatar__shadow,
+.analyst-avatar__selection-ring {
+  position: absolute;
+  top: 85.9375%;
+  left: 50%;
+  display: block;
+  border-radius: 50%;
+  pointer-events: none;
+  transform: translate(-50%, -50%);
+}
+
+.analyst-avatar__shadow {
+  z-index: 0;
+  width: 62%;
+  height: 11%;
+  background: rgb(42 53 68 / 0.22);
+  filter: blur(0.12rem);
+}
+
+.analyst-avatar__selection-ring {
+  z-index: 0;
+  width: 86%;
+  height: 18%;
+  border: 0.12rem solid transparent;
+  background: rgb(255 255 255 / 0.12);
+  opacity: 0;
+  transition: opacity 160ms ease, border-color 160ms ease, box-shadow 160ms ease;
+}
+
+.office-scene__character:hover:not(:disabled) .analyst-avatar__image,
+.office-scene__character:focus-visible .analyst-avatar__image {
+  filter: brightness(1.04) saturate(1.04);
+  transform: translateY(calc(var(--avatar-art-offset-y, 0%) - 1px)) scale(1.015);
+}
+
+.office-scene__character.is-selected .analyst-avatar__selection-ring {
+  border-color: rgb(56 103 232 / 0.76);
+  box-shadow: 0 0 0 0.2rem rgb(56 103 232 / 0.14), 0 0.2rem 0.45rem rgb(56 103 232 / 0.2);
+  opacity: 1;
 }
 
 .office-scene__status-dot {
   position: absolute;
-  right: -0.12rem;
-  bottom: 0.08rem;
+  z-index: 4;
+  top: calc(50% - 1.1rem);
+  right: calc(50% - 1.15rem);
   width: 0.72rem;
   height: 0.72rem;
   border: 0.14rem solid #fff;
@@ -1237,7 +1307,8 @@ main {
 
 .office-scene__character-label {
   position: absolute;
-  bottom: calc(100% + 0.35rem);
+  z-index: 5;
+  bottom: calc(50% + 1.42rem);
   left: 50%;
   display: grid;
   gap: 0.06rem;
@@ -1283,6 +1354,11 @@ main {
   transform: translate(-50%, -50%);
 }
 
+.office-scene__report:hover:not(:disabled),
+.office-scene__report:focus-visible {
+  filter: brightness(1.04);
+}
+
 .office-scene__report.is-unread {
   border-color: color-mix(in srgb, var(--io-action) 48%, var(--io-line));
   box-shadow: 0 0 0 0.22rem rgb(56 103 232 / 0.12), var(--io-shadow-sm);
@@ -1302,6 +1378,25 @@ main {
   font-size: 0.82rem;
   line-height: 1;
 }
+
+.analyst-avatar__fallback {
+  display: grid;
+  width: 100%;
+  height: 100%;
+  place-items: center;
+  border: 0.12rem solid rgb(255 255 255 / 0.82);
+  border-radius: 42% 42% 38% 38%;
+  color: #fff;
+  background: #64748b;
+  box-shadow: inset 0 0.12rem 0 rgb(255 255 255 / 0.28), 0 0.18rem 0.45rem rgb(30 42 59 / 0.18);
+  font-size: 1.1rem;
+  font-weight: 800;
+}
+
+.analyst-avatar--market .analyst-avatar__fallback { background: var(--io-action); }
+.analyst-avatar--portfolio .analyst-avatar__fallback { background: var(--io-green); }
+.analyst-avatar--research .analyst-avatar__fallback { background: var(--io-violet); }
+.analyst-avatar--risk .analyst-avatar__fallback { background: var(--io-red); }
 
 .office-scene__briefing {
   position: absolute;
@@ -1601,9 +1696,17 @@ main {
   background: var(--io-action-soft);
 }
 
-.analyst-card__avatar svg {
-  width: 3.5rem;
-  height: 3.5rem;
+.analyst-card__avatar .analyst-avatar,
+.profile-avatar .analyst-avatar {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.analyst-card__avatar .analyst-avatar__image,
+.profile-avatar .analyst-avatar__image {
+  width: 100%;
+  height: 100%;
 }
 
 .analyst-card__avatar--market { background: var(--io-action-soft); }
@@ -1721,11 +1824,6 @@ main {
   border: 1px solid var(--io-line);
   border-radius: 1rem;
   background: var(--io-action-soft);
-}
-
-.profile-avatar svg {
-  width: 4.7rem;
-  height: 4.7rem;
 }
 
 .profile-avatar--portfolio { background: var(--io-green-soft); }
@@ -2775,6 +2873,11 @@ main {
 @keyframes office-art-loading {
   from { background-position: 100% 0; }
   to { background-position: -100% 0; }
+}
+
+@keyframes avatar-art-loading {
+  0%, 100% { transform: scale(0.94); opacity: 0.52; }
+  50% { transform: scale(1); opacity: 0.82; }
 }
 
 @media (max-width: 1050px) {

@@ -1,6 +1,6 @@
 # Reference-matched 3D office visual plan
 
-Status: first environment slice implemented. The rendered office background and normalized interaction frame are now in the frontend; final browser comparison and any character-art refinement remain.
+Status: environment and avatar slices implemented, 3 October 2026. The rendered office background, normalized interaction frame, and reference-matched raster analyst family are now in the frontend.
 
 ## Visual target and source of truth
 
@@ -82,7 +82,7 @@ Reuse the current `--io-*` text, action, role, focus, spacing, and radius tokens
 ## Asset and layout contract
 
 - Environment: production master around 2400 × 1600, maintaining the reference's approximately 3:2 composition; deliver optimized WebP/AVIF variants with a supported fallback.
-- Characters: transparent masters at sufficient resolution for at least 2× their intended display size; consistent canvas size, safe bounds, ground anchor, and pose alignment.
+- Characters: 20 transparent 352 × 352 WebP runtime poses with PNG fallbacks, authored from larger square masters; consistent logical 128 × 128 box, measured alpha-bottom offsets, safe bounds, ground anchor, and pose alignment.
 - Foreground layer, if needed: transparent export aligned exactly to the environment's master canvas. Keep each shadow in one layer to avoid doubling it.
 - Store asset URLs, natural dimensions, ground anchors, and analyst/desk/report/briefing coordinates in a typed manifest. Record the artwork provenance and reproducible generation/export instructions.
 - Use one aspect-ratio-preserving scene wrapper for the image and every interactive layer. Replace the existing stretched `preserveAspectRatio="none"` behavior; never independently stretch the background or overlays.
@@ -94,10 +94,10 @@ Reuse the current `--io-*` text, action, role, focus, spacing, and radius tokens
 ## Implementation sequence and visual checkpoints
 
 1. **Prepare the production scene.** Generate or render a bot-free environment following the composition and material brief. Inspect it beside both source PNGs. Resolve camera, floor silhouette, room placement, lighting, and material problems before integration. Output: environment master, optimized preview, and generation/export notes.
-2. **Prove character compatibility.** Render one analyst and composite it at its intended workstation. Check scale, floor contact, shadow direction, face clarity, and occlusion. Correct mismatches before producing the remaining characters and poses. Output: complete character set and any required foreground mask.
-3. **Integrate the visual scene.** Replace `OfficeRoomBackground` in `frontend/src/components/OfficeScene.tsx`; update the asset manifest and measured layout coordinates. Replace scene SVG desk/character artwork with the production environment and character layers. Adjust the office styles and matching roster/profile portraits. Output: functioning desktop scene with existing navigation.
-4. **Refine overlays and responsive behavior.** Tune badge positions, labels, selection, focus, and profile-open layout. Fit the entire office on desktop. On phones, retain the full composition as an overview and use the roster for precise actions; do not squeeze overlapping 44 px targets into tiny desks. Only add scene zoom or a larger scrollable viewport if usability inspection establishes a need.
-5. **Verify against the references.** Capture browser screenshots at wide desktop, laptop with profile open, tablet, and 360/390 px phone widths. Compare the office crop with the references at equivalent display size. Resolve visible regressions, run relevant checks, update asset documentation, review the scoped diff, then commit and push per `AGENTS.md`.
+2. **Prove character compatibility.** Done. The four identity masters and five pose variants share the reference camera, warm upper-left light, glossy face panel, cyan eyes, transparent square canvas, and measured alpha-bottom offsets.
+3. **Integrate the visual scene.** Done. `AnalystAvatar.tsx` is the shared renderer for `OfficeScene.tsx`, analyst cards, and `AnalystProfilePanel.tsx`; the old SVG character fragments are no longer used in normal operation.
+4. **Refine overlays and responsive behavior.** Done. Scene hit targets remain separate from artwork, selection is a floor ring, labels/statuses remain semantic HTML, and the roster remains the precise mobile alternative.
+5. **Verify against the references.** Browser screenshots were inspected at desktop, profile-open laptop, tablet, and phone widths. Typecheck, lint, build, asset dimensions/alpha checks, and the refreshed asset review page are part of the delivered verification pass.
 
 These checkpoints are implementation quality gates. They do not imply that artwork or application changes have already been made.
 

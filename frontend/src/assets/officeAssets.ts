@@ -11,8 +11,18 @@ export const AVATAR_POSES = ["idle", "reading", "typing", "report-ready", "atten
 
 export type AvatarPose = (typeof AVATAR_POSES)[number];
 
-export const AVATAR_SPRITE_URL = "/assets/office/analysts.svg";
 export const DESK_SPRITE_URL = "/assets/office/desks.svg";
+
+export type AvatarAssetFile = {
+  /** Alpha WebP used by supported browsers. */
+  readonly webp: string;
+  /** Alpha PNG fallback used by browsers without WebP support. */
+  readonly png: string;
+  /** Measured alpha-bottom anchor in the 352px export box. */
+  readonly groundAnchorY: number;
+};
+
+export type AvatarAssetManifest = Record<AvatarPose, AvatarAssetFile>;
 
 /**
  * Bot-free production environment. The JPG keeps the scene available in
@@ -38,7 +48,7 @@ export type AnalystOfficeAsset = {
   readonly deskKey: DeskKey;
   readonly accent: string;
   readonly accessory: string;
-  /** Use this for the button/card label around the otherwise decorative SVG. */
+  /** Use this for the button/card label around the otherwise decorative artwork. */
   readonly accessibleName: string;
 };
 
@@ -73,10 +83,58 @@ export const OFFICE_ASSETS = {
   }
 } as const satisfies Record<AgentId, AnalystOfficeAsset>;
 
-/** Returns a fragment URL suitable for `<use href={...}>` inside an SVG. */
-export function avatarAssetHref(agentId: AgentId, pose: AvatarPose): string {
-  return `${AVATAR_SPRITE_URL}#${OFFICE_ASSETS[agentId].avatarKey}-${pose}`;
+function createAvatarManifest(
+  avatarKey: AssetKey,
+  groundAnchors: Record<AvatarPose, number>
+): AvatarAssetManifest {
+  const path = (pose: AvatarPose) => `/assets/office/avatars/${avatarKey}-${pose}.png`;
+  const webpPath = (pose: AvatarPose) => `/assets/office/avatars/${avatarKey}-${pose}.webp`;
+  const file = (pose: AvatarPose): AvatarAssetFile => ({
+    webp: webpPath(pose),
+    png: path(pose),
+    groundAnchorY: groundAnchors[pose]
+  });
+
+  return {
+    idle: file("idle"),
+    reading: file("reading"),
+    typing: file("typing"),
+    "report-ready": file("report-ready"),
+    attention: file("attention")
+  };
 }
+
+/** Typed image manifest for the rendered analyst family. */
+export const AVATAR_ASSETS = {
+  market: createAvatarManifest("market-bot", {
+    idle: 325 / 352,
+    reading: 325 / 352,
+    typing: 326 / 352,
+    "report-ready": 325 / 352,
+    attention: 326 / 352
+  }),
+  portfolio: createAvatarManifest("portfolio-bot", {
+    idle: 328 / 352,
+    reading: 325 / 352,
+    typing: 343 / 352,
+    "report-ready": 326 / 352,
+    attention: 326 / 352
+  }),
+  research: createAvatarManifest("research-bot", {
+    idle: 325 / 352,
+    reading: 326 / 352,
+    typing: 335 / 352,
+    "report-ready": 326 / 352,
+    attention: 326 / 352
+  }),
+  risk: createAvatarManifest("risk-bot", {
+    idle: 340 / 352,
+    reading: 326 / 352,
+    typing: 326 / 352,
+    "report-ready": 326 / 352,
+    attention: 326 / 352
+  })
+} satisfies Record<AgentId, AvatarAssetManifest>;
 
 /** Returns a fragment URL suitable for `<use href={...}>` inside an SVG. */
 export function deskAssetHref(agentId: AgentId): string {

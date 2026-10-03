@@ -13,16 +13,43 @@
       h2 { margin: 0 0 .35rem; font-size: 1.1rem; }
       .key { margin: 0 0 .85rem; color: #536176; font-size: .85rem; }
       .sheet, .environment { display: block; width: 100%; height: auto; background: #eef2f7; border-radius: .6rem; }
+      .avatar-grid { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: .65rem; }
+      .avatar-card { min-width: 0; margin: 0; padding: .45rem; border: 1px solid #e4e9f0; border-radius: .75rem; background: linear-gradient(145deg, #f8fbff, #fff); text-align: center; }
+      .avatar-card img { display: block; width: 100%; aspect-ratio: 1; object-fit: contain; border-radius: .55rem; background: radial-gradient(circle at 50% 72%, #e8eef8, transparent 52%), #f4f7fb; }
+      .avatar-card figcaption { margin-top: .35rem; color: #536176; font-size: .68rem; line-height: 1.3; }
+      .avatar-card strong { display: block; color: #263244; font-size: .7rem; }
+      @media (max-width: 760px) { .avatar-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
       @media (max-width: 420px) { body { padding: 1rem; } section { padding: .75rem; } }
     </style>
   </head>
   <body>
     <h1>Office asset review</h1>
-    <p>Static production artwork. These spritesheets render directly in a browser, including when opened as a local file. Each row or desk set is identified below.</p>
+    <p>Static production artwork. The rendered analyst WebPs are the application runtime assets with matching PNG fallbacks; the environment and desk symbols remain separate decorative artwork.</p>
     <section aria-labelledby="analyst-title">
-      <h2 id="analyst-title">Analyst poses</h2>
-      <p class="key">Rows: Maya · Adrian · Clara · Theo. Columns: idle · reading · typing · report-ready · attention.</p>
-      <img class="sheet" src="analysts.svg" alt="Twenty analyst illustrations arranged in four rows and five pose columns." />
+      <h2 id="analyst-title">Rendered analyst avatars</h2>
+      <p class="key">Rows: Maya · Adrian · Clara · Theo. Columns: idle · reading · typing · report-ready · attention. Each image is a 352 × 352 transparent WebP with a PNG fallback, the logical 128 × 128 character box, and a shared ground anchor.</p>
+      <div class="avatar-grid">
+        <figure class="avatar-card"><img src="avatars/market-bot-idle.png" width="352" height="352" alt="Maya market analyst, idle pose" /><figcaption><strong>Maya</strong>idle</figcaption></figure>
+        <figure class="avatar-card"><img src="avatars/market-bot-reading.png" width="352" height="352" alt="Maya market analyst, reading pose" /><figcaption><strong>Maya</strong>reading</figcaption></figure>
+        <figure class="avatar-card"><img src="avatars/market-bot-typing.png" width="352" height="352" alt="Maya market analyst, typing pose" /><figcaption><strong>Maya</strong>typing</figcaption></figure>
+        <figure class="avatar-card"><img src="avatars/market-bot-report-ready.png" width="352" height="352" alt="Maya market analyst, report-ready pose" /><figcaption><strong>Maya</strong>report-ready</figcaption></figure>
+        <figure class="avatar-card"><img src="avatars/market-bot-attention.png" width="352" height="352" alt="Maya market analyst, attention pose" /><figcaption><strong>Maya</strong>attention</figcaption></figure>
+        <figure class="avatar-card"><img src="avatars/portfolio-bot-idle.png" width="352" height="352" alt="Adrian portfolio analyst, idle pose" /><figcaption><strong>Adrian</strong>idle</figcaption></figure>
+        <figure class="avatar-card"><img src="avatars/portfolio-bot-reading.png" width="352" height="352" alt="Adrian portfolio analyst, reading pose" /><figcaption><strong>Adrian</strong>reading</figcaption></figure>
+        <figure class="avatar-card"><img src="avatars/portfolio-bot-typing.png" width="352" height="352" alt="Adrian portfolio analyst, typing pose" /><figcaption><strong>Adrian</strong>typing</figcaption></figure>
+        <figure class="avatar-card"><img src="avatars/portfolio-bot-report-ready.png" width="352" height="352" alt="Adrian portfolio analyst, report-ready pose" /><figcaption><strong>Adrian</strong>report-ready</figcaption></figure>
+        <figure class="avatar-card"><img src="avatars/portfolio-bot-attention.png" width="352" height="352" alt="Adrian portfolio analyst, attention pose" /><figcaption><strong>Adrian</strong>attention</figcaption></figure>
+        <figure class="avatar-card"><img src="avatars/research-bot-idle.png" width="352" height="352" alt="Clara investment research analyst, idle pose" /><figcaption><strong>Clara</strong>idle</figcaption></figure>
+        <figure class="avatar-card"><img src="avatars/research-bot-reading.png" width="352" height="352" alt="Clara investment research analyst, reading pose" /><figcaption><strong>Clara</strong>reading</figcaption></figure>
+        <figure class="avatar-card"><img src="avatars/research-bot-typing.png" width="352" height="352" alt="Clara investment research analyst, typing pose" /><figcaption><strong>Clara</strong>typing</figcaption></figure>
+        <figure class="avatar-card"><img src="avatars/research-bot-report-ready.png" width="352" height="352" alt="Clara investment research analyst, report-ready pose" /><figcaption><strong>Clara</strong>report-ready</figcaption></figure>
+        <figure class="avatar-card"><img src="avatars/research-bot-attention.png" width="352" height="352" alt="Clara investment research analyst, attention pose" /><figcaption><strong>Clara</strong>attention</figcaption></figure>
+        <figure class="avatar-card"><img src="avatars/risk-bot-idle.png" width="352" height="352" alt="Theo risk analyst, idle pose" /><figcaption><strong>Theo</strong>idle</figcaption></figure>
+        <figure class="avatar-card"><img src="avatars/risk-bot-reading.png" width="352" height="352" alt="Theo risk analyst, reading pose" /><figcaption><strong>Theo</strong>reading</figcaption></figure>
+        <figure class="avatar-card"><img src="avatars/risk-bot-typing.png" width="352" height="352" alt="Theo risk analyst, typing pose" /><figcaption><strong>Theo</strong>typing</figcaption></figure>
+        <figure class="avatar-card"><img src="avatars/risk-bot-report-ready.png" width="352" height="352" alt="Theo risk analyst, report-ready pose" /><figcaption><strong>Theo</strong>report-ready</figcaption></figure>
+        <figure class="avatar-card"><img src="avatars/risk-bot-attention.png" width="352" height="352" alt="Theo risk analyst, attention pose" /><figcaption><strong>Theo</strong>attention</figcaption></figure>
+      </div>
     </section>
     <section aria-labelledby="environment-title">
       <h2 id="environment-title">Rendered office environment</h2>

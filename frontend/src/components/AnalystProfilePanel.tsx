@@ -2,7 +2,7 @@ import { useEffect, useMemo, useRef, useState, type ReactNode, type RefObject } 
 import { useQuery } from "@tanstack/react-query";
 import { Link } from "react-router-dom";
 import type { Agent, AgentId, ExecutionStatus, Report, Run, Task } from "@investment-office/shared";
-import { avatarAssetHref } from "../assets/officeAssets";
+import AnalystAvatar from "./AnalystAvatar";
 import { officeService } from "../demo";
 import { useDemoRevision } from "../lib/demoHooks";
 import { formatDateOnly, formatDateTime } from "../lib/formatters";
@@ -90,9 +90,7 @@ function ProfileHeader({
       <header className="profile-panel__header">
         <div className="profile-identity">
           <span className={`profile-avatar profile-avatar--${agent.id}`} aria-hidden="true">
-            <svg viewBox="0 0 128 128" role="presentation">
-              <use href={avatarAssetHref(agent.id, getAvatarPose(agent))} />
-            </svg>
+            <AnalystAvatar agentId={agent.id} pose={getAvatarPose(agent)} context="portrait" eager />
           </span>
           <div className="profile-identity__copy">
             <p className="eyebrow">Analyst profile</p>

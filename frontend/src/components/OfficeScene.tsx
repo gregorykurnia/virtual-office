@@ -1,8 +1,9 @@
 import { useMemo, useState, type CSSProperties } from "react";
 import { useNavigate } from "react-router-dom";
 import type { Agent, AgentId, Report } from "@investment-office/shared";
-import { avatarAssetHref, OFFICE_ENVIRONMENT_ASSET, type AvatarPose } from "../assets/officeAssets";
+import { OFFICE_ENVIRONMENT_ASSET, type AvatarPose } from "../assets/officeAssets";
 import { formatDateTime } from "../lib/formatters";
+import AnalystAvatar from "./AnalystAvatar";
 
 type OfficeProfileTab = "overview" | "assignment" | "reports";
 
@@ -224,11 +225,13 @@ export default function OfficeScene({
                 aria-pressed={selected}
                 aria-label={`Open ${agent.displayName}, ${agent.title}, ${agent.statusLabel}, on Overview`}
               >
-                <span className={`office-scene__character-avatar office-scene__character-avatar--${agent.id}`}>
-                  <svg viewBox="0 0 128 128" role="presentation" aria-hidden="true">
-                    <use href={avatarAssetHref(agent.id, getAvatarPose(agent, report))} />
-                  </svg>
-                </span>
+                <AnalystAvatar
+                  agentId={agent.id}
+                  pose={getAvatarPose(agent, report)}
+                  context="scene"
+                  className="office-scene__character-avatar"
+                  eager
+                />
                 <span className={`office-scene__status-dot office-scene__status-dot--${getStatusTone(agent.status)}`} aria-hidden="true" />
                 <span className="office-scene__character-label">
                   <strong>{agent.displayName}</strong>
