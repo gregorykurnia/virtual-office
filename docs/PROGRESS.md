@@ -29,18 +29,18 @@ Last updated: 3 October 2026
 - Completed Step 9 with a shared analyst profile surface for all four demo agents: Overview, Assignment, and Reports sections; identity/status/observation/task/schedule facts; task inputs and missing-input guidance; recent reports and run history; and a bounded Run now control that observes the existing persisted demo timer. Desktop uses a nonmodal side panel; phone widths use a readable full-width profile with an explicit Back to Office action.
 - Completed Step 10 with a shared-coordinate SVG office room, four clickable desk and character controls using the production sprite assets, per-agent report shortcuts, a shared briefing shortcut to Reports, visible selection rings, and an accessible analyst-card mirror. The scene was visually inspected at 1440, 390, and 360 px widths.
 - Completed Step 11 with service-owned queued/running/terminal run timers, active-task reuse, atomic success/report persistence, explicit interruption on full page refresh, reset cancellation, and report-scoped canned follow-up responses with no model or network traffic.
+- Started the isometric 3D visual pass with a bot-free rendered office environment, WebP/JPEG runtime assets, normalized scene anchors, transparent desk hit areas, landmark labels, report/briefing overlays, artwork failure fallback, and preserved SVG analyst pose states.
 - Confirmed typecheck, lint, and production build pass; the Vite development server starts at `127.0.0.1:5173`.
 
 ## Visual fidelity target
 
-The seven files in `design-concepts/` remain the visual acceptance references for the frontend. The product should recreate their visual language with native SVG, HTML, and CSS rather than embed the concept PNGs. The target includes the shallow-isometric office composition, illustrated desks and analysts, clear zone hierarchy, selected analyst treatment, status language, responsive desktop/phone composition, and the spacing, colour, depth, and surface quality shown in the references.
+The seven files in `design-concepts/` remain the visual acceptance references for the frontend. The product now uses a separate bot-free rendered environment based on the shallow-isometric office composition, with HTML and SVG layers for application-owned interaction and analyst state. The target still includes the illustrated desks and analysts, clear zone hierarchy, selected analyst treatment, status language, responsive desktop/phone composition, and the spacing, colour, depth, and surface quality shown in the references.
 
 The current Step 5 assets provide the stable production contract for that work: four typed analyst identities, four desks, five static poses per analyst, normalized anchors, and accessible HTML boundaries. The functional scene built through Step 11 is a working foundation, but the visual refinement pass against `02-office-layout.png`, `03-avatar-states.png`, `04-desktop-ui.png`, `05-mobile-ui.png`, `06-motion-storyboard.png`, and `07-visual-clarity-system.png` remains outstanding.
 
 ## Current limits
 
 - The workspace has no live agents, backend service, database, real holdings, or market feed; reports exist only as local illustrative demo fixtures.
-- The frontend has the Step 11 demo lifecycle, but Step 12 is not complete: concept-quality visual refinement, reduced-motion behavior, document-visibility pausing, meaningful run/report announcements, and full keyboard verification remain upcoming.
-- The current office scene and shell are functional native UI scaffolding. They do not yet meet the concept-quality visual acceptance target documented above.
+- The frontend has the Step 11 demo lifecycle. The first rendered-office slice is in place; final browser screenshots, anchor tuning at target widths, character-art consistency review, document-visibility pausing, meaningful run/report announcements, and full keyboard verification remain upcoming.
 - Node 26.10.0 remains the local pin; package engines also allow Node 24.x for Vercel, which currently builds with Node 24.21.0.
 - No infrastructure, account, paid service, or public deployment has been provisioned.

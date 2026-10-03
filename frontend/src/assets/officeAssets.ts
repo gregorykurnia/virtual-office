@@ -14,6 +14,18 @@ export type AvatarPose = (typeof AVATAR_POSES)[number];
 export const AVATAR_SPRITE_URL = "/assets/office/analysts.svg";
 export const DESK_SPRITE_URL = "/assets/office/desks.svg";
 
+/**
+ * Bot-free production environment. The JPG keeps the scene available in
+ * browsers without WebP support; both files share the same 3:2 artwork frame.
+ */
+export const OFFICE_ENVIRONMENT_ASSET = {
+  webp: "/assets/office/office-environment.webp",
+  fallback: "/assets/office/office-environment.jpg",
+  width: 1536,
+  height: 1024,
+  aspectRatio: "1536 / 1024"
+} as const;
+
 type AssetKey = `${AgentId}-bot`;
 type DeskKey =
   | "market-terminal"

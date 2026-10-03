@@ -1,6 +1,6 @@
 # Reference-matched 3D office visual plan
 
-Status: planning only. No application UI or artwork changed by this document.
+Status: first environment slice implemented. The rendered office background and normalized interaction frame are now in the frontend; final browser comparison and any character-art refinement remain.
 
 ## Visual target and source of truth
 
