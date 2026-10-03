@@ -121,7 +121,7 @@ function OfficePage() {
               </div>
               <span className="office-room-card__badge">Interactive scene</span>
             </div>
-            <p>Select a character for their overview, a desk for the assignment, or a report badge for the latest output. The analyst list below mirrors every scene action for keyboard and touch access.</p>
+            <p>Select a character for their overview, a desk for the assignment, or a document shortcut for the latest output. Use All reports for the complete report list; the analyst list below mirrors every scene action for keyboard and touch access.</p>
             {agentsQuery.isPending ? (
               <div className="office-scene office-scene--loading" aria-busy="true" aria-label="Loading office scene">
                 <span className="skeleton office-scene__loading-block" />

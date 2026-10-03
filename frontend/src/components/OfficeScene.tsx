@@ -1,5 +1,5 @@
 import { useMemo, useState, type CSSProperties } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import type { Agent, AgentId, Report } from "@investment-office/shared";
 import { OFFICE_ENVIRONMENT_ASSET, type AvatarPose } from "../assets/officeAssets";
 import { formatDateTime } from "../lib/formatters";
@@ -52,11 +52,11 @@ const SCENE_LAYOUT: Record<AgentId, SceneAgentLayout> = {
 };
 
 const SCENE_LANDMARKS = [
-  { id: "lounge", point: { x: 17, y: 18 }, label: "Lounge", detail: "Quiet review" },
-  { id: "meeting", point: { x: 67, y: 14 }, label: "Meeting room", detail: "Shared briefing" },
-  { id: "work", point: { x: 38, y: 31 }, label: "Work floor", detail: "Four analyst stations" },
-  { id: "reception", point: { x: 15, y: 65 }, label: "Reception", detail: "Office entrance" },
-  { id: "servers", point: { x: 80, y: 73 }, label: "Server corner", detail: "Operations" }
+  { id: "lounge", point: { x: 17, y: 18 }, label: "Lounge" },
+  { id: "meeting", point: { x: 67, y: 14 }, label: "Meeting room" },
+  { id: "work", point: { x: 38, y: 31 }, label: "Work floor" },
+  { id: "reception", point: { x: 15, y: 65 }, label: "Reception" },
+  { id: "servers", point: { x: 80, y: 73 }, label: "Server corner" }
 ] as const;
 
 function pointStyle(point: ScenePoint): CSSProperties {
@@ -79,6 +79,11 @@ function getAvatarPose(agent: Agent, report: Report | undefined): AvatarPose {
 function getStatusTone(status: Agent["status"]): string {
   if (status === "working" || status === "waiting" || status === "offline") return status;
   return "unknown";
+}
+
+function formatAgentNames(names: string[]): string {
+  if (names.length === 1) return names[0]!;
+  return `${names.slice(0, -1).join(", ")} and ${names[names.length - 1]}`;
 }
 
 function OfficeRoomBackground() {
@@ -110,7 +115,9 @@ function OfficeRoomBackground() {
   );
 }
 
-function SceneLandmarkLabels() {
+function SceneLandmarkLabels({ visible }: { visible: boolean }) {
+  if (!visible) return null;
+
   return (
     <>
       {SCENE_LANDMARKS.map((landmark) => (
@@ -121,7 +128,6 @@ function SceneLandmarkLabels() {
           aria-hidden="true"
         >
           <strong>{landmark.label}</strong>
-          <span>{landmark.detail}</span>
         </div>
       ))}
     </>
@@ -142,6 +148,7 @@ export default function OfficeScene({
   reportsUnavailable?: boolean;
 }) {
   const navigate = useNavigate();
+  const [showLabels, setShowLabels] = useState(false);
   const latestReportsByAgent = useMemo(() => {
     const result = new Map<AgentId, Report>();
     for (const report of reports) {
@@ -166,45 +173,54 @@ export default function OfficeScene({
     });
   }
 
+  const missingReportNames = agents
+    .filter((agent) => !latestReportsByAgent.has(agent.id))
+    .map((agent) => agent.displayName);
+  const sceneNotice = reportsUnavailable
+    ? "Latest report shortcuts are unavailable; the accessible analyst list remains available below."
+    : reportsPending
+      ? "Latest report shortcuts are loading."
+      : missingReportNames.length > 0
+        ? `No latest report is available for ${formatAgentNames(missingReportNames)}. Open an analyst profile for more detail.`
+        : null;
+
   return (
     <section className="office-scene" aria-labelledby="office-scene-title">
       <div className="office-scene__heading">
         <div>
-          <p className="eyebrow">Clickable office</p>
-          <h2 id="office-scene-title">Four desks, one shared briefing area</h2>
+          <p className="eyebrow">Office floor</p>
+          <h2 id="office-scene-title">Four desks, shared workspace</h2>
         </div>
-        <span className="office-scene__hint">Select a character, desk, or report</span>
+        <div className="office-scene__heading-actions">
+          <button
+            className="office-scene__label-toggle"
+            type="button"
+            aria-pressed={showLabels}
+            aria-controls="office-scene-canvas"
+            onClick={() => setShowLabels((current) => !current)}
+          >
+            {showLabels ? "Hide labels" : "Show labels"}
+          </button>
+          <Link className="office-scene__reports-link" to="/reports">All reports <span aria-hidden="true">↗</span></Link>
+        </div>
       </div>
 
-      <div className="office-scene__canvas" aria-describedby="office-scene-help">
+      <div className="office-scene__canvas" id="office-scene-canvas" aria-describedby="office-scene-help">
         <OfficeRoomBackground />
-        <SceneLandmarkLabels />
-
-        <button
-          className="office-scene__briefing"
-          type="button"
-          style={pointStyle({ x: 82, y: 41 })}
-          onClick={() => navigate("/reports")}
-          aria-label="Open Reports for all analysts from the shared briefing area"
-        >
-          <span className="office-scene__briefing-icon" aria-hidden="true">↗</span>
-          <span>
-            <strong>Shared briefing</strong>
-            <small>Open all reports</small>
-          </span>
-        </button>
+        <SceneLandmarkLabels visible={showLabels} />
 
         {agents.map((agent) => {
           const layout = SCENE_LAYOUT[agent.id];
           const report = latestReportsByAgent.get(agent.id);
           const selected = selectedAgent === agent.id;
+          const reportState = report?.readAt === null ? "Unread" : "Read";
           const reportLabel = report
-            ? `${report.title} · ${report.readAt === null ? "unread" : "read"} · ${formatDateTime(report.generatedAt, report.metadata.timezone)}`
+            ? `Open ${agent.displayName}'s latest report: ${report.title}. ${reportState}. Generated ${formatDateTime(report.generatedAt, report.metadata.timezone)}.`
             : reportsUnavailable
-              ? "Report shortcut unavailable"
+              ? `${agent.displayName}'s latest report is unavailable.`
               : reportsPending
-                ? "Loading latest report"
-                : "No report available";
+                ? `${agent.displayName}'s latest report is loading.`
+                : `${agent.displayName} has no latest report available.`;
 
           return (
             <div className="office-scene__agent-layer" key={agent.id}>
@@ -235,22 +251,37 @@ export default function OfficeScene({
                 <span className={`office-scene__status-dot office-scene__status-dot--${getStatusTone(agent.status)}`} aria-hidden="true" />
                 <span className="office-scene__character-label">
                   <strong>{agent.displayName}</strong>
-                  <small>{agent.statusLabel.replace(" · simulated", "")}</small>
+                  <span className="office-scene__status-tooltip" aria-hidden="true">{agent.statusLabel.replace(" · simulated", "")}</span>
                 </span>
               </button>
 
-              <button
-                className={`office-scene__report office-scene__control${report?.readAt === null ? " is-unread" : ""}${!report ? " is-empty" : ""}`}
-                type="button"
-                style={pointStyle(layout.report)}
-                onClick={() => report && openReport(agent, report)}
-                disabled={!report}
-                aria-label={report ? `Open ${agent.displayName}'s latest report: ${reportLabel}` : `${agent.displayName}: ${reportLabel}`}
-                title={reportLabel}
-              >
-                <span className="office-scene__report-icon" aria-hidden="true">▤</span>
-                <span>{report ? (report.readAt === null ? "New" : "Read") : reportsPending ? "…" : "—"}</span>
-              </button>
+              {report ? (
+                <button
+                  className={`office-scene__report office-scene__control${report.readAt === null ? " is-unread" : ""}`}
+                  type="button"
+                  style={pointStyle(layout.report)}
+                  onClick={() => openReport(agent, report)}
+                  aria-label={reportLabel}
+                  title={reportLabel}
+                >
+                  <span className="office-scene__report-icon" aria-hidden="true">
+                    <svg viewBox="0 0 20 20" focusable="false">
+                      <path d="M6 2.75h5.35L15.5 6.9v10.35H6z" />
+                      <path d="M11.25 2.75V7h4.25M8.25 10h5M8.25 12.75h5" />
+                    </svg>
+                  </span>
+                  {report.readAt === null ? <span className="office-scene__report-unread" aria-hidden="true" /> : null}
+                  <span className="office-scene__report-tooltip" aria-hidden="true">{agent.displayName} · Open latest report · {report.readAt === null ? "Unread" : "Read"}</span>
+                </button>
+              ) : reportsPending ? (
+                <span className="office-scene__report-state office-scene__report-state--loading" style={pointStyle(layout.report)} aria-hidden="true">
+                  <span className="office-scene__report-state-icon" />
+                </span>
+              ) : reportsUnavailable ? (
+                <span className="office-scene__report-state office-scene__report-state--unavailable" style={pointStyle(layout.report)} aria-hidden="true" title={reportLabel}>
+                  <span className="office-scene__report-state-icon" aria-hidden="true">!</span>
+                </span>
+              ) : null}
             </div>
           );
         })}
@@ -259,12 +290,10 @@ export default function OfficeScene({
       <div className="office-scene__help" id="office-scene-help">
         <span><strong>Character</strong> · Overview</span>
         <span><strong>Desk</strong> · Assignment</span>
-        <span><strong>Report badge</strong> · Latest report</span>
-        <span><strong>Briefing</strong> · All reports</span>
+        <span><strong>Document</strong> · Latest report</span>
+        <span><strong>All reports</strong> · Reports list</span>
       </div>
-      {reportsUnavailable ? (
-        <p className="office-scene__notice" role="status">Latest report shortcuts are unavailable; the accessible analyst list remains available below.</p>
-      ) : null}
+      {sceneNotice ? <p className="office-scene__notice" role="status">{sceneNotice}</p> : null}
     </section>
   );
 }

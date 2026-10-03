@@ -25,12 +25,14 @@ Unknown agent IDs are ignored and resolve to the unselected Office route. Unknow
 | --- | --- | --- | --- |
 | Select an analyst character/card | Open that analyst's profile on Overview | Closing restores focus to the initiating character/card | Analyst card is a full-size touch target |
 | Select an analyst desk | Open the same profile on Assignment | Return to the prior Office position | Provide an explicit Assignment action on the card |
-| Select an analyst's report indicator | Open that report with profile origin retained | Back returns to the originating profile/tab | Use a separate labeled report control so it does not also select the character |
-| Select the shared briefing area | Open Reports with all agents selected | Back returns to Office | Use a labeled button/card |
+| Select an analyst's document shortcut | Open that analyst's latest report with profile origin retained | Back returns to the originating profile/tab | Use a separate 44 px labeled report control so it does not also select the character; show unread state with a dot and text in the accessible name |
+| Select All reports in the Office scene header | Open Reports with all analysts shown | Back returns to Office | Keep this labeled header action available without exploring the artwork |
 | Select a report row | Open stable report detail; mark read only after detail content loads | Back restores query, filters, useful scroll position, and originating profile when present | Use full-page report detail with a visible back action |
 | Change search/filter | Update the URL and matching report rows | Keep query and filters on back | Keep search and filter controls visible without horizontal scrolling |
 | Run now (demo phase) | Queue one bounded simulated run and expose its state | Leaving a panel does not cancel or restart it | Same state is visible from the profile/run history |
 | Escape or close a profile panel | Close the topmost dismissible surface | Return focus to the initiating control; preserve selected agent in Office URL where useful | Always provide a visible back/close button |
+
+The Office scene hides decorative room labels by default. The scene header's `Show labels` toggle reveals concise room names without adding interactive landmarks to the tab order. Report shortcuts use document icons; unread reports add a dot, while loading, unavailable, and no-report states are explained below the scene instead of presenting disabled document buttons.
 
 Use one shared analyst profile with Overview, Assignment, and Reports sections. Do not stack separate panels. On desktop the profile may be a nonmodal side panel; on mobile use a readable full-page view or a properly sized sheet. If the panel is modal, manage focus and restore it on close. If nonmodal, do not trap focus.
 
