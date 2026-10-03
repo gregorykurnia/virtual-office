@@ -26,6 +26,7 @@ export default function PreferencesMenu() {
     const reducedMotion = preferencesQuery.data?.data.reducedMotion ?? false;
     document.documentElement.dataset.theme = "light";
     document.documentElement.dataset.motion = reducedMotion ? "reduced" : "full";
+    window.dispatchEvent(new Event("office-motion-change"));
   }, [preferencesQuery.data?.data.reducedMotion]);
 
   const preferences = preferencesQuery.data?.data;

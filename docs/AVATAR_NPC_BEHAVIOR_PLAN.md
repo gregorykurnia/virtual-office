@@ -1,6 +1,8 @@
 # Natural avatar behavior plan
 
-Status: proposed, 4 October 2026. This document plans the feature; no runtime behavior has been implemented by this task.
+Status: foundation implemented, 4 October 2026. The first runtime slice adds deterministic stationary ambient behavior; walking, chair compositing, and social sessions remain pending the required artwork and measured scene geometry.
+
+The current implementation is intentionally limited to supported artwork. `frontend/src/scene/avatarBehavior.ts` contains the pure status-aware transition rules, `frontend/src/scene/officeActivityController.ts` owns one shared timer and per-agent seeded rhythms, and `frontend/src/scene/useOfficeActivity.ts` connects visibility, reduced-motion, selection, and interaction holds to the React scene. Existing static poses remain the fallback while the walking, sit/stand, facing, and furniture-occlusion clips are produced.
 
 ## Goal
 

@@ -1227,6 +1227,18 @@ main {
   transform: translate(-50%, -50%);
 }
 
+.office-scene__character:not(:hover):not(:focus-visible) .office-scene__character-avatar > .analyst-avatar {
+  animation: office-avatar-breathe 8.5s ease-in-out infinite;
+}
+
+.office-scene__character--standing-reading:not(:hover):not(:focus-visible) .office-scene__character-avatar > .analyst-avatar {
+  animation-duration: 10.5s;
+}
+
+.office-scene__character--standing-working:not(:hover):not(:focus-visible) .office-scene__character-avatar > .analyst-avatar {
+  animation-duration: 7.5s;
+}
+
 .office-scene__character-avatar {
   position: absolute;
   top: 50%;
@@ -2962,6 +2974,11 @@ main {
 @keyframes office-status-breathe {
   0%, 100% { box-shadow: 0 0 0 0 rgb(56 103 232 / 0.24); }
   50% { box-shadow: 0 0 0 0.25rem rgb(56 103 232 / 0.05); }
+}
+
+@keyframes office-avatar-breathe {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-0.35px); }
 }
 
 @keyframes office-art-loading {

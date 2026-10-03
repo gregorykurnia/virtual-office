@@ -3,53 +3,11 @@ import { Link, useNavigate } from "react-router-dom";
 import type { Agent, AgentId, Report } from "@investment-office/shared";
 import { OFFICE_ENVIRONMENT_ASSET, type AvatarPose } from "../assets/officeAssets";
 import { formatDateTime } from "../lib/formatters";
+import { SCENE_LAYOUT, type ScenePoint } from "../scene/officeSceneMap";
+import { useOfficeActivity } from "../scene/useOfficeActivity";
 import AnalystAvatar from "./AnalystAvatar";
 
 type OfficeProfileTab = "overview" | "assignment" | "reports";
-
-type ScenePoint = {
-  x: number;
-  y: number;
-};
-
-type SceneAgentLayout = {
-  desk: ScenePoint;
-  character: ScenePoint;
-  report: ScenePoint;
-  stationName: string;
-};
-
-/**
- * Coordinates are normalized against OFFICE_ENVIRONMENT_ASSET. Keeping the
- * image and all semantic controls in the same 0–100 frame prevents drift when
- * the scene scales from a desktop card to a phone.
- */
-const SCENE_LAYOUT: Record<AgentId, SceneAgentLayout> = {
-  market: {
-    desk: { x: 47, y: 41 },
-    character: { x: 43, y: 48 },
-    report: { x: 53, y: 38 },
-    stationName: "left rear workstation"
-  },
-  portfolio: {
-    desk: { x: 38, y: 53 },
-    character: { x: 34, y: 59 },
-    report: { x: 44, y: 50 },
-    stationName: "left front workstation"
-  },
-  research: {
-    desk: { x: 62, y: 44 },
-    character: { x: 66, y: 50 },
-    report: { x: 69, y: 40 },
-    stationName: "right rear workstation"
-  },
-  risk: {
-    desk: { x: 59, y: 57 },
-    character: { x: 64, y: 64 },
-    report: { x: 69, y: 54 },
-    stationName: "right front workstation"
-  }
-};
 
 const SCENE_LANDMARKS = [
   { id: "lounge", point: { x: 17, y: 18 }, label: "Lounge" },
@@ -68,7 +26,7 @@ function profilePath(agentId: AgentId, tab: OfficeProfileTab): string {
   return `/office?${params.toString()}`;
 }
 
-function getAvatarPose(agent: Agent, report: Report | undefined): AvatarPose {
+function getFallbackAvatarPose(agent: Agent, report: Report | undefined): AvatarPose {
   if (agent.status === "working") return "typing";
   if (agent.status === "waiting") return "reading";
   if (report?.readAt === null) return "report-ready";
@@ -159,6 +117,15 @@ export default function OfficeScene({
     }
     return result;
   }, [reports]);
+  const unreadReportAgentIds = useMemo(
+    () => agents.filter((agent) => latestReportsByAgent.get(agent.id)?.readAt === null).map((agent) => agent.id),
+    [agents, latestReportsByAgent]
+  );
+  const { activityByAgent, holdAgent } = useOfficeActivity({
+    agents,
+    unreadReportAgentIds,
+    selectedAgent
+  });
 
   function openProfile(agentId: AgentId, tab: OfficeProfileTab) {
     navigate(profilePath(agentId, tab));
@@ -213,6 +180,7 @@ export default function OfficeScene({
           const layout = SCENE_LAYOUT[agent.id];
           const report = latestReportsByAgent.get(agent.id);
           const selected = selectedAgent === agent.id;
+          const activity = activityByAgent.get(agent.id);
           const reportState = report?.readAt === null ? "Unread" : "Read";
           const reportLabel = report
             ? `Open ${agent.displayName}'s latest report: ${report.title}. ${reportState}. Generated ${formatDateTime(report.generatedAt, report.metadata.timezone)}.`
@@ -234,16 +202,23 @@ export default function OfficeScene({
               />
 
               <button
-                className={`office-scene__character office-scene__control office-scene__control--${agent.id}${selected ? " is-selected" : ""}`}
+                className={`office-scene__character office-scene__control office-scene__control--${agent.id}${selected ? " is-selected" : ""}${activity ? ` office-scene__character--${activity.activity}` : ""}`}
                 type="button"
                 style={pointStyle(layout.character)}
                 onClick={() => openProfile(agent.id, "overview")}
+                onPointerEnter={() => holdAgent(agent.id, true)}
+                onPointerLeave={() => holdAgent(agent.id, false)}
+                onPointerDown={() => holdAgent(agent.id, true)}
+                onPointerUp={() => holdAgent(agent.id, false)}
+                onPointerCancel={() => holdAgent(agent.id, false)}
+                onFocus={() => holdAgent(agent.id, true)}
+                onBlur={() => holdAgent(agent.id, false)}
                 aria-pressed={selected}
                 aria-label={`Open ${agent.displayName}, ${agent.title}, ${agent.statusLabel}, on Overview`}
               >
                 <AnalystAvatar
                   agentId={agent.id}
-                  pose={getAvatarPose(agent, report)}
+                  pose={activity?.pose ?? getFallbackAvatarPose(agent, report)}
                   context="scene"
                   className="office-scene__character-avatar"
                   eager
