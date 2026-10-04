@@ -1356,11 +1356,14 @@ main {
 .office-scene__character-label {
   position: absolute;
   z-index: 5;
-  top: calc(50% + clamp(1.55rem, 3vw, 2.15rem));
+  /* The label shares the character button's position context so it follows
+     the avatar when scene movement is added. Keep the name close to the
+     measured ground anchor without touching the artwork. */
+  top: calc(50% + clamp(0.75rem, 1.7vw, 1.15rem));
   left: 50%;
   display: block;
   min-width: max-content;
-  padding: 0.16rem 0.42rem;
+  padding: 0.14rem 0.4rem;
   border: 1px solid rgb(189 202 216 / 0.75);
   border-radius: 0.48rem;
   color: var(--io-ink);
@@ -1417,29 +1420,55 @@ main {
   align-items: center;
   justify-content: center;
   padding: 0;
-  border: 1px solid var(--io-line-strong);
-  border-radius: 0.7rem;
+  border: 0;
+  border-radius: 50%;
   color: var(--io-action-ink);
-  background: rgb(255 255 255 / 0.92);
-  box-shadow: 0 0.28rem 0.65rem rgb(30 42 59 / 0.1);
+  background: transparent;
+  box-shadow: none;
   transform: translate(-50%, -50%);
 }
 
-.office-scene__report:hover:not(:disabled),
-.office-scene__report:focus-visible {
-  border-color: var(--io-action);
-  background: #fff;
-  box-shadow: 0 0 0 0.22rem rgb(56 103 232 / 0.12), var(--io-shadow-sm);
+.office-scene__report::before {
+  position: absolute;
+  inset: 0.28rem;
+  z-index: 0;
+  border: 1px solid var(--io-line-strong);
+  border-radius: 0.62rem;
+  background: rgb(255 255 255 / 0.92);
+  box-shadow: 0 0.22rem 0.52rem rgb(30 42 59 / 0.1);
+  content: "";
+  transition: border-color 160ms ease, background 160ms ease, box-shadow 160ms ease;
+}
+
+.office-scene__report:hover:not(:disabled) {
+  box-shadow: 0 0 0 0.16rem rgb(56 103 232 / 0.12);
   filter: brightness(1.02);
 }
 
+.office-scene__report:focus-visible {
+  box-shadow: var(--io-focus);
+}
+
+.office-scene__report:hover:not(:disabled)::before,
+.office-scene__report:focus-visible::before {
+  border-color: var(--io-action);
+  background: #fff;
+  box-shadow: var(--io-shadow-sm);
+}
+
 .office-scene__report.is-unread {
+  color: var(--io-action-ink);
+}
+
+.office-scene__report.is-unread::before {
   border-color: color-mix(in srgb, var(--io-action) 48%, var(--io-line));
   background: var(--io-action-soft);
-  box-shadow: 0 0 0 0.18rem rgb(56 103 232 / 0.1), var(--io-shadow-sm);
+  box-shadow: 0 0 0 0.14rem rgb(56 103 232 / 0.1), var(--io-shadow-sm);
 }
 
 .office-scene__report-icon {
+  position: relative;
+  z-index: 1;
   display: grid;
   width: 1.18rem;
   height: 1.18rem;
@@ -1459,6 +1488,7 @@ main {
 
 .office-scene__report-unread {
   position: absolute;
+  z-index: 2;
   top: 0.48rem;
   right: 0.48rem;
   width: 0.48rem;

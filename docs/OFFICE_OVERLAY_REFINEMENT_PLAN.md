@@ -1,6 +1,7 @@
 # Office overlay refinement plan
 
-Status: proposed; documentation only. The UI changes below have not been implemented.
+Status: implemented on 4 October 2026. The office scene now uses the recommended
+compact identity and report overlays described below.
 
 Date: 4 October 2026
 
@@ -123,6 +124,14 @@ References: `design-concepts/step-4-wireframes.html`, `design-concepts/step-4-to
 - Respect reduced-motion preferences and avoid adding attention-grabbing animation for routine state.
 - Verify navigation to overview, assignment, latest report, and all reports still works.
 
-## Scope boundary
+## Implementation notes
 
-This is a plan for later execution. It does not change the office artwork, analyst roles, report data, or application behavior now.
+The implementation keeps the analyst name inside the avatar's positioned button, so
+future scene movement carries the identity label with the character. The name sits
+close to the measured ground anchor, while status remains available through the
+accessible character label, profile panel, and hover/focus detail.
+
+Report controls retain a 44 px semantic hit area but render a smaller document tile
+with an unread dot, keeping the shortcut discoverable without competing with the
+artwork. Desk and report coordinates, report ownership, room-label visibility, and
+the existing navigation paths remain unchanged.
