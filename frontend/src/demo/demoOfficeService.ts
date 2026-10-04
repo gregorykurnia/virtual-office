@@ -122,7 +122,8 @@ function loadState(storage: Storage | null): DemoSnapshot | null {
     if (!raw) return null;
 
     const persisted = JSON.parse(raw) as Partial<PersistedDemoState>;
-    if (persisted.fixtureVersion !== DEMO_FIXTURE_VERSION) {
+    const previousFixtureVersion = DEMO_FIXTURE_VERSION - 1;
+    if (persisted.fixtureVersion !== DEMO_FIXTURE_VERSION && persisted.fixtureVersion !== previousFixtureVersion) {
       storage.removeItem(DEMO_STORAGE_KEY);
       return null;
     }
@@ -133,7 +134,17 @@ function loadState(storage: Storage | null): DemoSnapshot | null {
       return null;
     }
 
-    return result.data as DemoSnapshot;
+    const state = result.data as DemoSnapshot;
+    if (persisted.fixtureVersion === previousFixtureVersion) {
+      state.agents = state.agents.map((agent) => agent.id === "market" ? { ...agent, displayName: "Rex" } : agent);
+      try {
+        storage.setItem(DEMO_STORAGE_KEY, JSON.stringify({ fixtureVersion: DEMO_FIXTURE_VERSION, state } satisfies PersistedDemoState));
+      } catch {
+        // Keep the migrated session usable when storage is unavailable or quota-limited.
+      }
+    }
+
+    return state;
   } catch {
     try {
       storage.removeItem(DEMO_STORAGE_KEY);

@@ -12,7 +12,7 @@ import {
 } from "@investment-office/shared";
 import type { DemoScenario } from "./scenarios";
 
-export const DEMO_FIXTURE_VERSION = 2;
+export const DEMO_FIXTURE_VERSION = 3;
 export const DEMO_CLOCK_START = "2026-10-02T01:30:00.000Z";
 export const DEMO_STORAGE_KEY = "investment-office:demo:v1";
 
@@ -75,7 +75,7 @@ const agents: Agent[] = [
   AgentSchema.parse({
     id: "market",
     role: "market",
-    displayName: "Maya",
+    displayName: "Rex",
     title: "Market Analyst",
     responsibility: "Broad market developments and economic events",
     avatarKey: "market-bot",

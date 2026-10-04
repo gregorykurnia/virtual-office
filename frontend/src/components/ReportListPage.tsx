@@ -8,7 +8,7 @@ import { formatDateOnly, formatDateTime, isDateParameter, localDateBoundary } fr
 import type { ReportNavigationState } from "./reportNavigation";
 
 const AGENT_FALLBACK_LABELS: Record<AgentId, string> = {
-  market: "Maya · Market Analyst",
+  market: "Rex · Market Analyst",
   portfolio: "Adrian · Portfolio Analyst",
   research: "Clara · Investment Research Analyst",
   risk: "Theo · Risk Analyst"

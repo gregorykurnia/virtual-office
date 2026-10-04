@@ -57,8 +57,8 @@ export const OFFICE_ASSETS = {
     avatarKey: "market-bot",
     deskKey: "market-terminal",
     accent: "#3867e8",
-    accessory: "cobalt headset and market-chart badge",
-    accessibleName: "Maya, Market Analyst"
+    accessory: "cobalt Rex armor with market-chart badge",
+    accessibleName: "Rex, Market Analyst"
   },
   portfolio: {
     avatarKey: "portfolio-bot",
@@ -109,9 +109,9 @@ export const AVATAR_ASSETS = {
   market: createAvatarManifest("market-bot", {
     idle: 325 / 352,
     reading: 325 / 352,
-    typing: 326 / 352,
+    typing: 325 / 352,
     "report-ready": 325 / 352,
-    attention: 326 / 352
+    attention: 325 / 352
   }),
   portfolio: createAvatarManifest("portfolio-bot", {
     idle: 328 / 352,

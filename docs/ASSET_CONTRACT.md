@@ -22,7 +22,7 @@ The TypeScript manifest is the application-facing record. The scene renders the 
 
 | Agent | Avatar key | Desk key | Accent | Persistent role distinction |
 | --- | --- | --- | --- | --- |
-| Maya — Market Analyst | `market-bot` | `market-terminal` | Blue `#3867e8` | Headset and market-chart badge |
+| Rex — Market Analyst | `market-bot` | `market-terminal` | Blue `#3867e8` | Rex helmet/armor and market-chart badge |
 | Adrian — Portfolio Analyst | `portfolio-bot` | `portfolio-ledger` | Green `#16845b` | Ledger badge and portfolio folio |
 | Clara — Investment Research Analyst | `research-bot` | `research-library` | Violet `#7759c7` | Book badge and bookmark/book desk prop |
 | Theo — Risk Analyst | `risk-bot` | `risk-console` | Red `#c53b4a` | Shield badge and console alert light |

@@ -9,7 +9,7 @@ import MarkdownContent, { getSafeHref } from "./MarkdownContent";
 import type { ReportNavigationState } from "./reportNavigation";
 
 const AGENT_LABELS: Record<AgentId, string> = {
-  market: "Maya · Market Analyst",
+  market: "Rex · Market Analyst",
   portfolio: "Adrian · Portfolio Analyst",
   research: "Clara · Investment Research Analyst",
   risk: "Theo · Risk Analyst"

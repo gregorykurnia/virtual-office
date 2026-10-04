@@ -1,6 +1,6 @@
 # Maya → Rex avatar replacement plan
 
-Status: planned, 4 October 2026. This change replaces Maya's display identity and artwork with Rex, using the supplied Captain Rex preview and design guide. This document plans the implementation; runtime names and assets have not been changed yet.
+Status: implemented, 4 October 2026. This change replaces Maya's display identity and artwork with Rex, using the supplied Captain Rex preview and design guide. The internal `market-bot` asset key and market analyst relationships remain unchanged.
 
 ## Intended result
 
