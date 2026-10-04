@@ -131,7 +131,9 @@ future scene movement carries the identity label with the character. The name si
 close to the measured ground anchor, while status remains available through the
 accessible character label, profile panel, and hover/focus detail.
 
-Report controls retain a 44 px semantic hit area but render a smaller document tile
-with an unread dot, keeping the shortcut discoverable without competing with the
-artwork. Desk and report coordinates, report ownership, room-label visibility, and
-the existing navigation paths remain unchanged.
+Follow-up correction: report controls now share the avatar's positioned group,
+so the report badge, name, and character move together. The name has a 5 px ground
+gap and the document tile is approximately 23 px inside its 44 px interaction
+target. On scenes narrower than 500 px, report actions move into labeled controls
+below the artwork and only the selected character displays a name in the scene.
+This avoids crowding while preserving report access on phones and narrow panels.

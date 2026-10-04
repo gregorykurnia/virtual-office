@@ -201,67 +201,82 @@ export default function OfficeScene({
                 aria-label={`Open ${agent.displayName}'s assignment at the ${layout.stationName}`}
               />
 
-              <button
-                className={`office-scene__character office-scene__control office-scene__control--${agent.id}${selected ? " is-selected" : ""}${activity ? ` office-scene__character--${activity.activity}` : ""}`}
-                type="button"
+              <div
+                className="office-scene__avatar-group"
                 style={pointStyle(layout.character)}
-                onClick={() => openProfile(agent.id, "overview")}
                 onPointerEnter={() => holdAgent(agent.id, true)}
                 onPointerLeave={() => holdAgent(agent.id, false)}
-                onPointerDown={() => holdAgent(agent.id, true)}
-                onPointerUp={() => holdAgent(agent.id, false)}
-                onPointerCancel={() => holdAgent(agent.id, false)}
-                onFocus={() => holdAgent(agent.id, true)}
-                onBlur={() => holdAgent(agent.id, false)}
-                aria-pressed={selected}
-                aria-label={`Open ${agent.displayName}, ${agent.title}, ${agent.statusLabel}, on Overview`}
               >
-                <AnalystAvatar
-                  agentId={agent.id}
-                  pose={activity?.pose ?? getFallbackAvatarPose(agent, report)}
-                  context="scene"
-                  className="office-scene__character-avatar"
-                  eager
-                />
-                <span className={`office-scene__status-dot office-scene__status-dot--${getStatusTone(agent.status)}`} aria-hidden="true" />
-                <span className="office-scene__character-label">
-                  <strong>{agent.displayName}</strong>
-                  <span className="office-scene__status-tooltip" aria-hidden="true">{agent.statusLabel.replace(" · simulated", "")}</span>
-                </span>
-              </button>
-
-              {report ? (
                 <button
-                  className={`office-scene__report office-scene__control${report.readAt === null ? " is-unread" : ""}`}
+                  className={`office-scene__character office-scene__control office-scene__control--${agent.id}${selected ? " is-selected" : ""}${activity ? ` office-scene__character--${activity.activity}` : ""}`}
                   type="button"
-                  style={pointStyle(layout.report)}
-                  onClick={() => openReport(agent, report)}
-                  aria-label={reportLabel}
-                  title={reportLabel}
+                  onClick={() => openProfile(agent.id, "overview")}
+                  onPointerDown={() => holdAgent(agent.id, true)}
+                  onPointerUp={() => holdAgent(agent.id, false)}
+                  onPointerCancel={() => holdAgent(agent.id, false)}
+                  onFocus={() => holdAgent(agent.id, true)}
+                  onBlur={() => holdAgent(agent.id, false)}
+                  aria-pressed={selected}
+                  aria-label={`Open ${agent.displayName}, ${agent.title}, ${agent.statusLabel}, on Overview`}
                 >
-                  <span className="office-scene__report-icon" aria-hidden="true">
-                    <svg viewBox="0 0 20 20" focusable="false">
-                      <path d="M6 2.75h5.35L15.5 6.9v10.35H6z" />
-                      <path d="M11.25 2.75V7h4.25M8.25 10h5M8.25 12.75h5" />
-                    </svg>
+                  <AnalystAvatar
+                    agentId={agent.id}
+                    pose={activity?.pose ?? getFallbackAvatarPose(agent, report)}
+                    context="scene"
+                    className="office-scene__character-avatar"
+                    eager
+                  />
+                  <span className={`office-scene__status-dot office-scene__status-dot--${getStatusTone(agent.status)}`} aria-hidden="true" />
+                  <span className="office-scene__character-label">
+                    <strong>{agent.displayName}</strong>
+                    <span className="office-scene__status-tooltip" aria-hidden="true">{agent.statusLabel.replace(" · simulated", "")}</span>
                   </span>
-                  {report.readAt === null ? <span className="office-scene__report-unread" aria-hidden="true" /> : null}
-                  <span className="office-scene__report-tooltip" aria-hidden="true">{agent.displayName} · Open latest report · {report.readAt === null ? "Unread" : "Read"}</span>
                 </button>
-              ) : reportsPending ? (
-                <span className="office-scene__report-state office-scene__report-state--loading" style={pointStyle(layout.report)} aria-hidden="true">
-                  <span className="office-scene__report-state-icon" />
-                </span>
-              ) : reportsUnavailable ? (
-                <span className="office-scene__report-state office-scene__report-state--unavailable" style={pointStyle(layout.report)} aria-hidden="true" title={reportLabel}>
-                  <span className="office-scene__report-state-icon" aria-hidden="true">!</span>
-                </span>
-              ) : null}
+
+                {report ? (
+                  <button
+                    className={`office-scene__report office-scene__control${report.readAt === null ? " is-unread" : ""}`}
+                    type="button"
+                    onClick={() => openReport(agent, report)}
+                    onFocus={() => holdAgent(agent.id, true)}
+                    onBlur={() => holdAgent(agent.id, false)}
+                    aria-label={reportLabel}
+                    title={reportLabel}
+                  >
+                    <span className="office-scene__report-icon" aria-hidden="true">
+                      <svg viewBox="0 0 20 20" focusable="false">
+                        <path d="M6 2.75h5.35L15.5 6.9v10.35H6z" />
+                        <path d="M11.25 2.75V7h4.25M8.25 10h5M8.25 12.75h5" />
+                      </svg>
+                    </span>
+                    {report.readAt === null ? <span className="office-scene__report-unread" aria-hidden="true" /> : null}
+                    <span className="office-scene__report-tooltip" aria-hidden="true">{agent.displayName} · Open latest report · {report.readAt === null ? "Unread" : "Read"}</span>
+                  </button>
+                ) : reportsPending ? (
+                  <span className="office-scene__report-state office-scene__report-state--loading" aria-hidden="true">
+                    <span className="office-scene__report-state-icon" />
+                  </span>
+                ) : reportsUnavailable ? (
+                  <span className="office-scene__report-state office-scene__report-state--unavailable" aria-hidden="true" title={reportLabel}>
+                    <span className="office-scene__report-state-icon" aria-hidden="true">!</span>
+                  </span>
+                ) : null}
+              </div>
             </div>
           );
         })}
       </div>
 
+      <nav className="office-scene__compact-reports" aria-label="Latest analyst reports">
+        {agents.map((agent) => {
+          const report = latestReportsByAgent.get(agent.id);
+          return report ? (
+            <button key={agent.id} type="button" onClick={() => openReport(agent, report)}>
+              {agent.displayName} · Report{report.readAt === null ? " · Unread" : ""}
+            </button>
+          ) : null;
+        })}
+      </nav>
       <div className="office-scene__help" id="office-scene-help">
         <span><strong>Character</strong> · Overview</span>
         <span><strong>Desk</strong> · Assignment</span>

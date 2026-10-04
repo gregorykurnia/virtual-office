@@ -56,7 +56,7 @@ Maintain a frontend-only `activity` independently of the existing `Agent.status`
 
 If a working status arrives while an avatar is away, end the optional activity and route it safely back to its chair. Update the actual status label immediately; do not wait for animation to finish. If offline/unknown arrives, cancel reservations and ambient behavior and settle to a static safe pose. Avoid normal-operation teleporting; reserve a static home-position reset for missing geometry/assets or an unrecoverable scene state.
 
-Unread reports remain visible through their desk report shortcut even when the avatar is walking or seated. A wave or visual conversation never creates a message, shared report, backend collaboration, or fake chat transcript. A real collaboration feature would require a separate data-backed design.
+Unread report badges follow their owning avatar. Compact scenes provide labeled report actions below the artwork. A wave or visual conversation never creates a message, shared report, backend collaboration, or fake chat transcript. A real collaboration feature would require a separate data-backed design.
 
 ## Animation and artwork approach
 
@@ -124,7 +124,7 @@ Use one scene animation clock with elapsed time, not a separate frame loop per r
 ## Interaction, accessibility, and performance
 
 - Keep avatar → Overview, desk → Assignment, report → latest report, and the roster/profile navigation intact.
-- Move the avatar's name, status, and selection indicator with its scene position, keeping labels clear of nearby controls. Desk and report targets stay at their workstations.
+- Move the avatar's name, status, report badge, and selection indicator with its scene position, keeping labels clear of nearby controls. Desk targets stay at their workstations.
 - Hold movement while the avatar is hovered, keyboard focused, or being pressed so its target does not escape. Safely finish a sit/stand transition if freezing halfway would leave an invalid pose. Selected avatars can use only restrained stationary behavior while the profile is open.
 - Preserve keyboard order by agent identity, not current position. Keep adequate touch targets and use the roster as the precise fallback on compact screens.
 - Treat ambient motion as decorative: no screen-reader announcements for waves, steps, or every activity change.
