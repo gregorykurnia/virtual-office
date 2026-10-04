@@ -24,6 +24,8 @@ The product brief remains the source of truth for requirements. Technical choice
 13. [Troubleshooting and recovery](#13-troubleshooting-and-recovery)
 14. [References and version record](#14-references-and-version-record)
 
+Animation implementation: [Step 42 — avatar animation, movement, and UI motion](#step-42--implement-avatar-animation-movement-and-ui-motion).
+
 ## 1. Starting state and implementation decisions
 
 ### 1.1 What exists in this workspace
@@ -1375,20 +1377,104 @@ No messaging channel is required for the office's core report delivery. The app 
 
 ## 9. Phase F: animation, deployment, and operational verification
 
-### Step 42 — Refine the office animation state machine
+### Step 42 — Implement avatar animation, movement, and UI motion
 
-1. Give each character decorative states: idle, reading, typing, walking, report-ready, attention.
-2. Select work/attention poses from app-observed execution state, with explicit stale/unknown indicators.
-3. Use fixed room coordinates, waypoint routes, desk anchors, and reserved stopping points.
-4. Sort depth by character floor position; characters must not walk across furniture or through walls.
-5. Prevent a moving target from frustrating selection; consider stable desk/card controls as the primary selection anchors.
-6. Pause ambient movement while the page is hidden and when reduced motion is active.
-7. Animate transforms rather than frequent layout changes or React rerenders for every frame.
-8. Profile representative phones and low-power devices; reduce scene detail/animation before introducing a canvas engine.
-9. Keep UI loading/error/report states usable if artwork is unavailable.
+This is the consolidated animation roadmap. Use [the NPC behavior plan](docs/AVATAR_NPC_BEHAVIOR_PLAN.md) for detailed behavior constraints, [the asset contract](docs/ASSET_CONTRACT.md) for artwork/export rules, and [the Rex replacement plan](docs/REX_AVATAR_REPLACEMENT_PLAN.md) for the market analyst's planned identity change. Review `design-concepts/02-office-layout.png`, `03-avatar-states.png`, `04-desktop-ui.png`, `06-motion-storyboard.png`, the wireframes, tokens, and current scene before implementation.
 
-**Deliverables:** coherent motion/poses, room routes, performance evidence.  
-**Done when:** animation enriches the room without changing execution truth or limiting access to reports.
+Animation can be developed and verified against the local demo before backend or OpenClaw integration. Live research, paid model calls, and a realtime 3D engine are not prerequisites for this milestone.
+
+#### 42.1 Current implementation and prerequisites
+
+As of 4 October 2026, commit `e9eda69` provides a stationary foundation: normalized home coordinates, pure ambient rules, per-agent seeded timing, a shared timer, and React integration for selection, interaction holds, visibility, and motion preferences. It swaps existing static images; it does not implement traversal, chair sitting, articulated motion, reservations, or social sessions. These capabilities still require implementation and deterministic verification. The current typing and reading images depict standing characters, so they cannot substitute for seated clips.
+
+| Prerequisite | Required deliverable before enabling the activity |
+| --- | --- |
+| Stable character identity | One validated master/model per identity; resolve the market slot's Maya/Rex artwork choice before producing its animation family. Keep stable agent ID `market`. |
+| Consistent animation source | Shared rig and fixed camera where feasible, or a validated consistent sequence. A single transparent preview does not supply a rig or motion frames. |
+| Walk artwork | In-place visible stepping, required route-facing directions, turning, and matched departure/arrival poses. |
+| Chair artwork | Sit-down, seated idle/work/read, and stand-up frames with a measured pelvis/seat anchor. |
+| Scene registration | Assigned physical chair, seat position, desk facing, standing approach/exit/home points, and one measured unobstructed route. Existing desk click coordinates are not seat coordinates. |
+| Furniture compositing | Registered desk-edge and relevant chair masks/layers that correctly cover the character without duplicating a whole baked chair. |
+| Preview and checks | An isolated in-office animation preview with controlled states, readiness/failure cases, and desktop/phone inspection. |
+
+Start with one market avatar and one short route. Produce and validate this complete prototype before commissioning all four animation families. If the Rex replacement lands first, use its normalized master and retain helmet markings, armor, garment, and role badge throughout every clip.
+
+#### 42.2 Clip inventory and asset manifest
+
+| Clip family | Visible action and playback |
+| --- | --- |
+| Standing idle | Quiet hold with occasional blink, glance, arm adjustment, or weight shift; short variation clips separated by quiet intervals. |
+| Walking | Seamless in-place stepping loop for each direction actually used by the approved routes; no sliding a standing image across the floor. |
+| Turning | Restrained facing change for route corners, desk approach, and social orientation. |
+| Sitting down / standing up | Non-looping transitions between standing ground and seated pelvis anchors with stable scale. |
+| Seated idle | Supported by the assigned chair, facing the workstation, with quiet holds. |
+| Seated work / read | Subtle hand/head action with irregular pauses; no extra generated desk or chair. |
+| Social wave / nod | Complementary short gestures facing a coordinated partner; no implied message or report exchange. |
+| Report-ready / attention | Existing semantic pose support and static fallbacks; verified report/status labels remain in HTML. |
+
+Extend `frontend/src/assets/officeAssets.ts` with typed clip keys, source URLs and fallback, duration, frame count/rate, loop flag, facing, frame dimensions, atlas layout if used, standing and seated anchors, and export/version metadata. Start around 10–12 fps, then tune cadence and memory in the actual scene. Render walks in place; the controller owns root movement and matches playback to floor speed.
+
+Keep consistent transparent canvases, camera, lighting, silhouette, identity details, and scene scale. Preserve source masters separately from runtime exports. Compare sprite atlases versus frame sequences after measuring the first prototype; avoid downloading the full library at initial load. Preload and decode the required transition assets before departure. Missing or failed clips leave the avatar in a supported static pose and skip the unsupported activity.
+
+Record provenance, export commands/settings, actual dimensions, anchors, masks, compressed bytes, and fallback behavior in `docs/ASSET_CONTRACT.md`. Whole-image CSS motion may support tiny secondary shifts but does not supply walking legs, blinking, turning limbs, or sitting.
+
+#### 42.3 Geometry, root movement, reservations, and depth
+
+Extend `frontend/src/scene/officeSceneMap.ts` with normalized coordinates registered to the 1536 × 1024 artwork: four chair assignments, workstation facings, standing/seat anchors, approach and exit points, walkable aisle waypoints/edges, quiet spots, social pairs, blocked regions, and occlusion references. Measure against the production image and account for character width. Defer lounge and glass meeting-room routes until their clearance and occlusion are verified.
+
+Reserve destination chairs/spots before movement and narrow edges while occupied. Release reservations on arrival as appropriate, activity cancellation, status change, removed agents, asset failure, and unmount; add expiry/recovery so failed transitions cannot lock the scene. Begin with no more than two walking avatars and one social pair. Maintain minimum separation and wait or choose another eligible activity when a route is blocked.
+
+Follow connected route distance at consistent apparent floor speed, with gentle starts/stops and explicit corner turns. Match foot contact to playback rather than stretching clips arbitrarily. Use floor depth together with region-specific furniture layers; screen `y` sorting alone is insufficient. Masks are decorative and never intercept pointer input. Validate standing, lowering, seated, and rising composites individually. Sitting means occupying the existing chair seat, never the desktop.
+
+#### 42.4 Behavior and runtime modules
+
+| Module | Implementation responsibility |
+| --- | --- |
+| `scene/avatarBehavior.ts` | Pure transitions, eligibility, weighted choices, sampled durations, cooldowns, status interruptions, and deterministic random input. |
+| `scene/officeActivityController.ts` | Shared logical clock, positions/routes, chair/path reservations, crowd limits, paired sessions, and recovery. |
+| `scene/useOfficeActivity.ts` | React lifecycle, authoritative status inputs, effective motion/visibility settings, holds, and cleanup. |
+| `components/SceneAvatar.tsx` (planned) | Clip playback, position/facing/depth, anchor changes, furniture composition, and moving labels/selection. |
+| Existing avatar renderer/manifest | Static identity rendering, supported pose holds, loading/error treatment, and image-format fallback. |
+
+Main desk progression: `standing-idle → walking-to-chair → turning-to-desk → sitting-down → seated → standing-up → standing-idle`. Excursions use `walking-to-spot → pausing/socializing → return`. Guards require supported loaded clips, valid geometry, available reservations, and permitted motion. A pose-key swap or timer alone does not satisfy movement acceptance.
+
+Use one scene animation clock with elapsed time and a seeded random source per agent. Keep high-frequency position/frame updates in the scene renderer, avoiding whole-page React rerenders. Sample decisions at activity boundaries, not every frame. Starting tuning ranges: standing holds 20–60 seconds, idle/waiting desk intervals 45–120 seconds, walks 3–8 seconds, breaks 5–15 seconds, social exchanges 4–8 seconds with 60–120 second participant cooldowns. Give agents distinct start delays and modest personality weights; prevent synchronized pacing and repetitive waves.
+
+| Verified status | Allowed behavior and interruption rule |
+| --- | --- |
+| `working` | Prefer seated work, decline optional roaming/social invitations, and safely return to the chair if away. Update status text immediately. |
+| `waiting` | Reading, quiet pauses, occasional walks and acknowledgments. |
+| `idle` | Full supported calm routine. |
+| `offline` | Cancel optional activity/reservations and settle to a safe static attention pose. |
+| `unknown` | Static neutral presentation with unknown status retained. |
+
+Keep activity separate from `Agent.status`, runs, reports, and messages. Unread report shortcuts stay at desks and remain usable while characters move. Social sessions own both participants, reserve separated positions, face the pair, play complementary gestures, and release both together. Cancel cleanly if either becomes busy, disappears, or loses required assets. Static home resets are recovery for unavailable geometry/artwork or unrecoverable state; ordinary routines return along routes.
+
+#### 42.5 Interaction, accessibility, visibility, and UI motion
+
+- Hold movement during hover, keyboard focus, and press. Track those reasons independently so pointer release cannot clear an active focus hold. Finish sit/stand transitions safely when a partial freeze would leave an invalid pose. Selected analysts remain stationary while their profile is open.
+- Keep semantic controls, name/status labels, selection rings, and keyboard order tied to stable agent identity. Character → Overview, desk → Assignment, report → latest report, and roster navigation remain intact. Preserve at least 44 × 44 CSS px touch targets and disable/shorten traversal where compact hit areas overlap.
+- Combine the app preference with `prefers-reduced-motion`. Reduced motion stops JavaScript traversal/scheduling and looping artwork, supplies valid static standing/seated poses, and preserves all status/report information.
+- Suspend logical time and playback while the tab is hidden or the office is not visible, including a scene hidden behind a compact profile. Resume with calm remaining intervals rather than replaying missed activities or fast-forwarding positions. Cancel clocks, loads/listeners, and reservations on unmount.
+- Review existing selection, hover/focus, tooltip, panel, loading, status, and unread feedback motion using the shared tokens. Keep UI transitions brief and restrained; do not continuously bounce report controls or use animation as the only state signal. Pause decorative loops with scene visibility and remove them under reduced motion.
+- Announce actual loading/errors/run/report updates where appropriate. Ambient steps, waves, and activity changes are decorative and produce no screen-reader announcements or fake conversation records.
+
+#### 42.6 Delivery stages and acceptance gates
+
+1. **One-avatar proof:** prepare the master and required clips, measure one chair and aisle route, author registered masks, and build a controlled in-context preview. Verify stepping, turn, sit, seated hold, stand, and return at desktop and phone sizes. Resolve scale, clipping, foot skidding, and chair support before expansion.
+2. **Four desk routines:** deliver all identities' matching clips, geometry, reservations, status-aware interruptions, readiness/failure fallback, independent rhythms, effective reduced motion, interaction holds, and visibility cleanup. Verify every avatar sits in its assigned chair correctly.
+3. **Short excursions and social pairs:** expand only proven routes, enforce spacing/concurrency, coordinate complementary gestures, cancel paired activity safely, and return participants to ordinary routines. Working agents decline invitations.
+4. **Tune and document:** inspect 1440 px desktop, 1024 px with profile open, 768 px tablet, and 390/360 px phones; review supported themes, labels, focus, touch, reduced motion, slow/missing assets, and several minutes of operation. Keep a controlled preview to reproduce rare states without waiting for random choices.
+
+Add deterministic tests for transition guards, sampled timing, status interruption, independent overlapping interaction holds, reservation expiry/cleanup, route clearance/separation, paired cancellation, asset failure, reduced motion, and visibility resume/unmount. Exercise navigation and moving hit areas in browser checks. Audit existing foundation behavior as part of these tests rather than assuming its lifecycle handling is complete.
+
+Measure initial and deferred compressed transfer, decoded texture memory, frame time, and React update frequency separately on representative phones and desktop. Retain the existing initial-scene transfer target of at most 2 MB; record a measured deferred-animation budget after the one-avatar prototype and before scaling the library. Set practical frame/memory targets from that measurement and document any budget change with its reason.
+
+Run project typecheck, lint, build, and relevant behavior/browser tests. Record measured budgets, screenshots, observation results, supported clips/routes, and remaining limitations in the asset contract and progress notes. If visual inspection is unavailable, record that limitation and leave visual acceptance pending. Review the scoped diff, commit task files, and push per `AGENTS.md`.
+
+**Deliverables:** complete clip library and manifest, registered geometry/masks, scene movement renderer/controller, deterministic tests, controlled preview, browser evidence, and measured performance/fallback documentation.
+
+**Done when:** all four avatars visibly step, occupy their chairs correctly, and perform occasional coordinated acknowledgments while verified state, navigation, reduced motion, and failure recovery remain reliable. Stationary scheduler scaffolding does not complete Step 42.
 
 ### Step 43 — Package and deploy the private application
 
@@ -1676,6 +1762,7 @@ Although service supervision and private connectivity appear again in Phase F, t
 - [ ] Schedule edits match saved external state.
 - [ ] Contextual conversations persist and route correctly.
 - [ ] Optional notifications/usage clearly reflect actual behavior.
+- [ ] Step 42 — One-avatar walk/chair proof, four independent desk routines, safe excursions/social pairs, motion-free navigation, interruption/recovery tests, and measured asset/performance budgets verified. Stationary foundation exists; movement acceptance remains pending.
 - [ ] Private release, logs, backup restoration, and reboot verification complete.
 - [ ] README, runbook, version record, and remaining limitations updated.
 
