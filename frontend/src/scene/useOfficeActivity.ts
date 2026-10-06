@@ -16,6 +16,7 @@ export function useOfficeActivity({
   const controller = controllerRef.current;
   const [snapshot, setSnapshot] = useState(controller.getSnapshot());
   const [reducedMotion, setReducedMotion] = useState(readReducedMotionPreference);
+  const [isVisible, setIsVisible] = useState(readDocumentVisibility);
 
   useEffect(() => controller.subscribe(() => setSnapshot(controller.getSnapshot())), [controller]);
 
@@ -33,7 +34,9 @@ export function useOfficeActivity({
 
   useEffect(() => {
     function updateVisibility() {
-      controller.setVisible(document.visibilityState === "visible");
+      const visible = document.visibilityState === "visible";
+      setIsVisible(visible);
+      controller.setVisible(visible);
     }
 
     updateVisibility();
@@ -59,8 +62,13 @@ export function useOfficeActivity({
 
   return {
     activityByAgent: snapshot,
-    holdAgent: controller.setHeld.bind(controller)
+    holdAgent: controller.setHeld.bind(controller),
+    isVisible
   };
+}
+
+function readDocumentVisibility(): boolean {
+  return typeof document === "undefined" || document.visibilityState === "visible";
 }
 
 function readReducedMotionPreference(): boolean {

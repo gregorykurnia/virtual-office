@@ -121,7 +121,7 @@ export default function OfficeScene({
     () => agents.filter((agent) => latestReportsByAgent.get(agent.id)?.readAt === null).map((agent) => agent.id),
     [agents, latestReportsByAgent]
   );
-  const { activityByAgent, holdAgent } = useOfficeActivity({
+  const { activityByAgent, holdAgent, isVisible } = useOfficeActivity({
     agents,
     unreadReportAgentIds,
     selectedAgent
@@ -152,7 +152,7 @@ export default function OfficeScene({
         : null;
 
   return (
-    <section className="office-scene" aria-labelledby="office-scene-title">
+    <section className={`office-scene${isVisible ? "" : " office-scene--hidden"}`} aria-labelledby="office-scene-title">
       <div className="office-scene__heading">
         <div>
           <p className="eyebrow">Office floor</p>

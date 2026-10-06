@@ -9,6 +9,7 @@ import ReportDetailPage from "./components/ReportDetailPage";
 import ReportListPage from "./components/ReportListPage";
 import OfficeScene from "./components/OfficeScene";
 import DemoScenarioControls from "./demo/DemoScenarioControls";
+import DemoAnnouncements from "./components/DemoAnnouncements";
 import { officeService } from "./demo";
 import { useDemoRevision } from "./lib/demoHooks";
 
@@ -197,6 +198,7 @@ export default function App() {
           <span>Demo — simulated agents and illustrative reports; no live market data.</span>
         </p>
         <DemoScenarioControls />
+        <DemoAnnouncements />
         <Routes>
           <Route path="/" element={<Navigate to="/office" replace />} />
           <Route path="/office" element={<OfficePage />} />

@@ -12,7 +12,7 @@ export type ActivityAgentInput = Pick<Agent, "id" | "status">;
 export type ActivityListener = () => void;
 
 const AGENT_SEEDS: Record<AgentId, number> = {
-  market: 0x4d415941,
+  market: 0x524558,
   portfolio: 0x41445249,
   research: 0x434c4152,
   risk: 0x5448454f

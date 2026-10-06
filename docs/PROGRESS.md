@@ -1,6 +1,6 @@
 # Implementation progress
 
-Last updated: 3 October 2026
+Last updated: 7 October 2026
 
 ## Milestones
 
@@ -29,6 +29,7 @@ Last updated: 3 October 2026
 - Completed Step 9 with a shared analyst profile surface for all four demo agents: Overview, Assignment, and Reports sections; identity/status/observation/task/schedule facts; task inputs and missing-input guidance; recent reports and run history; and a bounded Run now control that observes the existing persisted demo timer. Desktop uses a nonmodal side panel; phone widths use a readable full-width profile with an explicit Back to Office action.
 - Completed Step 10 with a shared-coordinate SVG office room, four clickable desk and character controls using the production sprite assets, per-agent report shortcuts, a shared briefing shortcut to Reports, visible selection rings, and an accessible analyst-card mirror. The scene was visually inspected at 1440, 390, and 360 px widths.
 - Completed Step 11 with service-owned queued/running/terminal run timers, active-task reuse, atomic success/report persistence, explicit interruption on full page refresh, reset cancellation, and report-scoped canned follow-up responses with no model or network traffic.
+- Advanced Step 12 with a shared live region for meaningful demo run/report updates, explicit hidden-tab pausing for both the activity clock and decorative CSS loops, stored/system reduced-motion handling, and a Rex-specific deterministic activity seed. Typecheck, lint, and production build pass; browser screenshot capture is unavailable in this environment, so the visual acceptance check remains open.
 - Started the isometric 3D visual pass with a bot-free rendered office environment, WebP/JPEG runtime assets, normalized scene anchors, transparent desk hit areas, landmark labels, report/briefing overlays, artwork failure fallback, and preserved SVG analyst pose states.
 - Confirmed typecheck, lint, and production build pass; the Vite development server starts at `127.0.0.1:5173`.
 
@@ -41,6 +42,6 @@ The current Step 5 assets provide the stable production contract for that work: 
 ## Current limits
 
 - The workspace has no live agents, backend service, database, real holdings, or market feed; reports exist only as local illustrative demo fixtures.
-- The frontend has the Step 11 demo lifecycle. The first rendered-office slice is in place; final browser screenshots, anchor tuning at target widths, character-art consistency review, document-visibility pausing, meaningful run/report announcements, and full keyboard verification remain upcoming.
+- The frontend has the Step 11 demo lifecycle and the Step 12 motion/accessibility implementation slice. Final browser screenshots, anchor tuning at target widths, character-art consistency review, and full keyboard verification remain upcoming because browser capture is unavailable in the current environment.
 - Node 26.10.0 remains the local pin; package engines also allow Node 24.x for Vercel, which currently builds with Node 24.21.0.
 - No infrastructure, account, paid service, or public deployment has been provisioned.

@@ -1743,7 +1743,7 @@ Although service supervision and private connectivity appear again in Phase F, t
 - [x] Step 10 — Shared-coordinate SVG office scene implemented with four clickable desk/character controls, per-agent report shortcuts, shared briefing shortcut, visible selection rings, and an accessible analyst-card mirror; desktop and 360 px/390 px scene layouts visually inspected.
 - [x] Step 11 — Bounded demo run controller implemented with service-owned lifecycle timers, duplicate activation protection, reset/refresh handling, and labelled canned follow-up responses.
 - [ ] Visual fidelity pass — native SVG/HTML/CSS office, responsive shell, controls, analyst surfaces, and status treatment brought to the quality and composition of the design-concept references.
-- [ ] Step 12 — Concept-quality frontend verified with idle/reading/typing poses, restrained motion, document-visibility pausing, system and stored reduced-motion preferences, visible focus, labelled controls, 44 px touch targets, meaningful run/report announcements, and readable motion-free status.
+- [ ] Step 12 — Concept-quality frontend implementation slice added: idle/reading/typing poses, restrained motion, document-visibility pausing, system and stored reduced-motion preferences, visible focus, labelled controls, 44 px touch targets, meaningful run/report announcements, and readable motion-free status. Required browser visual evidence remains pending.
 - [ ] Step 13 — Typecheck, lint, build, focused browser checks, required viewport screenshots, visual-fidelity comparison, and frontend handoff evidence recorded.
 - [x] Frontend demo runnable with four analysts and clickable desks.
 - [ ] Reports, profile tabs, filters, unread state, back navigation, and demo runs verified.
