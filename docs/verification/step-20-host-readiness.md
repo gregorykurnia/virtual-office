@@ -6,6 +6,17 @@ Status: **Not complete — no target Linux host is available to prepare.**
 
 This assessment records what was verifiable from the current development workstation. It does not claim that a remote host, OpenClaw installation, private network, or provider account does not exist elsewhere.
 
+## Owner-provided Oracle setup details
+
+- Provider: Oracle Cloud; instance creation is in progress, not yet verified as running.
+- Selected region: Batam (`ap-batam-1`); home-region status remains unverified.
+- VCN name: `investment-office-vcn`.
+- Subnet name: `investment-office-subnet`.
+- Configured private DNS hostname: `investment-office.investmentoffic.investmentoffic.oraclevcn.com`.
+- Public IPv4 address and SSH connectivity: not yet supplied or verified. The private DNS hostname is not a verified public connection address.
+
+The workstation observations below describe the initial assessment before these owner-provided setup details.
+
 ## Observed inventory
 
 | Item | Verified observation | Step 20 status |
