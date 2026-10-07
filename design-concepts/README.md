@@ -28,6 +28,10 @@ The shared rounded bot shape remains recognizable while state, role details, and
 
 ![Bot state and role visual language](03-avatar-states.png)
 
+## Paz idle concept review
+
+The [Paz avatar design and replacement guide](PAZ_AVATAR_DESIGN_AND_REPLACEMENT_GUIDE.md) includes the staged replacement plan. The current visual checkpoint is available in the [Paz idle avatar review](paz-avatar-preview.html), with the transparent [Paz idle concept master](paz-idle-concept-v1.png) shown beside the production Rex and current portfolio avatar.
+
 ## 4. Desktop UI
 
 The desktop product view keeps the office canvas central, with search and filters on the left and selected-bot details on the right.

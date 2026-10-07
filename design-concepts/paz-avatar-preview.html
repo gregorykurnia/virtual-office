@@ -1,0 +1,150 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Paz idle avatar preview</title>
+    <style>
+      :root {
+        color-scheme: light;
+        --ink: #1e2a3b;
+        --muted: #64748b;
+        --canvas: #eef2f7;
+        --surface: #ffffff;
+        --line: #d9e1ea;
+        --blue: #3867e8;
+        --green: #16845b;
+        --shadow: 0 22px 48px rgb(30 42 59 / 0.12);
+      }
+
+      * { box-sizing: border-box; }
+
+      body {
+        min-width: 320px;
+        margin: 0;
+        color: var(--ink);
+        background:
+          radial-gradient(circle at 12% -8%, rgb(255 255 255 / 0.95), transparent 28rem),
+          radial-gradient(circle at 88% 0%, rgb(216 230 250 / 0.5), transparent 32rem),
+          var(--canvas);
+        font: 16px/1.5 Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      }
+
+      main { width: min(1180px, calc(100% - 32px)); margin: 0 auto; padding: 56px 0 72px; }
+
+      header { max-width: 760px; margin-bottom: 32px; }
+      .eyebrow { margin: 0 0 8px; color: var(--blue); font-size: 0.75rem; font-weight: 800; letter-spacing: 0.12em; text-transform: uppercase; }
+      h1 { margin: 0; font-size: clamp(2rem, 4vw, 3.25rem); line-height: 1.05; letter-spacing: -0.04em; }
+      .lede { margin: 16px 0 0; color: var(--muted); font-size: 1.05rem; }
+      .status { display: inline-flex; align-items: center; gap: 8px; margin-top: 20px; padding: 8px 12px; border: 1px solid #b8e3cf; border-radius: 999px; color: #116644; background: #e6f7ef; font-size: 0.85rem; font-weight: 750; }
+      .status::before { width: 8px; height: 8px; border-radius: 50%; background: var(--green); content: ""; }
+
+      section { margin-top: 32px; }
+      h2 { margin: 0 0 12px; font-size: 1.15rem; letter-spacing: -0.01em; }
+      .section-note { margin: 0 0 16px; color: var(--muted); font-size: 0.9rem; }
+
+      .comparison { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
+      .card { overflow: hidden; border: 1px solid var(--line); border-radius: 18px; background: var(--surface); box-shadow: var(--shadow); }
+      .card__art { display: grid; min-height: 350px; place-items: center; padding: 24px; }
+      .card__art img { display: block; width: 300px; height: 300px; object-fit: contain; }
+      .card__caption { padding: 14px 16px 16px; border-top: 1px solid var(--line); background: var(--surface); }
+      .card__caption strong { display: block; font-size: 1rem; }
+      .card__caption span { color: var(--muted); font-size: 0.82rem; }
+
+      .comparison--dark .card { border-color: #334155; background: #151e2c; }
+      .comparison--dark .card__art { background: #111827; }
+      .comparison--dark .card__caption { border-color: #334155; background: #151e2c; color: #e7edf7; }
+      .comparison--dark .card__caption span { color: #aab8ca; }
+      .comparison--light .card__art { background: #ffffff; }
+
+      .samples { display: flex; flex-wrap: wrap; gap: 16px; }
+      .sample { display: grid; min-width: 156px; place-items: center; gap: 10px; padding: 16px; border: 1px solid var(--line); border-radius: 16px; background: var(--surface); box-shadow: 0 10px 24px rgb(30 42 59 / 0.07); }
+      .sample__stage { display: grid; width: 112px; height: 112px; place-items: center; border-radius: 12px; background: #ffffff; }
+      .sample__stage--dark { background: #111827; }
+      .sample img { display: block; object-fit: contain; }
+      .sample img[data-size="32"] { width: 64px; height: 64px; }
+      .sample img[data-size="40"] { width: 80px; height: 80px; }
+      .sample figcaption { color: var(--muted); font-size: 0.78rem; text-align: center; }
+
+      .notes { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+      .note { padding: 16px; border: 1px solid var(--line); border-radius: 14px; background: rgb(255 255 255 / 0.72); }
+      .note strong { display: block; margin-bottom: 4px; font-size: 0.84rem; }
+      .note span { color: var(--muted); font-size: 0.82rem; }
+
+      @media (max-width: 760px) {
+        main { width: min(100% - 24px, 560px); padding-top: 32px; }
+        .comparison { grid-template-columns: 1fr; }
+        .card__art { min-height: 300px; }
+        .notes { grid-template-columns: 1fr; }
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <header>
+        <p class="eyebrow">Virtual office · design review</p>
+        <h1>Paz idle avatar</h1>
+        <p class="lede">A transparent concept master for the portfolio analyst slot, compared against the production Rex and current portfolio avatar at matched display scale.</p>
+        <div class="status">Preview checkpoint · runtime replacement pending idle approval</div>
+      </header>
+
+      <section aria-labelledby="light-heading">
+        <h2 id="light-heading">Light background comparison</h2>
+        <p class="section-note">The three artwork boxes use the same 300 × 300 display frame. The shared height and floor contact make the silhouette differences easy to inspect.</p>
+        <div class="comparison comparison--light">
+          <figure class="card">
+            <div class="card__art"><img src="paz-idle-concept-v1.png" alt="Paz blue armored portfolio avatar, idle concept" /></div>
+            <figcaption class="card__caption"><strong>Paz · portfolio concept</strong><span>blue armor · dark T visor · green ledger badge</span></figcaption>
+          </figure>
+          <figure class="card">
+            <div class="card__art"><img src="../frontend/public/assets/office/avatars/market-bot-idle.png" alt="Rex market avatar, idle pose" /></div>
+            <figcaption class="card__caption"><strong>Rex · production</strong><span>market avatar style and scale reference</span></figcaption>
+          </figure>
+          <figure class="card">
+            <div class="card__art"><img src="../frontend/public/assets/office/avatars/portfolio-bot-idle.png" alt="Current portfolio avatar, idle pose" /></div>
+            <figcaption class="card__caption"><strong>Current portfolio slot</strong><span>existing artwork being evaluated for replacement</span></figcaption>
+          </figure>
+        </div>
+      </section>
+
+      <section aria-labelledby="dark-heading">
+        <h2 id="dark-heading">Dark background comparison</h2>
+        <p class="section-note">The same transparent masters on the application's dark surface, to check alpha edges, visor contrast, and color separation.</p>
+        <div class="comparison comparison--dark">
+          <figure class="card">
+            <div class="card__art"><img src="paz-idle-concept-v1.png" alt="Paz blue armored portfolio avatar on a dark background" /></div>
+            <figcaption class="card__caption"><strong>Paz · portfolio concept</strong><span>alpha and small detail check</span></figcaption>
+          </figure>
+          <figure class="card">
+            <div class="card__art"><img src="../frontend/public/assets/office/avatars/market-bot-idle.png" alt="Rex market avatar on a dark background" /></div>
+            <figcaption class="card__caption"><strong>Rex · production</strong><span>existing family reference</span></figcaption>
+          </figure>
+          <figure class="card">
+            <div class="card__art"><img src="../frontend/public/assets/office/avatars/portfolio-bot-idle.png" alt="Current portfolio avatar on a dark background" /></div>
+            <figcaption class="card__caption"><strong>Current portfolio slot</strong><span>existing family reference</span></figcaption>
+          </figure>
+        </div>
+      </section>
+
+      <section aria-labelledby="samples-heading">
+        <h2 id="samples-heading">Small-size samples</h2>
+        <p class="section-note">The scene uses roughly 32–36 CSS px on desktop and about 40 CSS px on phones. These samples show the readable identity cues at both sizes.</p>
+        <div class="samples">
+          <figure class="sample"><div class="sample__stage"><img src="paz-idle-concept-v1.png" data-size="32" alt="Paz at 32 CSS pixels on light" /></div><figcaption>32 px · light</figcaption></figure>
+          <figure class="sample"><div class="sample__stage sample__stage--dark"><img src="paz-idle-concept-v1.png" data-size="32" alt="Paz at 32 CSS pixels on dark" /></div><figcaption>32 px · dark</figcaption></figure>
+          <figure class="sample"><div class="sample__stage"><img src="paz-idle-concept-v1.png" data-size="40" alt="Paz at 40 CSS pixels on light" /></div><figcaption>40 px · light</figcaption></figure>
+          <figure class="sample"><div class="sample__stage sample__stage--dark"><img src="paz-idle-concept-v1.png" data-size="40" alt="Paz at 40 CSS pixels on dark" /></div><figcaption>40 px · dark</figcaption></figure>
+        </div>
+      </section>
+
+      <section aria-labelledby="notes-heading">
+        <h2 id="notes-heading">Review notes</h2>
+        <div class="notes">
+          <div class="note"><strong>Identity</strong><span>Blue rounded helmet, single dark T visor, blue armor, and selective ochre accents carry the costume reference.</span></div>
+          <div class="note"><strong>Office fit</strong><span>Compact rounded body, grounded boots, empty hands, and the green ledger badge keep the portfolio role legible.</span></div>
+          <div class="note"><strong>Master</strong><span>Transparent PNG concept at 1254 × 1254 px; runtime normalization and pose production are intentionally deferred.</span></div>
+        </div>
+      </section>
+    </main>
+  </body>
+</html>
