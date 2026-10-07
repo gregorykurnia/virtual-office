@@ -18,6 +18,7 @@ test-results/
 *.log
 .openclaw/
 openclaw-state/
+.firebase/
 *.tsbuildinfo
 
 # Operating system / editor files

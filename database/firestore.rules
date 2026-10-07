@@ -1,0 +1,12 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // All product data is accessed through the owner-authorized API. Firebase Admin
+    // server clients bypass these rules, so repository code must still derive every
+    // owner path from the verified Firebase UID.
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}

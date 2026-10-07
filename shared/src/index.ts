@@ -1,3 +1,4 @@
-export * from "./agent";
-export * from "./contracts";
-export * from "./stateTransitions";
+export * from "./agent.js";
+export * from "./contracts.js";
+export * from "./database.js";
+export * from "./stateTransitions.js";

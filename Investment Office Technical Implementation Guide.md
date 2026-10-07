@@ -68,17 +68,19 @@ The Step 5 SVG set is the technical asset foundation: it establishes stable iden
 | Server data | TanStack Query | Loading/error states, query invalidation, and bounded polling |
 | Runtime validation | Zod | Validate app contracts, configuration, agent output, and normalized integration events |
 | Backend | Node + TypeScript + Fastify | Small private API, request validation, structured logs, and integration routes |
-| App database | Supabase PostgreSQL | Relational reports/runs/holdings with migrations and ownership policies |
-| Login | Supabase Auth, one allowlisted owner | Establish owner identity without building a password system |
+| App database | Firebase Cloud Firestore (selected in `docs/DECISIONS.md`); Supabase PostgreSQL was the proposed default | Owner-scoped document paths, validated records, transaction-backed uniqueness claims, and versioned migrations |
+| Login | Firebase Authentication Email/Password with a backend UID allowlist | Establish owner identity without building a password system |
 | Office scene | SVG illustration + HTML controls + CSS transforms | Accessible interaction without a game engine |
 | Markdown | Markdown renderer with raw HTML disabled | Readable reports with controlled link handling |
-| Unit/integration checks | Vitest; real PostgreSQL for database invariants | Exercise state transitions and transactions |
+| Unit/integration checks | Vitest or Node's test runner plus Firebase Emulator Suite | Exercise state transitions, Firestore Rules, and transaction-backed invariants |
 | Browser checks | Playwright | Verify the actual navigation and responsive interaction paths |
 | Live runtime | Always-on Linux VPS | OpenClaw and research continue while the laptop is off |
 | Private ingress | Tailscale or equivalent private HTTPS access | Owner access without exposing the Gateway |
 | Service supervision | OpenClaw's supported service installer; systemd for the app | Restart recovery and unattended operation |
 
 Preserve compatible existing choices if source code appears before this guide is implemented. Pin dependency versions in lockfiles after installation; do not treat `latest` as a reproducible production version.
+
+**Implementation update, 7 October 2026:** this workspace already has a registered Firebase web app and records Firestore as its selected application database. Steps 14 and 15 below implement Firebase Auth and Firestore instead of the guide's original Supabase/PostgreSQL proposal. The Firestore model and its constraint strategy are documented in [`docs/DATA_MODEL.md`](./docs/DATA_MODEL.md). Later SQL/PostgreSQL-specific directions in this roadmap remain proposed and must be translated before their steps are implemented.
 
 Current OpenClaw docs require Node 24.16+ or 26.1+, with compatible linked SQLite; Node 26 is their recommended runtime. The current Node 20 shell must therefore be upgraded or replaced for the live OpenClaw environment. Verify the pinned runtime on the server as well as in the interactive shell. [OpenClaw Node runtime requirements](https://docs.openclaw.ai/install/node)
 
@@ -88,7 +90,7 @@ Write these to `docs/DECISIONS.md` as they become known:
 
 1. Exact Node, application dependency, OpenClaw, and Gateway-client versions.
 2. Existing VPS versus a newly provisioned VPS; host region and operating system.
-3. Supabase project and availability/backup requirements, or a deliberate switch to SQLite.
+3. Firebase Auth provider configuration, Firestore availability/backup requirements, and server identity permissions.
 4. Private application address and HTTPS approach.
 5. Owner Auth user ID; provider account used for scheduled model calls.
 6. Search provider and optional financial-data provider.
@@ -114,7 +116,7 @@ Private reverse proxy on always-on VPS
          |
          +---- /api/* --> application backend
                              |
-                             +---- Supabase Auth / PostgreSQL
+                             +---- Firebase Auth / Cloud Firestore
                              |
                              +---- durable app worker
                              |       dispatch / processing / reconciliation
@@ -133,7 +135,7 @@ Private reverse proxy on always-on VPS
 
 The browser talks to the application API. It does not receive Gateway credentials, execute OpenClaw CLI commands, or query OpenClaw's internal database.
 
-Start with backend, worker, and Gateway on one VPS to simplify private connectivity. Use separate service accounts and restricted filesystem permissions. Supabase remains a separate managed application database. Avoid an extra Redis service initially: a PostgreSQL work queue is sufficient for one owner when implemented with durable jobs, leases, and transactional writes.
+Start with backend, worker, and Gateway on one VPS to simplify private connectivity. Use separate service accounts and restricted filesystem permissions. Firebase Auth and Firestore remain managed application services. Avoid an extra Redis service initially: a Firestore work queue is sufficient for one owner when implemented with durable items, leases, and transactions.
 
 The worker's dispatch queue and reconciliation timer are application plumbing. OpenClaw remains the sole scheduler of recurring research. The frontend never schedules live research, and the worker never starts its own duplicate morning research timer.
 
@@ -173,6 +175,7 @@ virtual-office/
       server.ts
       config/
       auth/
+      database/                   owner-scoped paths and versioned Firestore migrations
       routes/
       repositories/
       services/
@@ -183,8 +186,8 @@ virtual-office/
   shared/
     src/                          app types, schemas, status rules
   database/
-    migrations/
-    seeds/                        developer/demo data kept separate
+    firestore.rules
+    firestore.indexes.json
   openclaw/
     templates/
       common/                     shared report contract/policy
@@ -216,7 +219,7 @@ virtual-office/
 
 | State | Source of truth | Examples |
 | --- | --- | --- |
-| Application/product state | App database | Report content, read state, input snapshots, owner preferences |
+| Application/product state | Firebase Cloud Firestore | Report content, read state, input snapshots, owner preferences |
 | Execution/scheduling state | OpenClaw, projected into the app | Accepted run IDs, actual saved schedules, verified terminal results |
 | Decorative scene state | Browser scene controller | Pose, waypoint, depth ordering, idle movement |
 
@@ -470,72 +473,73 @@ Record screenshots and acceptance evidence in `docs/verification/`. Update `docs
 
 1. Create the Fastify application, configuration validation, structured logging, and request IDs.
 2. Add liveness and readiness endpoints. Readiness checks the app's required services; expose detailed dependency failures only to the owner/operators.
-3. Configure Supabase Auth for one intended owner; disable open signup or reject all nonallowlisted identities.
-4. Verify access-token signatures, expiry, issuer, and expected claims on the backend using supported verification facilities.
-5. Derive `owner_id` from verified identity; never accept it as an authority-bearing browser field.
+3. Configure Firebase Auth for one intended owner; the frontend exposes sign-in only, and the API rejects all nonallowlisted identities by stable Auth UID.
+4. Verify Firebase ID tokens with Firebase Admin `verifyIdToken(token, true)`. This verifies the client ID token and rejects expired/revoked sessions; Admin is initialized with the configured Firebase project ID.
+5. Derive the owner UID from verified identity; never accept it as an authority-bearing browser field.
 6. Enforce an owner allowlist by stable Auth user ID.
 7. Use same-origin API calls, exact CORS origins if needed, request limits, and rate limits on expensive actions.
 8. Handle expired sessions and unauthenticated navigation explicitly.
 
-Supabase documents `getClaims()` and JWT verification; merely decoding a token is insufficient. Choose an auth transport deliberately: bearer tokens for the initial SPA, or an HttpOnly cookie session with CSRF protection if a backend session is introduced. [Supabase JWT verification](https://supabase.com/docs/guides/auth/jwts)
+The initial SPA uses a Firebase ID token in an `Authorization: Bearer` header over same-origin HTTPS; Firebase's session persistence is scoped to the browser session. Login and logout use the Firebase web SDK. The API remains stateless and has no logout cookie to revoke. Firebase Admin verifies signatures and standard claims; the explicit UID allowlist is the application owner boundary. [Firebase ID-token verification](https://firebase.google.com/docs/auth/admin/verify-id-tokens) · [Firebase web Auth](https://firebase.google.com/docs/auth/web/start)
+
+**Implemented files:** `backend/src/app.ts`, `backend/src/auth/ownerAuth.ts`, `backend/src/config.ts`, and `backend/src/server.ts`; the optional live-mode sign-in screen is `frontend/src/auth/OwnerAccessApp.tsx`. Set `VITE_APP_MODE=live` to open it; demo remains the default. The API listens on loopback by default, returns generic public readiness, exposes dependency details only on owner-authenticated `/api/health/ready`, uses request IDs, structured redacted logs, a 1 MiB request limit, a global rate limit, Helmet headers, and exact optional CORS origins.
 
 **Deliverables:** authenticated private backend and login/logout flows.  
 **Done when:** missing, expired, and nonowner credentials cannot access any owner data or trigger research.
 
 ### Step 15 — Design and migrate the application schema
 
-Use UUID primary keys, `timestamptz` in UTC, numeric types for financial values, and explicit constraints. Preserve the brief's entities and add fields needed for reproducibility and durable processing.
+The current database choice is Firestore. Preserve the brief's entities and add fields needed for reproducibility and durable processing. Documents use stable IDs, native UTC Firestore timestamps, decimal strings for exact financial inputs, bounded payloads, and explicit Zod validation.
 
-| Table | Key implementation fields / constraints |
+| Entity | Firestore location / key implementation fields |
 | --- | --- |
-| `profiles` | Owner Auth ID, display name, enabled flag |
-| `agents` | Owner, role key, external agent ID, assets; unique `(owner_id, role_key)` |
-| `tasks` | Owner/agent, stable definition key, external job ID, prompt version, enabled, schedule JSON/timezone, observed next run, config version |
-| `runs` | Owner/task, external run ID, request origin, execution/delivery/processing states, queued/start/end/observed times, error and raw external status |
-| `reports` | Owner/agent/run, title, summary, Markdown, generated/data dates, `mode`, schema/prompt version, revision |
-| `report_sources` | Parent report, source key, label, URL, published/retrieved/as-of dates, illustrative flag |
-| `report_reads` | Composite key `(owner_id, report_id)`, read timestamp |
-| `holdings` | Owner, instrument identifier, asset type, quantity and/or weight, currency, as-of |
-| `watchlist` | Owner, instrument identifier, notes |
-| `input_snapshots` | Owner, immutable validated JSON, portfolio/research settings version, created/as-of dates, content hash |
-| `run_inputs` | Owner, run, snapshot ID, input version; one primary snapshot per run |
-| `conversations` | Owner/agent/report, stable external session key, latest response ID, context version |
-| `messages` | Conversation, role, content, generation state, request key, timestamps |
-| `integration_events` | Integration instance, observed external key or digest, bounded raw payload, receive/process timestamps, processing state/error |
-| `work_items` | Work kind, payload/reference, attempt count, available time, lease owner/expiry, terminal result |
-| `run_requests` | Owner/task/idempotency key, request hash, local run, dispatch state; unique owner/key |
-| `task_mutations` | Desired patch, expected config version, external result, readback, reconciliation state |
-| `notification_outbox` | Report/run reference, destination, deduplication key, delivery attempts/state |
-| `preferences` | Owner, timezone, theme, motion and notification settings |
-| `audit_events` | Owner/action/target/time/request ID, safe metadata; no secrets or complete research transcripts |
+| `owners/{uid}` | Auth UID, display name, enabled flag, schema version |
+| `owners/{uid}/agents/{roleKey}` | External agent ID, role/assets; stable role document ID |
+| `owners/{uid}/tasks/{id}` | Agent, definition key, external job, prompt version, enabled, schedule/timezone, observed next run, config version |
+| `owners/{uid}/runs/{id}` | Task, integration/external run IDs, request origin, execution/delivery/processing states, queued/start/end/observed times, safe error and external status |
+| `owners/{uid}/reports/{id}` | Agent/task/run, title, summary, Markdown, generated/data dates, `mode`, schema/prompt version, revision |
+| `owners/{uid}/reportSources/{id}` | Parent report, source key, label, URL, published/retrieved/as-of dates, illustrative flag |
+| `owners/{uid}/reportReads/{reportId}` | Read timestamp; document ID makes owner/report read state unique |
+| `owners/{uid}/holdings/{id}` | Instrument, asset type, decimal quantity and/or weight, currency, as-of |
+| `owners/{uid}/watchlist/{id}` | Instrument identifier and notes |
+| `owners/{uid}/inputSnapshots/{id}` | Immutable validated JSON, settings versions, created/as-of times, content hash |
+| `owners/{uid}/runInputs/{runId}` | Snapshot ID and input version; one primary snapshot per run |
+| `owners/{uid}/conversations/{id}` and `/messages/{id}` | Agent/report, stable session key, latest response/context version; message role/content/generation/request state |
+| `integrationInstances/{id}/events/{id}` | External key digest, bounded raw payload, receive/process times, processing state/error |
+| `workItems/{id}` | Work kind, payload/reference, attempt count, availability, lease owner/expiry, terminal result |
+| `owners/{uid}/runRequests/{id}` | Task/idempotency key/request hash/local run/dispatch state |
+| `owners/{uid}/taskMutations/{id}` | Desired patch, expected config version, external result/readback, reconciliation state |
+| `owners/{uid}/notificationOutbox/{id}` | Report/run reference, destination, deduplication key, delivery attempts/state |
+| `owners/{uid}/preferences/current` | Timezone, theme, motion and notification settings |
+| `owners/{uid}/auditEvents/{id}` | Action/target/time/request ID, safe metadata; no secrets or complete research transcripts |
 
 Implementation constraints:
 
-1. Enforce same-owner relationships using composite foreign keys where appropriate, e.g. `(owner_id, task_id)` referencing `(owner_id, id)`.
-2. Make external run IDs unique within their integration instance, not assumed globally unique forever.
-3. Use one canonical report per successful run initially. If later reports have sections/revisions, key them explicitly instead of removing deduplication.
-4. Unique read state and notification keys prevent duplicates.
-5. Put a partial unique constraint on active local runs per task if only one manual run per task is allowed.
-6. Index reports by owner/date/agent, runs by owner/task/date, events by processing state, and work by availability/lease.
+1. All owner data lives below `owners/{verifiedUid}`; repository methods construct paths from the verified UID and never accept arbitrary Firestore paths.
+2. Zod document schemas validate each write. Shared parent references must resolve below the same owner's root before a child write.
+3. Transactional SHA-256 uniqueness claims enforce owner-scoped unique fields; global claims include integration ID for external run identity.
+4. Use deterministic document IDs for one canonical report per run, one read state per report, and one primary input snapshot per run.
+5. Keep a partial-active-run invariant in a task-scoped transaction/claim when the manual-run routes are implemented.
+6. `database/firestore.indexes.json` indexes reports by agent/date, runs by task/date, events by processing state, and work/outbox items by availability/state; long Markdown/JSON fields are exempt from indexing.
 7. Distinguish missing dates from present dates; do not substitute retrieval date for publication date.
 8. Define report retention separately from raw-event and OpenClaw transcript retention.
 
-Keep migrations in versioned SQL. Create synthetic development seeds separately. Never migrate the prototype's invented financial records into live holdings.
+Keep Firestore migrations versioned and append-only. `npm run db:migrate` creates the schema/migration markers and an empty owner profile; it does not seed agents, reports, tasks, or prototype holdings. `database/firestore.rules` denies all direct browser reads/writes. Never migrate the prototype's invented financial records into live holdings. The mapping and limits are detailed in [`docs/DATA_MODEL.md`](./docs/DATA_MODEL.md).
+
+**Implemented files:** `shared/src/database.ts`, `backend/src/database/`, `database/firestore.rules`, `database/firestore.indexes.json`, `firebase.json`, and `docs/DATA_MODEL.md`. The first migration is idempotent and writes no portfolio or demo data. Firestore does not provide SQL foreign keys/composite unique constraints; owner-scoped paths, validated repositories, and Firestore transactions provide the equivalent invariants for this one-owner deployment. [Firestore transactions](https://firebase.google.com/docs/firestore/manage-data/transactions)
 
 **Deliverables:** migrations, schema diagram/table reference, constraints and indexes.  
 **Done when:** a fresh database can be created and duplicate/cross-owner records fail correctly.
 
-### Step 16 — Enforce ownership in the database and repositories
+### Step 16 — Enforce ownership in Firestore paths and repositories
 
-1. Enable row-level security on exposed owner tables.
-2. Apply owner policies and appropriate `WITH CHECK` rules to writes.
-3. For child tables, enforce ownership through their parent or direct validated owner relationship.
-4. Grant only necessary privileges; give internal integration/queue tables no browser access.
-5. If privileged backend credentials bypass RLS, require explicit owner predicates and authorization in every repository method.
-6. Keep the privileged client isolated from ordinary request-scoped queries.
-7. Test another authenticated identity, not only anonymous access.
+1. Keep `database/firestore.rules` denying all direct browser reads and writes; application data goes through the private API.
+2. Firebase Admin server clients bypass Firestore Rules, so every repository must require a verified owner context and use owner-scoped path helpers.
+3. Validate parent IDs by loading them from the same owner's subtree before any child write.
+4. Keep integration events, work items, external ID claims, and privileged credentials server-only.
+5. Test anonymous, expired, nonallowlisted, and deliberately mismatched owner/resource requests.
 
-Illustrative policy pattern; adapt it to actual table privileges and access paths:
+The web app authenticates with Firebase Auth and sends its ID token to the API; no browser Firestore client is used for product records. Firestore Rules remain an additional boundary, not an authorization substitute for the Admin SDK.
 
 ```sql
 alter table public.reports enable row level security;
@@ -547,7 +551,7 @@ to authenticated
 using (owner_id = (select auth.uid()));
 ```
 
-Do not grant browser report inserts merely because it can read reports. Backend-only report ingestion and privileged keys require their own boundary. [Supabase row-level security](https://supabase.com/docs/guides/database/postgres/row-level-security)
+Do not grant browser report inserts. Keep report ingestion and all Admin credentials in the backend. [Firestore Rules and Admin SDK behavior](https://firebase.google.com/docs/firestore/security/rules-conditions)
 
 **Deliverables:** ownership policies and repository checks.  
 **Done when:** no report, holdings row, source, or conversation can be accessed through another owner's identifier.
@@ -576,7 +580,7 @@ These are application routes, not asserted OpenClaw endpoints.
 
 Return a consistent error envelope with `code`, safe `message`, and `requestId`. Use `401` for unauthenticated requests, `404` for inaccessible record IDs, `409` for active-task/version conflicts, `422` for invalid inputs, and an explicit integration-unavailable response when live actions cannot be accepted.
 
-For search, use bounded queries and a PostgreSQL text-search index when needed. Never interpolate query text into SQL. Keep date filtering and pagination in the backend rather than downloading all reports into the browser.
+For search, use bounded Firestore queries and a dedicated search index/provider if full-text search is required. Keep date filtering and cursor pagination in the backend rather than downloading all reports into the browser.
 
 **Deliverables:** implemented read API and documented write contracts.  
 **Done when:** the live adapter can render real empty/report states independently of fixtures.
@@ -587,9 +591,9 @@ For `POST /api/tasks/:id/runs`:
 
 1. Verify owner/task/enabled permissions and validate the `Idempotency-Key` header.
 2. Check the stored request body hash; reuse the existing response for the same key/body and reject the same key with a different body.
-3. In one transaction, create the request, a locally queued run, an immutable input reference, and a dispatch work item.
+3. In one Firestore transaction, create the request, a locally queued run, an immutable input reference, and a dispatch work item.
 4. Return `202` after that transaction commits; do not block the HTTP request for a full research run.
-5. Let the worker claim dispatch items with bounded leases and transactional locking.
+5. Let the worker claim dispatch items with bounded lease documents updated transactionally. Firestore may rerun transaction callbacks after concurrent changes, so callbacks must be deterministic and must not call OpenClaw or mutate external process state.
 6. Submit the known external job through the adapter and save its returned run ID.
 7. On an ambiguous submission timeout, record `dispatch_unknown`; reconcile before any resend.
 8. Do not infer provider-level idempotency from the app's idempotency key. Verify whether the external interface accepts such a key.
@@ -627,7 +631,7 @@ Use bounded retry policies for safe app processing and connection checks. Extern
 6. Configure time synchronization. Store UTC timestamps while displaying Asia/Jakarta.
 7. Reserve persistent storage for Gateway state/workspaces and app configuration.
 8. Give the app worker only the Gateway interface access it needs; do not mount Gateway credentials into the browser build or agent input directories.
-9. Verify outbound connectivity to the chosen model/search providers and Supabase.
+9. Verify outbound connectivity to the chosen model/search providers and Firebase Auth/Firestore.
 
 Keep the Gateway on the server, not dependent on the owner's laptop or a laptop-hosted browser/search service. A remote Gateway can still become laptop-dependent if its credentials, tools, or local model endpoint require that laptop; explicitly inspect those dependencies. [OpenClaw Linux hosting guide](https://docs.openclaw.ai/vps)
 
@@ -1601,30 +1605,36 @@ These are proposed app variable names unless marked as an actual OpenClaw settin
 ### 10.1 Browser-safe configuration
 
 ```dotenv
-VITE_OFFICE_MODE=demo
+VITE_APP_MODE=demo
 VITE_API_BASE_URL=/api
-VITE_SUPABASE_URL=REPLACE_WITH_PROJECT_URL
-VITE_SUPABASE_PUBLISHABLE_KEY=REPLACE_WITH_PUBLIC_CLIENT_KEY
+VITE_FIREBASE_API_KEY=REPLACE_WITH_PUBLIC_WEB_API_KEY
+VITE_FIREBASE_AUTH_DOMAIN=REPLACE_WITH_AUTH_DOMAIN
+VITE_FIREBASE_PROJECT_ID=REPLACE_WITH_PROJECT_ID
+VITE_FIREBASE_STORAGE_BUCKET=REPLACE_WITH_BUCKET
+VITE_FIREBASE_MESSAGING_SENDER_ID=REPLACE_WITH_SENDER_ID
+VITE_FIREBASE_APP_ID=REPLACE_WITH_PUBLIC_WEB_APP_ID
 ```
 
-Use `VITE_*` only for public configuration. A browser key still requires correct database privileges/RLS; it is not an ownership check. Compile distinct demo/live configurations or use a safe explicit runtime configuration file with no secrets.
+Use `VITE_*` only for public Firebase web configuration. It does not authorize access to the API or Firestore. Set `VITE_APP_MODE=live` to show Firebase sign-in; the default remains the no-network demo.
 
 ### 10.2 Application API and worker configuration
 
 ```dotenv
 NODE_ENV=production
-OFFICE_MODE=live
-API_HOST=127.0.0.1
-API_PORT=3100
+HOST=127.0.0.1
+PORT=3001
 INTEGRATION_HOST=127.0.0.1
 INTEGRATION_PORT=3101
 APP_ORIGIN=REPLACE_WITH_PRIVATE_HTTPS_ORIGIN
-OWNER_AUTH_USER_ID=REPLACE_WITH_OWNER_UUID
-
-SUPABASE_URL=REPLACE_WITH_PROJECT_URL
-SUPABASE_PUBLISHABLE_KEY=REPLACE_WITH_PUBLIC_CLIENT_KEY
-SUPABASE_SECRET_KEY=REPLACE_WITH_SERVER_ONLY_KEY_IF_USED
-DATABASE_URL=REPLACE_WITH_SERVER_ONLY_DATABASE_CONNECTION
+FIREBASE_PROJECT_ID=REPLACE_WITH_PROJECT_ID
+OWNER_UID=REPLACE_WITH_STABLE_FIREBASE_AUTH_UID
+CORS_ORIGINS=
+TRUST_PROXY_CIDRS=
+LOG_LEVEL=info
+RATE_LIMIT_MAX=120
+FIRESTORE_PROBE_DOCUMENT=system/health
+# Firebase Admin uses Application Default Credentials or host workload identity.
+# Do not put service-account private keys in this environment file.
 
 OPENCLAW_ADAPTER=cli
 OPENCLAW_EXECUTABLE=REPLACE_WITH_ABSOLUTE_CLI_PATH
@@ -1643,7 +1653,7 @@ LOG_RETENTION_DAYS=14
 
 `OPENCLAW_CONNECTION_CONFIG` is an application wrapper variable: the adapter must explicitly map it to the installed CLI's supported connection configuration. It is not asserted to be a native OpenClaw environment variable. Do not pass the entire API/worker environment to child processes.
 
-The retention/polling values are initial policy suggestions. Tune them against actual report sizes, history retention, provider usage, and observed reliability. A database connection and a Supabase privileged key are alternative access mechanisms for particular operations; avoid retaining unused credentials.
+The retention/polling values are initial policy suggestions. Tune them against actual report sizes, history retention, provider usage, and observed reliability. Local server credentials should use Application Default Credentials; deployed services should use a narrowly privileged workload identity where available. Keep all Admin credentials out of the frontend bundle.
 
 ### 10.3 OpenClaw-owned credentials and configuration
 
@@ -1705,7 +1715,7 @@ Suggested test ownership:
 
 - Shared unit tests: status mapping, output schema, input validation, freshness/citation rules.
 - Backend integration tests: ownership, transactions, queue leases, idempotency, concurrent event replay, fixture normalization.
-- Database-backed tests: actual unique constraints, composite foreign keys, RLS, and transactional rollback.
+- Firestore-backed tests: emulator migration repeatability, deny-all browser Rules, owner-path isolation, transactional uniqueness claims, and rollback on duplicate claims.
 - Browser tests: real required navigation and interaction paths, not every decorative frame.
 - Operational checks: supervised services, runtime paths, private ingress, backup restore, laptop-off proof.
 
@@ -1747,8 +1757,9 @@ Although service supervision and private connectivity appear again in Phase F, t
 - [x] Step 13 — Typecheck, lint, build, focused browser checks, required viewport screenshots, visual-fidelity comparison, and frontend handoff evidence recorded in `docs/verification/step-13-frontend-handoff.md`.
 - [x] Frontend demo runnable with four analysts and clickable desks.
 - [x] Reports, profile tabs, filters, unread state, back navigation, and demo runs verified.
-- [ ] Owner-only login/API and database migrations implemented.
-- [ ] Database constraints, RLS, and ownership failures verified.
+- [x] Steps 14–15 implementation added: private Fastify API, Firebase owner login/allowlist, versioned Firestore schema/migration, Rules, indexes, and data-model documentation.
+- [ ] Firebase Auth/Firestore project configuration and server ADC verified; emulator checks cover expired/nonowner auth, migration repeatability, duplicate claims, and cross-owner path rejection.
+- [ ] Remaining Step 16 ownership repository checks verified against a second authenticated identity.
 - [ ] Durable manual-run requests and ambiguous-dispatch handling implemented.
 - [ ] Exact OpenClaw/server runtime and supported interface record captured.
 - [ ] First analyst, tool policy, and search access validated.
@@ -1860,21 +1871,24 @@ Follow the linked primary documentation at the relevant step. This list also ser
 - [Optional OpenResponses endpoint](https://docs.openclaw.ai/gateway/openresponses-http-api)
 - [Web research provider setup](https://docs.openclaw.ai/tools/web)
 - [Vite frontend setup](https://vite.dev/guide/)
-- [Supabase JWT verification](https://supabase.com/docs/guides/auth/jwts)
-- [Supabase row-level security](https://supabase.com/docs/guides/database/postgres/row-level-security)
+- [Firebase web Authentication](https://firebase.google.com/docs/auth/web/start)
+- [Firebase ID-token verification](https://firebase.google.com/docs/auth/admin/verify-id-tokens)
+- [Firebase Admin SDK setup and Application Default Credentials](https://firebase.google.com/docs/admin/setup)
+- [Cloud Firestore transactions](https://firebase.google.com/docs/firestore/manage-data/transactions)
+- [Cloud Firestore Rules and Admin SDK behavior](https://firebase.google.com/docs/firestore/security/rules-conditions)
 
 ### Fill this in during implementation
 
 | Item | Current evidence / implementation entry |
 | --- | --- |
 | Guide source inspection | Local brief and related Markdown files read in full |
-| Documentation review | Official OpenClaw, Vite, and relevant Supabase docs checked on 2 October 2026 |
+| Documentation review | Official OpenClaw, Vite, and Firebase Auth/Firestore docs rechecked on 7 October 2026 |
 | Local observed runtime | Node `v20.20.2`, npm `10.8.2`; no `openclaw` on this shell's PATH |
 | Selected application Node version | Node `v26.10.0` pinned in `.node-version` and used for typecheck, lint, build, and local dev startup; revisit the production runtime choice before deployment. |
-| Workspace dependency baseline | Exact frontend/shared/tooling versions are recorded in `package-lock.json`; no live integrations are installed or configured. |
+| Workspace dependency baseline | Exact frontend/shared/backend/tooling versions are recorded in `package-lock.json`; Firebase Admin/Auth code is installed, but live credentials and project services are not configured by this implementation pass. |
 | Deployed OpenClaw version | Not yet verified |
 | Gateway client version, if used | Not yet selected; test against deployed Gateway |
-| Database/Auth environment | Not yet connected in this workspace |
+| Database/Auth environment | Firebase web config file exists locally and is ignored; Auth provider, server ADC, owner UID, Firestore rules/index deployment, and schema migration still require environment setup. |
 | Captured success/failure events | Required in Phase C; not yet captured |
 | First live report | Required in Phase C; not yet produced |
 | Four scheduled task IDs | Required in Phase D; not yet created |

@@ -8,7 +8,7 @@ Last updated: 7 October 2026
 | --- | --- | --- | --- |
 | A — Foundation and interaction design (Steps 1–5) | Demo foundation; no live integration | Complete | Baseline is reproducible; runtime/workspaces are installable; route and return behavior is specified; desktop/mobile wireframes are complete; a four-analyst/four-desk production SVG contract is defined. |
 | B — Working frontend demonstration (Steps 6–13) | Demo only; simulated agents/reports/runs, no model or OpenClaw calls | Complete | Four analysts and desks work by keyboard/touch; the concept-quality native visual system, reports, filters, profiles, demo run lifecycle, reduced-motion behavior, and handoff evidence are available. |
-| C1 — Private backend and app database (Steps 14–19) | Live app foundation; owner-authenticated, with genuine empty states | Not started | Auth, ownership controls, migrations, API contracts, durable run requests, and live-empty UI are verified. |
+| C1 — Private backend and app database (Steps 14–19) | Live app foundation; owner-authenticated, with genuine empty states | In progress — Steps 14–15 implemented; 16–19 remain | Firebase owner auth and Firestore schema are implemented; project setup, emulator acceptance, repository ownership checks, live APIs, and durable runs remain. |
 | C2 — OpenClaw setup and first live report (Steps 20–29) | Live integration | Not started | A captured, authenticated OpenClaw completion becomes exactly one persisted report; a controlled run is reconciled after disconnect/restart. |
 | D — Four analysts and dependable schedules (Steps 30–36) | Live integration | Not started | Four reviewed tasks and saved schedules use dated inputs, map to verified agent/job IDs, and reconcile without duplicates. |
 | E — Editing, conversations, notifications (Steps 37–41) | Live integration with optional user-facing features | Not started | Schedule edits are read back, report conversations retain correct context, and any notifications/usage reflect actual state. |
@@ -31,6 +31,8 @@ Last updated: 7 October 2026
 - Completed Step 11 with service-owned queued/running/terminal run timers, active-task reuse, atomic success/report persistence, explicit interruption on full page refresh, reset cancellation, and report-scoped canned follow-up responses with no model or network traffic.
 - Completed Step 12 with a shared live region for meaningful demo run/report updates, explicit hidden-tab pausing for both the activity clock and decorative CSS loops, stored/system reduced-motion handling, and a Rex-specific deterministic activity seed. The responsive styles and required browser captures now verify the motion-free and phone-width presentation.
 - Completed Step 13 with typecheck, lint, production build, local route/asset smoke checks, CDP-controlled captures at 360/390/768/1440 px, Reports/profile/detail evidence, visual-fidelity comparison, and a documented frontend handoff in `docs/verification/step-13-frontend-handoff.md`.
+- Implemented Step 14 with a Fastify API, validated server configuration, structured request IDs and redacted logs, health/readiness endpoints, exact optional CORS, request/rate limits, Firebase Admin ID-token verification including revocation checks, and a stable owner UID allowlist. Added an opt-in live-mode sign-in/sign-out screen; demo remains the default.
+- Implemented Step 15 against the recorded Firebase/Firestore decision: Zod document contracts for the guide's entities, owner-scoped collection paths, transactional uniqueness claim helpers, an idempotent schema migration, deny-all browser Firestore Rules, composite indexes, and `docs/DATA_MODEL.md`. The cloud migration and Rules/index deployment were not run.
 - Completed the isometric visual pass with a bot-free rendered office environment, WebP/JPEG runtime assets, normalized scene anchors, transparent desk hit areas, landmark labels, report/briefing overlays, artwork failure fallback, and preserved SVG analyst pose states.
 - Confirmed typecheck, lint, and production build pass; the Vite development server starts at `127.0.0.1:5173`.
 
@@ -42,7 +44,7 @@ The current Step 5 assets provide the stable production contract for that work: 
 
 ## Current limits
 
-- The workspace has no live agents, backend service, database, real holdings, or market feed; reports exist only as local illustrative demo fixtures.
+- The workspace has no live agents, live report API, real holdings, or market feed; reports exist only as local illustrative demo fixtures. The backend/auth/schema code is present, but Firebase Auth provider settings, server ADC, Firestore emulator checks, deployed Rules/indexes, migration execution, and the Step 17 data API remain pending.
 - The frontend demo through Step 13 is complete and the required browser captures are recorded. Live agents, backend persistence, market data, model traffic, OpenClaw integration, and production deployment remain future phase work.
 - Node 26.10.0 remains the local pin; package engines also allow Node 24.x for Vercel, which currently builds with Node 24.21.0.
 - No infrastructure, account, paid service, or public deployment has been provisioned.

@@ -1,4 +1,4 @@
-import { useMemo, type ReactNode } from "react";
+import { lazy, Suspense, useMemo, type ReactNode } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { Link, Navigate, Route, Routes, useLocation } from "react-router-dom";
 import { AGENT_IDS, type Agent, type AgentId } from "@investment-office/shared";
@@ -10,6 +10,8 @@ import ReportListPage from "./components/ReportListPage";
 import OfficeScene from "./components/OfficeScene";
 import DemoScenarioControls from "./demo/DemoScenarioControls";
 import DemoAnnouncements from "./components/DemoAnnouncements";
+
+const OwnerAccessApp = lazy(() => import("./auth/OwnerAccessApp"));
 import { officeService } from "./demo";
 import { useDemoRevision } from "./lib/demoHooks";
 
@@ -187,7 +189,7 @@ function AppHeader() {
   );
 }
 
-export default function App() {
+function DemoApplication() {
   return (
     <div className="app-shell">
       <AppHeader />
@@ -209,4 +211,14 @@ export default function App() {
       </main>
     </div>
   );
+}
+
+export default function App() {
+  return import.meta.env.VITE_APP_MODE === "live"
+    ? (
+      <Suspense fallback={<main className="owner-access-main" role="status">Loading private sign-in…</main>}>
+        <OwnerAccessApp />
+      </Suspense>
+    )
+    : <DemoApplication />;
 }

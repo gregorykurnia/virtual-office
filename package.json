@@ -14,7 +14,11 @@
   ],
   "scripts": {
     "predev": "npm run build --workspace @investment-office/shared",
+    "predev:api": "npm run build --workspace @investment-office/shared",
+    "predb:migrate": "npm run build --workspace @investment-office/shared",
     "dev": "npm run dev --workspace @investment-office/frontend --",
+    "dev:api": "npm run dev --workspace @investment-office/backend",
+    "db:migrate": "npm run dev:migrate --workspace @investment-office/backend",
     "pretypecheck": "npm run build --workspace @investment-office/shared",
     "build": "npm run build --workspaces --if-present",
     "typecheck": "npm run typecheck --workspaces --if-present",

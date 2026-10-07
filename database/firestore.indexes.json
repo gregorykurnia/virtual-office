@@ -1,0 +1,62 @@
+{
+  "indexes": [
+    {
+      "collectionGroup": "reports",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "agentId", "order": "ASCENDING" },
+        { "fieldPath": "generatedAt", "order": "DESCENDING" }
+      ]
+    },
+    {
+      "collectionGroup": "runs",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "taskId", "order": "ASCENDING" },
+        { "fieldPath": "queuedAt", "order": "DESCENDING" }
+      ]
+    },
+    {
+      "collectionGroup": "events",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "processingState", "order": "ASCENDING" },
+        { "fieldPath": "receivedAt", "order": "ASCENDING" }
+      ]
+    },
+    {
+      "collectionGroup": "workItems",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "state", "order": "ASCENDING" },
+        { "fieldPath": "availableAt", "order": "ASCENDING" }
+      ]
+    },
+    {
+      "collectionGroup": "notificationOutbox",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "state", "order": "ASCENDING" },
+        { "fieldPath": "availableAt", "order": "ASCENDING" }
+      ]
+    },
+    {
+      "collectionGroup": "taskMutations",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "reconciliationState", "order": "ASCENDING" },
+        { "fieldPath": "updatedAt", "order": "ASCENDING" }
+      ]
+    }
+  ],
+  "fieldOverrides": [
+    { "collectionGroup": "reports", "fieldPath": "bodyMarkdown", "indexes": [] },
+    { "collectionGroup": "inputSnapshots", "fieldPath": "validatedInput", "indexes": [] },
+    { "collectionGroup": "events", "fieldPath": "rawPayloadJson", "indexes": [] },
+    { "collectionGroup": "workItems", "fieldPath": "payload", "indexes": [] },
+    { "collectionGroup": "taskMutations", "fieldPath": "desiredPatch", "indexes": [] },
+    { "collectionGroup": "taskMutations", "fieldPath": "externalResult", "indexes": [] },
+    { "collectionGroup": "taskMutations", "fieldPath": "readback", "indexes": [] },
+    { "collectionGroup": "auditEvents", "fieldPath": "safeMetadata", "indexes": [] }
+  ]
+}

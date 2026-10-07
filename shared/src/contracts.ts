@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { AgentIdSchema, type AgentId } from "./agent";
+import { AgentIdSchema, type AgentId } from "./agent.js";
 
 export const DataModeSchema = z.enum(["demo", "live"]);
 export type DataMode = z.infer<typeof DataModeSchema>;

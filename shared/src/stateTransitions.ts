@@ -1,4 +1,4 @@
-import type { DeliveryStatus, ExecutionStatus, ReportProcessingStatus } from "./contracts";
+import type { DeliveryStatus, ExecutionStatus, ReportProcessingStatus } from "./contracts.js";
 
 const EXECUTION_TRANSITIONS: Record<ExecutionStatus, readonly ExecutionStatus[]> = {
   queued: ["queued", "running", "failed", "cancelled", "interrupted", "skipped", "unknown"],

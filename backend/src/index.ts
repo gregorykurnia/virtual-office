@@ -1,2 +1,3 @@
-/** The application API remains inactive during the frontend foundation phase. */
-export const backendPhase = "not-configured" as const;
+export { buildApp } from "./app.js";
+export { loadBackendConfig } from "./config.js";
+export { createFirebaseServices } from "./firebase.js";
