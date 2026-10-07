@@ -58,3 +58,7 @@ The current Step 5 assets provide the stable production contract for that work: 
 ## Four-agent requirements documentation — 7 October 2026
 
 Completed repository and documentation inspection; recorded the revised specification, stable identity mapping, agent instructions, investor inputs, reports, coordination, dependency schedules, UI/API/storage extensions and acceptance checklist. Linked operational and visual plans to the authoritative specification. OpenClaw executable was not found on this shell's PATH; no remote installation was verified. No runtime, migration, external job or notification configuration was changed by this documentation pass. The new workflow checklist remains pending implementation.
+
+## Step 20 host-readiness assessment — 7 October 2026
+
+Recorded a workstation-side host preflight in [`docs/verification/step-20-host-readiness.md`](./verification/step-20-host-readiness.md). This session is on macOS with Node `v20.20.2`; the repository pins `v26.10.0`. No Linux VPS target or named SSH host was supplied, and no `openclaw` or `tailscale` executable was found on this shell's PATH. Host accounts, private connectivity, runtime/storage paths, time sync, provider egress, and laptop-independent execution remain unverified. Step 20 is **not complete**; no infrastructure, account, firewall, service, or credential was changed. The target host and authorized access are required to continue.

@@ -644,6 +644,8 @@ Keep the Gateway on the server, not dependent on the owner's laptop or a laptop-
 **Deliverables:** host inventory, private connectivity, runtime paths, storage paths.  
 **Done when:** the future research path has no required component running on the owner's device.
 
+**Implementation assessment, 7 October 2026:** the available development workstation is macOS 25.2.0/ARM64 with Node `v20.20.2`; the repository pins Node `v26.10.0`. No Linux VPS target or named SSH host was supplied, and neither `openclaw` nor `tailscale` is on this shell's `PATH`. No remote host, private connectivity, service identities, persistent paths, clock sync, or server-side provider access could therefore be verified. Step 20 remains incomplete pending a target host and authorized access. See [`docs/verification/step-20-host-readiness.md`](./docs/verification/step-20-host-readiness.md). This is a workstation observation, not evidence that no remote installation exists elsewhere.
+
 ### Step 21 — Install, onboard, and supervise OpenClaw
 
 1. Inspect any existing installation before changing it. Record its state location and active service.
