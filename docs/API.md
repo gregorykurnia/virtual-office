@@ -1,5 +1,7 @@
 # Private API foundation
 
+> Requirements update — 7 October 2026: [Four-agent workflow specification](./FOUR_AGENT_WORKFLOW_SPEC.md) is authoritative for the revised roles, investor context, watchlists, reporting, coordination, editable WIB schedules, UI controls, and acceptance checks. Conflicting historical defaults below are superseded. Preserve Rex (`market`), Adrian (`portfolio`), Clara (`research`), and Theo (`risk`) and their artwork. This update records requirements; it does not claim implementation or live connectivity.
+
 The API is a Fastify service in `backend/`. It accepts Firebase ID tokens in an `Authorization: Bearer <token>` header over same-origin HTTPS. Firebase Admin verifies the client token, expiry, project claims, signature, revocation status, and account state. A stable `OWNER_UID` allowlist then authorizes the one owner. The owner UID is derived from the verified token and never comes from a request body, query parameter, or browser-selected Firestore path.
 
 ## Routes

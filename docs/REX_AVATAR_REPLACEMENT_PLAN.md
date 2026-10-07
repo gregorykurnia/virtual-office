@@ -1,5 +1,7 @@
 # Maya → Rex avatar replacement plan
 
+> Requirements update — 7 October 2026: [Four-agent workflow specification](./FOUR_AGENT_WORKFLOW_SPEC.md) is authoritative for the revised roles, investor context, watchlists, reporting, coordination, editable WIB schedules, UI controls, and acceptance checks. Conflicting historical defaults below are superseded. Preserve Rex (`market`), Adrian (`portfolio`), Clara (`research`), and Theo (`risk`) and their artwork. This update records requirements; it does not claim implementation or live connectivity.
+
 Status: implemented, 4 October 2026. This change replaces Maya's display identity and artwork with Rex, using the supplied Captain Rex preview and design guide. The internal `market-bot` asset key and market analyst relationships remain unchanged.
 
 ## Intended result

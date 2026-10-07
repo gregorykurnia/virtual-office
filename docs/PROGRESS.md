@@ -1,5 +1,7 @@
 # Implementation progress
 
+> Requirements update — 7 October 2026: [Four-agent workflow specification](./FOUR_AGENT_WORKFLOW_SPEC.md) is authoritative for the revised roles, investor context, watchlists, reporting, coordination, editable WIB schedules, UI controls, and acceptance checks. Conflicting historical defaults below are superseded. Preserve Rex (`market`), Adrian (`portfolio`), Clara (`research`), and Theo (`risk`) and their artwork. This update records requirements; it does not claim implementation or live connectivity.
+
 Last updated: 7 October 2026
 
 ## Milestones
@@ -52,3 +54,7 @@ The current Step 5 assets provide the stable production contract for that work: 
 - The frontend demo through Step 13 is complete and the required browser captures are recorded. Live agents, live Firebase records, market data, model traffic, OpenClaw integration, and production deployment remain future phase work.
 - Node 26.10.0 remains the local pin; package engines also allow Node 24.x for Vercel, which currently builds with Node 24.21.0.
 - No infrastructure, account, paid service, or public deployment has been provisioned.
+
+## Four-agent requirements documentation — 7 October 2026
+
+Completed repository and documentation inspection; recorded the revised specification, stable identity mapping, agent instructions, investor inputs, reports, coordination, dependency schedules, UI/API/storage extensions and acceptance checklist. Linked operational and visual plans to the authoritative specification. OpenClaw executable was not found on this shell's PATH; no remote installation was verified. No runtime, migration, external job or notification configuration was changed by this documentation pass. The new workflow checklist remains pending implementation.

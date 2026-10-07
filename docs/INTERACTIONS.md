@@ -1,5 +1,7 @@
 # Routes and interaction contract
 
+> Requirements update — 7 October 2026: [Four-agent workflow specification](./FOUR_AGENT_WORKFLOW_SPEC.md) is authoritative for the revised roles, investor context, watchlists, reporting, coordination, editable WIB schedules, UI controls, and acceptance checks. Conflicting historical defaults below are superseded. Preserve Rex (`market`), Adrian (`portfolio`), Clara (`research`), and Theo (`risk`) and their artwork. This update records requirements; it does not claim implementation or live connectivity.
+
 This document specifies destinations and return behavior for the prototype and later live surfaces. Office and Reports are the primary destinations. The route shell currently implements `/office`, `/reports`, and `/reports/:reportId`; the remaining routes are reserved for later milestones.
 
 ## Routes

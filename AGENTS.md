@@ -21,3 +21,9 @@ Before changing a screen or component:
 2. Push the commit to the current branch's configured upstream after committing. This repository's `main` branch tracks `origin/main`.
 
 3. Keep unrelated existing changes out of the commit. Stage only the files belonging to the current task. Never amend or force-push. If committing or pushing is blocked, explain what prevented it.
+
+## Four-agent workflow requirements
+
+Before implementing research workflows, read `docs/FOUR_AGENT_WORKFLOW_SPEC.md`, the product plan, technical guide and `docs/PROGRESS.md`. The specification supersedes old role/schedule defaults. Keep exactly four existing identities: Adrian/portfolio owns portfolio and digest assembly; Rex/market owns global markets; Clara/research owns opportunities; Theo/risk owns AI and technology. Preserve stable IDs, names and artwork. Implement risk analysis within these roles.
+
+Never treat watchlists as holdings, invent allocation inputs, or describe demo/configured work as live. Use dated portfolio inputs, approved targets, primary sources and Asia/Jakarta schedules displayed in WIB. Verify installed OpenClaw interfaces before configuring jobs; reconcile existing jobs and uncertain dispatches without blind retries. Shared app storage is the coordination boundary until native messaging is verified. Keep documentation and acceptance evidence current as each workflow is implemented.

@@ -1,5 +1,7 @@
 # Reference-matched 3D office visual plan
 
+> Requirements update — 7 October 2026: [Four-agent workflow specification](./FOUR_AGENT_WORKFLOW_SPEC.md) is authoritative for the revised roles, investor context, watchlists, reporting, coordination, editable WIB schedules, UI controls, and acceptance checks. Conflicting historical defaults below are superseded. Preserve Rex (`market`), Adrian (`portfolio`), Clara (`research`), and Theo (`risk`) and their artwork. This update records requirements; it does not claim implementation or live connectivity.
+
 Status: environment and avatar slices implemented, 3 October 2026. The rendered office background, normalized interaction frame, and reference-matched raster analyst family are now in the frontend.
 
 ## Visual target and source of truth

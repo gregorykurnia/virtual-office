@@ -1,5 +1,7 @@
 # Firebase Auth and Firestore setup
 
+> Requirements update — 7 October 2026: [Four-agent workflow specification](./FOUR_AGENT_WORKFLOW_SPEC.md) is authoritative for the revised roles, investor context, watchlists, reporting, coordination, editable WIB schedules, UI controls, and acceptance checks. Conflicting historical defaults below are superseded. Preserve Rex (`market`), Adrian (`portfolio`), Clara (`research`), and Theo (`risk`) and their artwork. This update records requirements; it does not claim implementation or live connectivity.
+
 The frontend uses Firebase Authentication and the modular Firebase JavaScript SDK for the registered `virtual-office-77c1d` web app. Product Firestore access is server-only through the private Fastify API; the browser does not read or write Firestore.
 
 ## Local configuration

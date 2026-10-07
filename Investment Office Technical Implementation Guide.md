@@ -1,5 +1,7 @@
 # Investment Office — Step-by-Step Technical Implementation Guide
 
+> Requirements update — 7 October 2026: [Four-agent workflow specification](./docs/FOUR_AGENT_WORKFLOW_SPEC.md) is authoritative for the revised roles, investor context, watchlists, reporting, coordination, editable WIB schedules, UI controls, and acceptance checks. Conflicting historical defaults below are superseded. Preserve Rex (`market`), Adrian (`portfolio`), Clara (`research`), and Theo (`risk`) and their artwork. This update records requirements; it does not claim implementation or live connectivity.
+
 Prepared: 2 October 2026  
 Scope: frontend demonstration, private live application, OpenClaw integration, four analyst tasks, scheduling, conversations, deployment, and ongoing operation.
 
@@ -1900,3 +1902,21 @@ Follow the linked primary documentation at the relevant step. This list also ser
 | Laptop-off proof and restore evidence | Required during implementation; not yet performed |
 
 Completion means the acceptance gates have actual evidence. Until then, this document is the technical roadmap for building and verifying the Investment Office.
+
+## Revised four-agent implementation work packages — 7 October 2026
+
+The full requirements and acceptance checklist are in [the workflow specification](docs/FOUR_AGENT_WORKFLOW_SPEC.md). Extend existing milestones rather than rebuilding completed foundations:
+
+| Existing milestone | Required extension | Implementation boundary |
+| --- | --- | --- |
+| Steps 6/15–19: schemas, storage and API | Version additive report metadata, theses/candidates, targets, findings, bookmarks, command coordination and dependencies; immutable current-input snapshots | `shared/src/database.ts`, `shared/src/contracts.ts`, numbered migrations, owner repositories and `backend/src/app.ts`; preserve legacy role keys and existing read contracts |
+| Steps 20–29: OpenClaw | Discover exact installed version, supported run/history/completion/scheduler interfaces and real research access; implement adapter/reconciliation | Existing `backend/src/workers/runDispatchWorker.ts` injection boundary; do not assume native messaging or create jobs before verification |
+| Steps 30–36: four roles/schedules | Four versioned role instructions, stable mappings, editable WIB defaults, dependency cutoff and partial digest assembly by Adrian | Owner-scoped tasks/findings/reports and verified external job readback; one scheduler and idempotent task/job reconciliation |
+| Steps 37–41: owner controls | Watchlist/thesis/target edits, natural-language routing, explicit selection, coordinated requests, bookmarks/filters, optional Telegram | Existing authenticated API/service adapters and profile/feed components; Telegram disabled until verified, with persistent deduplication |
+| Steps 42–47: visual/operational acceptance | Retain office identities/artwork, inspect responsive states, test persistence/restart/failure/stale and missing-input paths | Existing visual contracts, repository checks and dated acceptance evidence; live operation requires verified remote execution |
+
+Planned API additions (not mounted by this documentation update): owner-scoped thesis/candidate/approved-allocation/preferences reads and versioned edits; command submission/detail with idempotency; bookmark mutation and report type/topic/importance filters; schedule configuration/status including desired/applied versions, dependencies, last reconciliation and recent failures. Reuse existing holdings/watchlist/task-mutation/outbox contracts. Never pass external agent IDs or credentials from the browser as authority.
+
+Planned storage additions: thesis versions and evidence references; opportunity candidates with removal criteria; approved allocation versions and contribution settings; shared findings with canonical event keys and owner/specialist links; command parents and child-task/run/report links; digest dependency snapshots and missing-section reasons; source coverage/freshness metadata; bookmark state; schedule desired/applied projections and configurable budgets/models. Add numbered migrations, compatible readers and transactional ownership/uniqueness checks; do not edit an already applied migration or seed personal positions.
+
+Completion requires the specification's full acceptance checklist plus existing workspace checks. A documentation update, saved desired schedule, simulated task or injected adapter test is not evidence of a live research run. Record exact remaining setup and verified capabilities at handoff.

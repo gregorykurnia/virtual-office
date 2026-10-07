@@ -1,5 +1,7 @@
 # Rendered 3D analyst avatar implementation plan
 
+> Requirements update — 7 October 2026: [Four-agent workflow specification](./FOUR_AGENT_WORKFLOW_SPEC.md) is authoritative for the revised roles, investor context, watchlists, reporting, coordination, editable WIB schedules, UI controls, and acceptance checks. Conflicting historical defaults below are superseded. Preserve Rex (`market`), Adrian (`portfolio`), Clara (`research`), and Theo (`risk`) and their artwork. This update records requirements; it does not claim implementation or live connectivity.
+
 Status: implemented, 3 October 2026. This document records the reference-matched avatar work delivered after the rendered office environment. The fixed-camera character slice is complete; walking, roaming, camera rotation, and a real-time 3D engine remain outside scope.
 
 The delivered runtime contains 20 transparent 352 × 352 WebP poses with matching PNG fallbacks, a typed per-agent/per-pose manifest, a shared scene/portrait renderer, measured ground offsets, a calm loading state, and a one-time format fallback. The WebP family is approximately 1.11 MB and the PNG fallback family is approximately 1.86 MB.

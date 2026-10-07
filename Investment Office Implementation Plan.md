@@ -1,5 +1,7 @@
 # Investment Office — Product Brief and Implementation Plan
 
+> Requirements update — 7 October 2026: [Four-agent workflow specification](./docs/FOUR_AGENT_WORKFLOW_SPEC.md) is authoritative for the revised roles, investor context, watchlists, reporting, coordination, editable WIB schedules, UI controls, and acceptance checks. Conflicting historical defaults below are superseded. Preserve Rex (`market`), Adrian (`portfolio`), Clara (`research`), and Theo (`risk`) and their artwork. This update records requirements; it does not claim implementation or live connectivity.
+
 Version: 1.0 · Prepared: 2 October 2026
 
 ## 1. Read this first, Codex
@@ -17,7 +19,7 @@ When handed an existing repository, read its applicable AGENTS.md and inspect it
 | Item | Status | Direction |
 | --- | --- | --- |
 | Private investment-agent headquarters | Confirmed requirement | Personal application, initially one owner |
-| Four analyst characters | Confirmed requirement | Market, portfolio, investment research, risk |
+| Four analyst characters | Confirmed requirement | Global markets, portfolio, opportunity scout, AI & technology |
 | Clickable analysts and desks | Confirmed requirement | Meaningful profile and assignment interactions |
 | Report list, report detail, agent profile panel | Confirmed requirement | Core readable information surfaces |
 | Clearly labelled demonstration data | Confirmed requirement | Required throughout the prototype |
@@ -72,14 +74,14 @@ Names below are demonstration defaults and may be changed. Use stable technical 
 
 | ID | Character | Responsibility | Required inputs | Report emphasis |
 | --- | --- | --- | --- | --- |
-| market | Maya — Market Analyst | Broad market developments and economic events | Markets, geography, source preferences | What happened, why it matters, next events |
-| portfolio | Adrian — Portfolio Analyst | Material developments affecting holdings/watchlist | Owner-provided tickers; positions for exposure context | Company changes, thesis relevance, upcoming catalysts |
-| research | Clara — Investment Research Analyst | Deeper stock and ETF research | Selected topic, horizon, research criteria | Business/fund structure, valuation assumptions, risks, evidence |
-| risk | Theo — Risk Analyst | Portfolio exposure and challenge of investment assumptions | Dated positions, objectives, reports to critique | Concentration, overlap, contrary evidence, data gaps |
+| market | Rex — Global Markets Analyst | Macro, rates, currencies, commodities and global markets | Dated official releases, market observations and owner context | Weekday briefing, weekly scenarios, material alerts |
+| portfolio | Adrian — Portfolio Analyst | Existing stocks/ETFs, theses, dividends, allocation and digest assembly | Latest holdings, approved targets, contribution inputs and dated look-through | Weekly health, material thesis changes, monthly DCA/dividends, combined digest |
+| research | Clara — Opportunity Scout | Independent emerging-sector and company discovery | Adoption/financial evidence, valuation and catalyst assumptions | Up to three radar developments, justified deep dive, persistent candidate updates |
+| risk | Theo — AI & Technology Analyst | Models, coding agents, automation, AI economics and practical applications | Official docs, credible evaluations, pricing/availability and practical evidence | Use now/Watch/Investment implication, weekly worth-testing recommendation |
 
 Give characters individual clothing, silhouettes, accent colours, and desk props. Do not make colour the only differentiator. Avoid tying analytical ability to appearance or stereotypes.
 
-For live research, the risk agent must receive position sizes before calculating concentration. ETF look-through exposure requires reliable holdings data and a stated as-of date. Never manufacture missing holdings or assume previous portfolio information is current.
+For live research, the Portfolio Analyst must receive position sizes before calculating concentration. ETF look-through exposure requires reliable holdings data and a stated as-of date. Never manufacture missing holdings or assume previous portfolio information is current.
 
 ## 5. Information architecture
 

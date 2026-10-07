@@ -1,5 +1,7 @@
 # Visual refinement checkpoint
 
+> Requirements update — 7 October 2026: [Four-agent workflow specification](./FOUR_AGENT_WORKFLOW_SPEC.md) is authoritative for the revised roles, investor context, watchlists, reporting, coordination, editable WIB schedules, UI controls, and acceptance checks. Conflicting historical defaults below are superseded. Preserve Rex (`market`), Adrian (`portfolio`), Clara (`research`), and Theo (`risk`) and their artwork. This update records requirements; it does not claim implementation or live connectivity.
+
 ## Objective
 
 Bring the frontend demo up to the visual quality described by the design concepts while preserving the existing technical implementation: React + TypeScript + Vite, accessible HTML controls, native SVG office assets, demo fixtures, profile/report routes, and reduced-motion behavior.
