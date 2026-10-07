@@ -87,7 +87,8 @@ function agentFromApi(value: ApiAgent, tasks: Task[] = []): Agent {
   return {
     id: value.id,
     role: value.roleKey,
-    displayName: value.displayName,
+    // Keep the visible identity aligned with the portfolio avatar if a saved live record still has its former name.
+    displayName: value.roleKey === "portfolio" ? "Paz" : value.displayName,
     title: value.title,
     responsibility: value.responsibility,
     avatarKey: value.avatarKey,

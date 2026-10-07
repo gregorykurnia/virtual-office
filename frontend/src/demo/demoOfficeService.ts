@@ -135,8 +135,20 @@ function loadState(storage: Storage | null): DemoSnapshot | null {
     }
 
     const state = result.data as DemoSnapshot;
-    if (persisted.fixtureVersion === previousFixtureVersion) {
-      state.agents = state.agents.map((agent) => agent.id === "market" ? { ...agent, displayName: "Rex" } : agent);
+    const migratedFixtureVersion = persisted.fixtureVersion === previousFixtureVersion;
+    let identityChanged = false;
+    state.agents = state.agents.map((agent) => {
+      if (agent.id === "market" && migratedFixtureVersion && agent.displayName !== "Rex") {
+        identityChanged = true;
+        return { ...agent, displayName: "Rex" };
+      }
+      if (agent.id === "portfolio" && agent.displayName !== "Paz") {
+        identityChanged = true;
+        return { ...agent, displayName: "Paz" };
+      }
+      return agent;
+    });
+    if (migratedFixtureVersion || identityChanged) {
       try {
         storage.setItem(DEMO_STORAGE_KEY, JSON.stringify({ fixtureVersion: DEMO_FIXTURE_VERSION, state } satisfies PersistedDemoState));
       } catch {
