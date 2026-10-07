@@ -63,3 +63,7 @@ Completed repository and documentation inspection; recorded the revised specific
 ## Step 20 host-readiness assessment — 7 October 2026
 
 Recorded a workstation-side host preflight in [`docs/verification/step-20-host-readiness.md`](./verification/step-20-host-readiness.md). This session is on macOS with Node `v20.20.2`; the repository pins `v26.10.0`. No Linux VPS target or named SSH host was supplied, and no `openclaw` or `tailscale` executable was found on this shell's PATH. Host accounts, private connectivity, runtime/storage paths, time sync, provider egress, and laptop-independent execution remain unverified. Step 20 is **not complete**; no infrastructure, account, firewall, service, or credential was changed. The target host and authorized access are required to continue.
+
+## Technical guide workflow alignment — 7 October 2026
+
+Rewrote the active technical-guide Steps 31–33 to match the approved four-role responsibilities and complete editable WIB workflow/dependency schedule. Extended Steps 26, 30 and 37–40 for report metadata, versioned inputs/theses/candidates/targets, coordinated commands, bookmarks/filters and optional verified Telegram delivery. Updated provisioning language, cost assumptions and acceptance gates to distinguish four identities from multiple workflow jobs. Preserved historical implementation records and stable IDs/artwork; no app code, runtime, external job, migration or live acceptance changed. Reviewed the documentation diff against the workflow spec; implementation remains pending.

@@ -1,13 +1,13 @@
 # Investment Office — Step-by-Step Technical Implementation Guide
 
-> Requirements update — 7 October 2026: [Four-agent workflow specification](./docs/FOUR_AGENT_WORKFLOW_SPEC.md) is authoritative for the revised roles, investor context, watchlists, reporting, coordination, editable WIB schedules, UI controls, and acceptance checks. Conflicting historical defaults below are superseded. Preserve Rex (`market`), Paz (`portfolio`), Clara (`research`), and Theo (`risk`) and their stable artwork keys. Paz is the approved cosmetic replacement for the portfolio display identity; linked responsibilities and records remain unchanged. This update records requirements; it does not claim implementation or live connectivity.
+> Requirements update — 7 October 2026: [Four-agent workflow specification](./docs/FOUR_AGENT_WORKFLOW_SPEC.md) is authoritative for the revised roles, investor context, watchlists, reporting, coordination, editable WIB schedules, UI controls, and acceptance checks. The active workflow instructions below are aligned with this specification; dated implementation records remain historical evidence. Preserve Rex (`market`), Paz (`portfolio`), Clara (`research`), and Theo (`risk`) and their stable artwork keys. Paz is the approved cosmetic replacement for the portfolio display identity; linked responsibilities and records remain unchanged. This update records requirements; it does not claim implementation or live connectivity.
 
 Prepared: 2 October 2026  
-Scope: frontend demonstration, private live application, OpenClaw integration, four analyst tasks, scheduling, conversations, deployment, and ongoing operation.
+Scope: frontend demonstration, private live application, OpenClaw integration, four analyst identities with multiple workflows, dependency scheduling, coordinated commands, conversations, deployment, and ongoing operation.
 
 This guide expands [Investment Office Implementation Plan.md](./Investment%20Office%20Implementation%20Plan.md) into an executable engineering roadmap and records implementation updates as the work progresses. Shell commands and configuration examples remain instructions until a dated implementation update says otherwise. No live OpenClaw server, agent, or recurring schedule is claimed as connected by the frontend and backend foundation steps.
 
-The product brief remains the source of truth for requirements. Technical choices introduced here are proposed implementation defaults. Current OpenClaw documentation was checked while preparing this guide; verify it against the exact installed release before running integration commands.
+The four-agent workflow specification is authoritative for current requirements; the product brief supplies supporting context. Technical choices introduced here are proposed implementation defaults. Current OpenClaw documentation was checked while preparing this guide; verify it against the exact installed release before running integration commands.
 
 ## Contents
 
@@ -17,7 +17,7 @@ The product brief remains the source of truth for requirements. Technical choice
 4. [Phase B: working frontend demonstration — Steps 6–13](#4-phase-b-working-frontend-demonstration)
 5. [Phase C1: private backend and application database — Steps 14–19](#5-phase-c1-private-backend-and-application-database)
 6. [Phase C2: OpenClaw setup and first live report — Steps 20–29](#6-phase-c2-openclaw-setup-and-first-live-report)
-7. [Phase D: four analyst tasks and dependable schedules — Steps 30–36](#7-phase-d-four-analyst-tasks-and-dependable-schedules)
+7. [Phase D: four analyst workflows and dependable schedules — Steps 30–36](#7-phase-d-four-analyst-workflows-and-dependable-schedules)
 8. [Phase E: editing, follow-up conversations, and notifications — Steps 37–41](#8-phase-e-editing-follow-up-conversations-and-notifications)
 9. [Phase F: animation, deployment, and operational verification — Steps 42–47](#9-phase-f-animation-deployment-and-operational-verification)
 10. [Environment variables and secret boundaries](#10-environment-variables-and-secret-boundaries)
@@ -849,6 +849,8 @@ Prefer a clear processing error over a second automatic paid model call to repai
 **Deliverables:** report schema, prompt contract, valid/invalid fixture examples.  
 **Done when:** accepted reports have traceable sources/metadata and malformed output is recoverable.
 
+**Required Step 26 extension:** the JSON above illustrates the original minimal envelope. Add a new schema version with report type, coverage start/end, freshness/coverage explanations, changes since previous report, personal relevance, risks/contradictions, follow-up questions, related instruments/sectors/topics, proposed next step, canonical event references and specialist-report relations. Preserve compatible legacy readers. Store source publication dates as unknown when unavailable. Add owner-checked bookmark state and report type/topic/ticker/importance filters; make bounded search limitations visible. Digest metadata records dependency/input versions and failed/missing/late sections. Validate and persist reports/sources/run links atomically and idempotently using Firestore transactions and uniqueness claims; an approved schema does not establish factual correctness.
+
 ### Step 27 — Configure a private authenticated completion receiver
 
 1. Expose `POST /integrations/openclaw/report` on a private listener, e.g. `127.0.0.1:3101` on the VPS.
@@ -949,7 +951,7 @@ The CLI's acceptance/history and whole-completion semantics are version-sensitiv
 
 **Phase C exit gate:** owner-only live app, one real report, one allowed manual task, visible failures, and server execution while the laptop is off.
 
-## 7. Phase D: four analyst tasks and dependable schedules
+## 7. Phase D: four analyst workflows and dependable schedules
 
 ### Step 30 — Build holdings, watchlist, and immutable input snapshots
 
@@ -988,219 +990,94 @@ Bind the input acquisition to the external run using supported runtime metadata 
 **Deliverables:** validated input UI/API, snapshot schema, restricted input delivery.  
 **Done when:** reports can identify the exact dated inputs used, and missing sizes never become invented exposure figures.
 
-### Step 31 — Create the remaining analysts and isolate their tools
+**Required Step 30 extensions:** version editable stock watchlist MSFT, V, GOOG, AMZN, SPGI, META, NVDA, TSM, AVGO, ISRG, INTU, WM, NOW and ETF watchlist VOO, VXUS, AVUV, SGOV. Never seed these as holdings. Record IDR spending context, US-listed investments, 10–20+ year horizon and source preferences. Add owner-authenticated versioned thesis/candidate/approved-target/contribution APIs and additive Firestore migrations. Persist thesis evidence, milestones/invalidation, opportunity removal criteria and canonical shared event keys. Run snapshots include current dated portfolio, approved targets, contribution/cash/FX inputs and previous findings with versions/hashes. Monthly DCA/dividend proposals are blocked when required inputs are missing; declared payments and confirmed brokerage receipts remain distinct.
 
-Example creation commands:
+### Step 31 — Reconcile the four identities and isolate their tools
 
-```bash
-openclaw agents add investment-portfolio \
-  --workspace /srv/investment-agents/portfolio \
-  --non-interactive
+Inspect existing identities and mappings before provisioning. Keep exactly four stable app IDs and artwork keys. Reuse verified external IDs; create an identity only when inspection proves it is missing. Never recreate an existing identity merely to change its display name or responsibilities. Historical Adrian records remain historical; the portfolio display identity is Paz.
 
-openclaw agents add investment-research \
-  --workspace /srv/investment-agents/research \
-  --non-interactive
+| Stable ID / display name | Role | Stable artwork | Allowed input context |
+| --- | --- | --- | --- |
+| `portfolio` / Paz | Portfolio Analyst and combined digest assembler | `portfolio-bot` / `portfolio-ledger` | Dated holdings, watchlists, theses, approved targets, contribution/cash/FX inputs, completed specialist reports |
+| `market` / Rex | Global Markets Analyst | `market-bot` / `market-terminal` | Research universe, macro/FX preferences, relevant instrument context |
+| `research` / Clara | Opportunity Scout | `research-bot` / `research-library` | Investment criteria, sectors, persisted candidates, milestones and previous findings |
+| `risk` / Theo | AI & Technology Analyst | `risk-bot` / `risk-console` | AI/tool preferences, DEUS/development use cases, technology evidence and previous findings |
 
-openclaw agents add investment-risk \
-  --workspace /srv/investment-agents/risk \
-  --non-interactive
-```
+The legacy `risk` ID identifies Theo; it does not assign a standalone portfolio-risk role. Risk analysis belongs within each specialist's responsibilities. Record actual external IDs from installed-interface readback, not invented mappings. Provision separate effective tool policies and reviewed instructions without copying administrator credentials. Prior reports are context, not independent primary evidence or authoritative current holdings. Shared owner-scoped app storage is the coordination boundary until native messaging is verified.
 
-Read back and store the actual agent IDs. Provision separate instructions and effective tool policies; do not clone a powerful administrator's complete agent directory or credentials. [OpenClaw agent CLI](https://docs.openclaw.ai/cli/agents)
+**Deliverables:** four verified identity mappings, versioned role policies and restricted input access.
 
-| App role / character | Proposed external ID | Input access |
-| --- | --- | --- |
-| `market` / Rex | `investment-market` | Research universe, market preferences; no position sizes needed |
-| `portfolio` / Paz | `investment-portfolio` | Dated holdings/watchlist and thesis notes |
-| `research` / Clara | `investment-research` | Explicit research topic/queue and investment criteria |
-| `risk` / Theo | `investment-risk` | Dated sizes, objectives, valuation inputs, verified holdings data, selected prior reports |
+**Done when:** each identity retains its stable references and sees only its intended inputs/tools.
 
-Give the Risk Analyst prior reports only as material to critique. An earlier analyst report is not an independent primary source. Do not use another agent's memory as authoritative current holdings.
+### Step 32 — Write four role policies and their workflow instructions
 
-**Deliverables:** four live agent identities with role-specific policies.  
-**Done when:** each agent sees its intended inputs and cannot read unnecessary credentials or control the runtime.
+Create four versioned role instruction templates, plus task-specific instructions for each workflow in Step 33. Multiple tasks may belong to one identity; do not add a fifth digest agent. All inherit Step 24's common policy and the versioned Step 26 report contract. Record instruction versions/hashes and immutable input references for every run. The following approved responsibilities are the content to deploy, not evidence that templates or jobs already exist.
 
-### Step 32 — Write the four task specifications
+#### Paz: Portfolio Analyst
 
-Create one reviewed instruction file per task. All inherit Step 24's common policy and Step 26's report schema. Keep prompts in version control, record prompt hashes/versions per run, and deploy the reviewed files into the active workspaces.
+Monitor stock earnings, guidance, revenue growth, margins, free cash flow per share, dilution, capital allocation, competition, and material risks. Persist each stock thesis: owned/watchlisted reason, dated supporting evidence, milestones, weakening conditions, and invalidation criteria. Track all saved ETFs including AVUV: distributions, fees, methodology and material exposure changes. Concentration and stock/ETF overlap require adequate dated holdings and look-through data; state coverage gaps. Track declared dividends, ex-dates, issuer payment dates, estimated amounts, and separately confirmed brokerage receipts. Monthly allocation, DCA, and dividend-reinvestment proposals require current holdings, approved targets, contribution amount/date, available cash and relevant FX assumptions. Ask for specific missing fields and block unsupported calculations. Explain price changes as business change, valuation change, or uncertain cause with evidence.
 
-#### Task 1: Rex — Market morning briefing
+Outputs: weekly portfolio health; material earnings/thesis-change reports; monthly allocation/DCA/dividend review; combined digest assembled from completed specialist reports.
 
-**Task key:** `market-morning-brief`  
-**Instruction file:** `research/market-brief.md`
+#### Rex: Global Markets Analyst
 
-```text
-Prepare the owner's market morning briefing.
+Monitor US inflation, employment, growth, Federal Reserve decisions/liquidity; nominal/real Treasury yields, curve and credit spreads; US/developed/emerging equities; oil, natural gas, gold, copper and relevant commodities; USD/IDR and Bank Indonesia; material geopolitics, regulation and trade. Relate developments to saved US stocks, VXUS, SGOV and the IDR cost of future contributions. Separate confirmed data, expectations and interpretation. Provide alternative scenarios and uncertainty, avoiding confident market timing.
 
-1. Acquire the allowed market-preferences snapshot and record its ID.
-2. Establish the current Jakarta date and latest completed relevant
-   market session. Account for exchange holidays and US daylight saving.
-3. Research material market developments and upcoming macro events.
-   Prefer central banks, statistical agencies, exchanges, and original
-   company releases for factual claims.
-4. Select the most relevant three to five developments. Explain what
-   happened, why it matters, and what event or evidence to watch next.
-5. Separate reported facts from your interpretation. Quote numerical
-   changes only when their source and as-of time are available.
-6. State which market session the report covers and identify stale data,
-   closed markets, and incomplete coverage.
-7. Return the application report JSON. If no material development is
-   found, still return a short no-material-update report with sources
-   and upcoming events. Do not suppress the final result.
-```
+Outputs: short weekday briefing; weekly macro outlook with upcoming events/scenarios; exceptional material-event alerts.
 
-**Initial boundaries:** broad market context and source-backed developments; no fabricated live quotes or market predictions stated as certainty.
+#### Clara: Opportunity Scout
 
-#### Task 2: Paz — Holdings and watchlist update
+Research independently of existing holdings. Investigate sectors, subsectors, bottlenecks and companies with 3–12 month catalysts and 3–10 year potential. Evaluate adoption, orders, backlog, capacity, utilization, pricing, margins, cash generation, moats, financial resilience, dilution and valuation. Distinguish an attractive industry from an attractive investment at today's price. Persist candidates, milestones, catalysts, risks, evidence changes and removal criteria; include ETF alternatives. Low nominal price or a large decline does not establish cheapness.
 
-**Task key:** `portfolio-daily-review`  
-**Instruction file:** `research/portfolio-review.md`
+Every serious candidate answers: why this business/sector; why now; supporting evidence; what the market may underestimate; growth already priced into valuation; realistic bull/base/bear scenarios; thesis invalidation; next monitoring steps.
 
-```text
-Review material developments for the supplied holdings and watchlist.
+Outputs: weekly radar with at most three meaningful developments; one weekly deep investigation when justified; evidence-triggered watchlist updates. “No compelling new opportunity” is valid. Do not force recommendations or promise multibagger returns.
 
-1. Acquire one dated portfolio/watchlist snapshot and record its ID.
-2. If no holdings/watchlist are configured, return a limited report
-   explaining the missing inputs. Do not invent a sample live portfolio.
-3. Search for new earnings, filings, guidance, corporate actions,
-   material business changes, and relevant upcoming catalysts.
-4. Prefer filings and investor-relations releases. Use secondary news
-   for context with attribution, not as a substitute for primary evidence.
-5. Group findings by instrument and distinguish holdings from watchlist.
-6. Explain how each development could affect the stated investment thesis;
-   label interpretation and counterarguments clearly.
-7. Discuss exposure only to the degree supported by dated sizes/values.
-   A watchlist ticker is not a portfolio position.
-8. Return the application report JSON, including no-material-update or
-   limited coverage when appropriate. State uncovered instruments and why.
-```
+#### Theo: AI & Technology Analyst
 
-**Initial boundaries:** news and thesis monitoring, not order execution or full portfolio optimization.
+Track meaningful models, capabilities, pricing, APIs, limits and availability; coding agents, automation, OpenClaw and infrastructure; official documentation, credible independent evaluations and practical evidence. Explain benchmark limitations. Track infrastructure spending, inference costs, adoption and monetization. Identify concrete applications for DEUS, development and solo software businesses. Distinguish announcement from general availability. Share investment implications with Paz/Clara through the app data layer.
 
-#### Task 3: Clara — Focused investment research
+Classify findings as Use now, Watch, or Investment implication. Outputs: concise digest up to three times weekly; weekly worth-testing recommendation with use case, expected benefit, cost and limitations; exceptional alerts for substantial practical changes.
 
-**Task key:** `research-deep-dive`  
-**Instruction file:** `research/deep-dive.md`
+#### Shared reporting and coordination instructions
 
-```text
-Produce a focused deep dive on the supplied stock, ETF, or research topic.
+Every report includes title, agent, type, generation time, coverage period, data freshness, changes since previous report, personal relevance, linked sources with publication dates, facts distinct from interpretation, risks/uncertainty/contradictions, follow-up questions, related holdings/ETFs/sectors/topics and proposed next step (including no action needed). Unknown publication dates must remain unknown. Prefer filings, IR, ETF issuers, central banks, official statistics and product docs; supplement with credible reporting. Never fabricate research, citations or activity. Label demo, stale, unavailable and missing data distinctly.
 
-1. Acquire the configured topic and criteria snapshot. Use the next
-   explicit queued topic; do not choose an unrelated investment silently.
-2. If no topic is configured, return a limited report identifying that gap.
-3. For a company, describe business segments, economics, financial
-   condition, catalysts, valuation assumptions, and contrary evidence.
-4. For a fund, describe objective, index/strategy, fees, concentration,
-   structure, and documented holdings or exposures with their dates.
-5. Prefer regulatory filings, issuer material, and official fund documents.
-6. Separate reported data from estimates. Show formulas, units, input
-   dates, and scenario assumptions for any valuation calculation.
-7. Compare bull/base/bear scenarios only when inputs support them; do not
-   invent precision or present a price target as a guaranteed result.
-8. State unanswered questions and the evidence that could change the thesis.
-9. Return the application report JSON with source references and snapshot ID.
-```
+Primary ownership: portfolio/ETFs → Paz; macro/rates/FX/commodities → Rex; new investment opportunities → Clara; AI tools/models/industry → Theo. Share persistent findings with event keys, primary owner and linked specialist reports through owner-scoped storage; native agent messaging is unverified. One event appears once in the 400–700 word combined digest with links to specialist analysis. Paz assembles it from completed reports; no fifth agent. Store previous findings and research deltas. Lightweight screening precedes deeper work; scan frequency, report length, research budgets and model selection are editable.
 
-**Initial boundaries:** one scoped topic per run. Add queue reservation/consumption only when implemented transactionally; a failed run must not silently consume its topic.
+For each role, validate a representative report for correct scope, primary sources, dated inputs, research deltas, uncertainty and missing-input handling. A quiet period may produce a no-material-update report; Clara may find no compelling opportunity. Technical failure and a useful limited-input report are distinct outcomes. Never fabricate activity, sources, freshness, allocations or recommendations to fill a scheduled slot.
 
-#### Task 4: Theo — Portfolio risk and thesis challenge
+**Deliverables:** four reviewed role templates, task-specific policies, version/hash records and representative report evidence.
 
-**Task key:** `risk-weekly-review`  
-**Instruction file:** `research/risk-review.md`
+**Done when:** each specialist meets its approved scope, and Paz assembles a deduplicated 400–700 word digest from eligible completed reports with visible gaps.
 
-```text
-Review portfolio risk and challenge the owner's investment assumptions.
+### Step 33 — Define editable workflows, schedules and dependencies
 
-1. Acquire one dated positions/objectives snapshot and any selected reports.
-2. Identify whether weights or market values cover the complete portfolio.
-3. Calculate concentration only from supported size/value inputs. Show
-   denominator, units, coverage, as-of dates, and rounding assumptions.
-4. Evaluate sector, currency, fund overlap, and correlated exposures only
-   where reliable underlying data supports the calculation.
-5. ETF look-through requires verified holdings and their as-of dates;
-   without them, explain the limitation and avoid guessed overlap figures.
-6. Challenge recent theses using independent primary evidence where possible.
-   A previous analyst's conclusion is a claim to assess, not corroboration.
-7. Distinguish measurable exposure from qualitative scenario risk. Do not
-   invent VaR, volatility, correlations, or probabilities without data/methods.
-8. If sizes are missing, return a limited qualitative report and list the
-   specific inputs needed for quantitative analysis.
-9. Return the application report JSON with assumptions, missing inputs,
-   source references, and the input snapshot ID.
-```
+Create versioned app-owned desired definitions; these are not raw OpenClaw configuration. All defaults use `Asia/Jakarta` and display WIB. Cron expressions describe desired application timing and must be translated and read back against the installed scheduler before activation.
 
-**Initial boundaries:** transparent concentration and evidence-based challenge. Advanced risk models are later work with separately validated datasets and methods.
+| Workflow | Owner | Default local time | Desired cron |
+| --- | --- | --- | --- |
+| Morning collection/specialist screening | Relevant owners | Tue–Sat 06:00 WIB | 0 6 * * 2-6 |
+| Morning prerequisite report completion | Relevant owners | Tue–Sat 06:40 WIB | 40 6 * * 2-6 |
+| Combined preceding-US-session digest | Paz | Tue–Sat 07:00 WIB | 0 7 * * 2-6 |
+| Weekly specialist reviews | All four | Sat 09:00 WIB | 0 9 * * 6 |
+| Combined weekly review | Paz | Sat 10:00 WIB | 0 10 * * 6 |
+| Monthly portfolio inputs/review generation | Paz | Day 1, 09:00 WIB | 0 9 1 * * |
+| Monthly portfolio/DCA review | Paz | Day 1, 10:00 WIB | 0 10 1 * * |
+| AI digest | Theo | Mon/Wed/Fri 09:00 WIB | 0 9 * * 1,3,5 |
+| Opportunity deep dive, when justified | Clara | Fri 17:00 WIB | 0 17 * * 5 |
 
-#### Common task acceptance checks
+Morning collection and completion rows describe workflow stages, not an instruction to rerun research at 06:40. Model completion as a bounded prerequisite deadline unless a separately justified task is needed. Expand relevant owners into explicit specialist tasks using lightweight screening and configured budgets. Weekly radar and worth-testing recommendations feed the Saturday review. Material alerts are evidence-triggered, not promised real-time coverage.
 
-For every analyst, inspect one representative report for correct role, sources, data dates, input snapshot, missing-input handling, and bounded output. Check that the final deliverable is the report, not a promise to research later.
+Each desired task stores a stable definition key, owner role, instruction version/hash, enabled state, timezone, schedule or trigger, coverage policy, dependency keys, bounded deadline/cutoff, model route and research budget. Persist desired/applied versions, verified external job ID, observed next run, observation time and recent failure. These fields require additive schemas/migrations and are not claimed implemented.
 
-Current unattended OpenClaw turns have a documented failure convention. Use `AUTOMATION_FAILED` only for actual execution/blocked technical failure; do not mark ordinary limited-input reports as failures. Keep instructions requiring a visible report on quiet days. [Unattended agent-turn behavior](https://docs.openclaw.ai/automation/cron-jobs/payloads)
+Use dependencies, not clock times alone. At cutoff Paz includes only successful reports matching the coverage window and input versions; list failed, missing and late sections. Older context retains its dates and stale label. Late results link as updates without silently rewriting a published digest. Tuesday's morning digest covers the preceding Monday US session; handle holidays and US daylight saving explicitly. Contribution-date edits move dependent monthly generation and review together.
 
-### Step 33 — Define task configuration and the proposed schedules
+OpenClaw is the sole intended recurring research scheduler. The app worker dispatches authorized work and reconciles observations; it must not become a second recurring scheduler. No jobs are created while the runtime is unavailable. Deadline, concurrency and budget policies require installed-interface evidence and do not guarantee provider cost caps.
 
-Create app-owned desired task definitions. They are not raw OpenClaw configuration objects.
+**Deliverables:** complete desired workflow manifest, dependency/coverage policy and editable WIB defaults.
 
-| Task key | Agent role | Cron expression | Timezone | Proposed run deadline |
-| --- | --- | --- | --- | --- |
-| `market-morning-brief` | `market` | `0 7 * * 2-6` | `Asia/Jakarta` | 600 s |
-| `portfolio-daily-review` | `portfolio` | `20 7 * * 2-6` | `Asia/Jakarta` | 900 s |
-| `research-deep-dive` | `research` | `0 9 * * 3,6` | `Asia/Jakarta` | 1800 s |
-| `risk-weekly-review` | `risk` | `0 10 * * 0` | `Asia/Jakarta` | 1200 s |
-
-These reproduce the brief's proposed defaults: Tuesday–Saturday morning market/portfolio reports, Wednesday/Saturday research, and Sunday risk review. They are suggestions, not confirmed personal preferences. Deadlines are initial app policy values to validate against the installed runtime; they are not guarantees of completion or provider cost caps.
-
-Always save the IANA timezone. Jakarta has no seasonal clock change, but the latest US session must still be established from dates/market hours rather than a hardcoded fixed offset. Exchange holidays do not necessarily disable the briefing: a short dated holiday/no-material-update report may be the desired behavior.
-
-Example desired manifest:
-
-```json
-{
-  "manifest_version": 1,
-  "defaults": {
-    "timezone": "Asia/Jakarta",
-    "session_style": "isolated",
-    "delivery": "app_webhook",
-    "enable_after_verification": false
-  },
-  "tasks": [
-    {
-      "key": "market-morning-brief",
-      "role": "market",
-      "name": "Investment Office — market morning brief",
-      "cron": "0 7 * * 2-6",
-      "instruction_file": "research/market-brief.md",
-      "deadline_seconds": 600
-    },
-    {
-      "key": "portfolio-daily-review",
-      "role": "portfolio",
-      "name": "Investment Office — portfolio daily review",
-      "cron": "20 7 * * 2-6",
-      "instruction_file": "research/portfolio-review.md",
-      "deadline_seconds": 900
-    },
-    {
-      "key": "research-deep-dive",
-      "role": "research",
-      "name": "Investment Office — research deep dive",
-      "cron": "0 9 * * 3,6",
-      "instruction_file": "research/deep-dive.md",
-      "deadline_seconds": 1800
-    },
-    {
-      "key": "risk-weekly-review",
-      "role": "risk",
-      "name": "Investment Office — risk weekly review",
-      "cron": "0 10 * * 0",
-      "instruction_file": "research/risk-review.md",
-      "deadline_seconds": 1200
-    }
-  ]
-}
-```
-
-If exact start timing matters, use the supported exact-timing option and verify readback. A display saying “07:00” should not conceal an observed stagger window. Calculate and inspect the next three run occurrences for every task. [OpenClaw scheduling rules](https://docs.openclaw.ai/automation/cron-jobs/schedules)
+**Done when:** every workflow maps to one of the four identities and dependency failures yield honest partial output rather than fabricated freshness.
 
 ### Step 34 — Build a repeatable task provisioning/synchronization flow
 
@@ -1210,7 +1087,7 @@ Implement `tasks:plan` and `tasks:apply` using the adapter:
 2. Read all stored app external job mappings and observed Gateway jobs.
 3. Produce a diff: create, update, unchanged, disabled, missing, or ambiguous.
 4. Prefer stored external IDs for updates. A display name alone is not an identity.
-5. If app mappings were lost, require an unambiguous observed match or explicit mapping recovery; do not create four duplicates blindly.
+5. If app mappings were lost, require an unambiguous observed match or explicit mapping recovery; do not create duplicate workflow jobs blindly.
 6. Create or update tasks through supported interfaces.
 7. Keep schedules disabled while verifying their report/input/tool paths. Use atomic disabled creation if the installed interface supports it; otherwise use a safely future activation boundary and immediately disable/read back before scheduled fire.
 8. Read the actual saved definition and only then update the app projection.
@@ -1224,7 +1101,7 @@ Recurring creation example for the Market Analyst, once the policy and receiver 
 openclaw automations add \
   --name "Investment Office — market morning brief" \
   --agent investment-market \
-  --cron "0 7 * * 2-6" \
+  --cron "0 6 * * 2-6" \
   --tz "Asia/Jakarta" \
   --session isolated \
   --message "Read research/market-brief.md and research/report-contract.md. Use one dated input snapshot and return the specified report JSON." \
@@ -1232,7 +1109,7 @@ openclaw automations add \
   --webhook "http://127.0.0.1:3101/integrations/openclaw/report"
 ```
 
-Generate the other three calls from the complete manifest, substituting the saved external agent IDs, task name, cron, instruction file, and deadline. Do not create separate jobs by hand and then run the synchronizer without importing their mappings. [Automation management](https://docs.openclaw.ai/automation/cron-jobs/managing-jobs)
+Generate all remaining workflow calls from the complete manifest, substituting the saved external agent IDs, task name, cron, instruction file, and deadline. Do not create separate jobs by hand and then run the synchronizer without importing their mappings. [Automation management](https://docs.openclaw.ai/automation/cron-jobs/managing-jobs)
 
 Task enable/disable and inspection examples, with real saved IDs substituted:
 
@@ -1245,7 +1122,8 @@ openclaw automations enable JOB_ID
 
 CLI examples are deployment aids; production browser actions use the backend adapter. Record the effective allowed tools and model route for each saved job as part of verification.
 
-**Deliverables:** desired manifest, dry-run diff, four external IDs, readback evidence.  
+**Deliverables:** desired manifest, dry-run diff, verified identity/job mappings, dependency policy and readback evidence.
+
 **Done when:** rerunning synchronization preserves one job per intended task and every next-run time is correct.
 
 ### Step 35 — Make status, reconciliation, and history dependable
@@ -1285,9 +1163,9 @@ Record the installed release's actual history/session retention and ensure recon
 7. Validate a report for each analyst and one scheduled server-side execution path.
 8. Use fixtures for further failure/duplicate testing once the real contract is known.
 
-The proposed cadence is 13 scheduled runs per week before manual runs and retries. Estimate monthly expense from observed per-task model/search usage, not from the number of office animations. Separate measured provider usage, locally estimated cost, and unknown usage in the UI.
+Compute cadence and cost from the expanded Step 33 manifest, including specialist screening, weekly/monthly reviews and digest assembly; four identities do not mean four jobs.  Estimate monthly expense from observed per-task model/search usage, not from the number of office animations. Separate measured provider usage, locally estimated cost, and unknown usage in the UI.
 
-**Phase D exit gate:** four independent tasks, dated owner inputs, saved external schedules, accurate history, and duplicate/failure recovery.
+**Phase D exit gate:** four approved role policies, dated/versioned owner inputs, persistent theses/candidates/findings, verified workflow schedules, dependency-aware daily/weekly digest assembly, monthly missing-input gates, accurate history and duplicate/failure recovery.
 
 ## 8. Phase E: editing, follow-up conversations, and notifications
 
@@ -1309,6 +1187,8 @@ Prompt changes must not grant new tools, alter webhook destinations, or modify o
 **Deliverables:** schedule/instruction editor, version checks, audit history, readback UI.  
 **Done when:** what the app displays matches what OpenClaw actually saved.
 
+**Required Step 37 extension:** edit desired schedules, scan frequency, lengths, models, budgets and dependency cutoffs with owner authentication and version checks. Persist desired versus verified applied state; contribution-date changes update dependent monthly tasks together. Reconcile by integration ID, stable definition key and saved external job ID; inspect conflicts/ambiguous outcomes before retrying. Read back installed jobs and their next runs before showing an edit as applied.
+
 ### Step 38 — Create report-specific conversation identity and context
 
 1. Authorize the report and select its known agent.
@@ -1324,6 +1204,8 @@ Keep these conversations separate from scheduled task sessions. Asking a follow-
 
 **Deliverables:** conversation/message schema, context builder, stable per-thread routing.  
 **Done when:** two reports produce distinct threads and each question reaches the correct analyst.
+
+**Required Step 38 extension — owner commands:** support explicit agent selection and automatic routing with a persisted routing explanation. Route portfolio/13-stock/ETF/DCA requests to Paz, rates/FX to Rex, emerging opportunities to Clara and AI worth-testing requests to Theo. Cross-role requests persist one owner-scoped command parent, coordinated child tasks/run/report links and progress; Paz consolidates combined briefings with visible failed/missing children. Explicit selection remains visible and any coordination is explained. Use app storage for coordination until native messaging is verified. Persist idempotent commands before dispatch and use immutable current-input snapshots. Research commands never authorize trades.
 
 ### Step 39 — Implement the supported turn interface and streaming
 
@@ -1363,7 +1245,7 @@ Substitute the saved external agent ID; validate routing and continuation agains
 ### Step 40 — Add optional notifications through an outbox
 
 1. Start with in-app unread/report-ready indicators.
-2. Add email/push/messaging only for destinations explicitly configured by the owner.
+2. Keep optional Telegram disabled until an existing configured destination is verified. Add other channels only for destinations explicitly configured by the owner.
 3. Create notification outbox rows in the same transaction as the processed report.
 4. Deduplicate by report/run/event and destination.
 5. Retry safe failed delivery with limits and show its state separately from research execution.
@@ -1385,7 +1267,7 @@ No messaging channel is required for the office's core report delivery. The app 
 5. Add controlled retry/reprocess actions with their meaning visible: reprocess delivery is different from rerun research.
 6. Never expose provider tokens or privileged Gateway configuration in Settings.
 
-**Phase E exit gate:** saved edits match OpenClaw, follow-ups route correctly, and optional deliveries/usage are truthful.
+**Phase E exit gate:** versioned owner edits and schedule readback agree, explicit/automatic/coordinated commands persist and route correctly, filters/bookmarks/source details work, follow-ups retain context, and optional deliveries/usage are truthful. Inspect affected UI at 360/390/768/1440 px with keyboard, loading, empty, error and focus states.
 
 ## 9. Phase F: animation, deployment, and operational verification
 
@@ -1776,8 +1658,10 @@ Although service supervision and private connectivity appear again in Phase F, t
 - [ ] One actual run becomes exactly one persisted report.
 - [ ] Live Run now/status and laptop-off execution verified.
 - [ ] Dated holdings/watchlist and immutable input delivery implemented.
-- [ ] Four reviewed task instructions deployed and mapped to correct agents.
-- [ ] Four schedules saved/read back with correct Jakarta next-run times.
+- [ ] Four role policies and all workflow instructions deployed with verified stable mappings.
+- [ ] All desired workflow schedules/dependencies saved and read back with correct WIB next-run times; no duplicate jobs.
+- [ ] Daily/weekly digest cutoffs, missing/late/stale sections, monthly contribution-date changes and unsupported-calculation gates verified.
+- [ ] Persistent theses/candidates, coordinated commands, report metadata, bookmarks and expanded filters verified.
 - [ ] Duplicate events, delivery failures, malformed output, and restart recovery verified.
 - [ ] Schedule edits match saved external state.
 - [ ] Contextual conversations persist and route correctly.
@@ -1848,7 +1732,7 @@ Inspect the conversation's owner/agent/report mappings, saved external session k
 
 ### Minimum runbook inventory
 
-Maintain a protected inventory of app origin, VPS administration method, service names/users, exact executable paths, state/workspace paths, database project, four external agent IDs, four external task IDs, backup destinations, secret rotation procedure, and provider account recovery steps. Public documentation stores names and instructions; protected configuration stores values.
+Maintain a protected inventory of app origin, VPS administration method, service names/users, exact executable paths, state/workspace paths, database project, four external agent IDs, all verified workflow job IDs, backup destinations, secret rotation procedure, and provider account recovery steps. Public documentation stores names and instructions; protected configuration stores values.
 
 ## 14. References and version record
 
@@ -1900,7 +1784,7 @@ Follow the linked primary documentation at the relevant step. This list also ser
 | Database/Auth environment | Firebase web config file exists locally and is ignored; Auth provider, server ADC, owner UID, Firestore rules/index deployment, and schema migration still require environment setup. |
 | Captured success/failure events | Required in Phase C; not yet captured |
 | First live report | Required in Phase C; not yet produced |
-| Four scheduled task IDs | Required in Phase D; not yet created |
+| Verified workflow job IDs | Required for the complete Phase D manifest; not yet created |
 | Laptop-off proof and restore evidence | Required during implementation; not yet performed |
 
 Completion means the acceptance gates have actual evidence. Until then, this document is the technical roadmap for building and verifying the Investment Office.
