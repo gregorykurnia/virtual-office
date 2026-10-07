@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useMemo, useState, type FormEvent } from "react";
-import { useQuery } from "@tanstack/react-query";
+import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { AGENT_IDS, type Agent, type AgentId, type Report, type ReportFilters } from "@investment-office/shared";
 import { officeService } from "../demo";
@@ -151,9 +151,11 @@ export default function ReportListPage() {
     queryKey: ["agents", revision],
     queryFn: () => officeService.listAgents()
   });
-  const reportsQuery = useQuery({
+  const reportsQuery = useInfiniteQuery({
     queryKey: ["reports", serviceFilters, revision],
-    queryFn: () => officeService.listReports(serviceFilters)
+    initialPageParam: null as string | null,
+    queryFn: ({ pageParam }) => officeService.listReports(serviceFilters, pageParam),
+    getNextPageParam: (lastPage) => lastPage.data.hasMore ? lastPage.data.nextCursor ?? undefined : undefined
   });
 
   const agents = useMemo(
@@ -185,9 +187,10 @@ export default function ReportListPage() {
     navigate("/reports", { replace: true });
   }
 
-  const reports = reportsQuery.data?.data.items ?? [];
+  const reportPages = reportsQuery.data?.pages ?? [];
+  const reports = reportPages.flatMap((page) => page.data.items);
   const hasActiveFilters = Boolean(parsedFilters.agentId || parsedFilters.unreadOnly || parsedFilters.query || parsedFilters.from || parsedFilters.to);
-  const observedAt = reportsQuery.data?.observedAt;
+  const observedAt = reportPages[0]?.observedAt;
 
   return (
     <section className="reports-page" aria-labelledby="reports-title" aria-busy={reportsQuery.isPending}>
@@ -195,11 +198,11 @@ export default function ReportListPage() {
         <div>
           <p className="eyebrow">Research output</p>
           <h1 id="reports-title">Reports</h1>
-          <p>Review dated analyst notes and simulated research outputs.</p>
+          <p>{import.meta.env.VITE_APP_MODE === "live" ? "Review dated analyst notes saved in the private application database." : "Review dated analyst notes and simulated research outputs."}</p>
         </div>
         <div className="page-heading__context">
-          <span className="mode-chip"><span className="mode-chip__dot" aria-hidden="true" /> Demo data</span>
-          {observedAt ? <span>Observed {formatDateTime(observedAt)}</span> : <span>Local fixture</span>}
+          <span className="mode-chip"><span className="mode-chip__dot" aria-hidden="true" />{import.meta.env.VITE_APP_MODE === "live" ? "Live data" : "Demo data"}</span>
+          {observedAt ? <span>Observed {formatDateTime(observedAt)}</span> : <span>{import.meta.env.VITE_APP_MODE === "live" ? "Waiting for API" : "Local fixture"}</span>}
         </div>
       </header>
 
@@ -239,7 +242,7 @@ export default function ReportListPage() {
         {hasActiveFilters ? <button className="text-button" type="button" onClick={clearFilters}>Clear filters</button> : null}
       </form>
 
-      {reportsQuery.isError ? (
+      {reportsQuery.isError && reports.length === 0 ? (
         <StateCard
           eyebrow="Unavailable"
           title="Reports could not be loaded"
@@ -254,7 +257,7 @@ export default function ReportListPage() {
         <StateCard
           eyebrow={hasActiveFilters ? "No matches" : "No reports"}
           title={hasActiveFilters ? "No reports match these filters" : "No reports have been generated"}
-          detail={hasActiveFilters ? "Try a broader analyst, date range, or search term." : "This demo scenario has no report records yet. Select another scenario from Demo controls to view illustrative output."}
+          detail={hasActiveFilters ? "Try a broader analyst, date range, or search term." : import.meta.env.VITE_APP_MODE === "live" ? "The live database contains no reports yet. Demo reports are not included in this workspace." : "This demo scenario has no report records yet. Select another scenario from Demo controls to view illustrative output."}
           action={hasActiveFilters ? <button className="primary-button" type="button" onClick={clearFilters}>Clear filters</button> : <Link className="secondary-button" to="/office">View Office</Link>}
         />
       ) : (
@@ -269,7 +272,9 @@ export default function ReportListPage() {
             </div>
             {reports.map((report) => <ReportRow key={report.id} report={report} agents={agents} listSearch={location.search} />)}
           </div>
-          <p className="list-footnote">Showing {reports.length} illustrative report{reports.length === 1 ? "" : "s"}. Select a row to read the full dated report.</p>
+          <p className="list-footnote">Showing {reports.length} {import.meta.env.VITE_APP_MODE === "live" ? "saved report" : "illustrative report"}{reports.length === 1 ? "" : "s"}. Select a row to read the full dated report.</p>
+          {reportsQuery.isFetchNextPageError ? <StateCard eyebrow="Unavailable" title="More reports could not be loaded" detail="The reports already loaded remain available. Retry the next page when the API is reachable." action={<button className="secondary-button" type="button" onClick={() => void reportsQuery.fetchNextPage()}>Retry</button>} /> : null}
+          {reportsQuery.hasNextPage ? <div className="report-list__more"><button className="secondary-button" type="button" disabled={reportsQuery.isFetchingNextPage} onClick={() => void reportsQuery.fetchNextPage()}>{reportsQuery.isFetchingNextPage ? "Loading reports…" : "Load older reports"}</button></div> : null}
         </>
       )}
     </section>

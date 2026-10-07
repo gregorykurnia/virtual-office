@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { Link, useLocation, useParams } from "react-router-dom";
 import type { Agent, AgentId, Report } from "@investment-office/shared";
 import { officeService } from "../demo";
@@ -61,7 +61,7 @@ function ReportPaper({ report }: { report: Report }) {
 
   return (
     <article className="report-paper">
-      <p className="report-kicker">{getAgentLabel(report.agentId, [])} · simulated report</p>
+      <p className="report-kicker">{getAgentLabel(report.agentId, [])} · {import.meta.env.VITE_APP_MODE === "live" ? "saved report" : "simulated report"}</p>
       <h1>{report.title}</h1>
       <div className="report-meta">
         <span>Generated {formatDateTime(report.generatedAt, report.metadata.timezone)}</span>
@@ -73,22 +73,16 @@ function ReportPaper({ report }: { report: Report }) {
         <MarkdownContent source={report.summary} />
       </div>
       <div className="report-sections">
-        <section>
-          <h2>Findings</h2>
-          <MarkdownContent source={bodyFindings} />
-        </section>
-        <section>
-          <h2>Interpretation</h2>
-          <MarkdownContent source={report.interpretation} />
-        </section>
-        <section>
-          <h2>Uncertainties</h2>
-          <MarkdownContent source={bodyUncertainties} />
-        </section>
-        <section>
-          <h2>Missing inputs</h2>
-          <MarkdownContent source={bodyMissingInputs} />
-        </section>
+        {import.meta.env.VITE_APP_MODE === "live" ? (
+          <section><h2>Report</h2><MarkdownContent source={report.bodyMarkdown ?? "Report content was not recorded."} /></section>
+        ) : (
+          <>
+            <section><h2>Findings</h2><MarkdownContent source={bodyFindings} /></section>
+            <section><h2>Interpretation</h2><MarkdownContent source={report.interpretation} /></section>
+            <section><h2>Uncertainties</h2><MarkdownContent source={bodyUncertainties} /></section>
+            <section><h2>Missing inputs</h2><MarkdownContent source={bodyMissingInputs} /></section>
+          </>
+        )}
       </div>
     </article>
   );
@@ -207,7 +201,7 @@ function ReportContext({ report, agents, readError }: { report: Report; agents: 
         <MetaCard label="Run ID"><code>{report.runId}</code></MetaCard>
         <MetaCard label="Data date">{formatDateOnly(report.dataAsOf ?? report.generatedAt, report.metadata.timezone)}</MetaCard>
         <MetaCard label="Observed timezone">{report.metadata.timezone}</MetaCard>
-        <MetaCard label="Elapsed">{report.metadata.elapsedSeconds}s</MetaCard>
+        {import.meta.env.VITE_APP_MODE !== "live" ? <MetaCard label="Elapsed">{report.metadata.elapsedSeconds === null ? "Not recorded" : `${report.metadata.elapsedSeconds}s`}</MetaCard> : null}
       </dl>
       {report.metadata.sampleSymbols.length > 0 ? (
         <div className="context-note">
@@ -226,6 +220,7 @@ export default function ReportDetailPage() {
   const { reportId = "" } = useParams();
   const location = useLocation();
   const revision = useDemoRevision();
+  const queryClient = useQueryClient();
   const [readError, setReadError] = useState<string | null>(null);
   const reportQuery = useQuery({
     queryKey: ["report", reportId, revision],
@@ -244,13 +239,15 @@ export default function ReportDetailPage() {
   useEffect(() => {
     if (!report || report.readAt !== null) return undefined;
     let active = true;
-    void officeService.markReportRead(report.id).catch((error: unknown) => {
+    void officeService.markReportRead(report.id).then((result) => {
+      if (active && result.data) queryClient.setQueryData(["report", reportId, revision], result);
+    }).catch((error: unknown) => {
       if (active) setReadError(getErrorMessage(error));
     });
     return () => {
       active = false;
     };
-  }, [report?.id, report?.readAt]);
+  }, [report?.id, report?.readAt, queryClient, reportId, revision]);
 
   return (
     <section className="report-detail-page" aria-labelledby="report-detail-title" aria-busy={reportQuery.isPending}>
@@ -268,7 +265,7 @@ export default function ReportDetailPage() {
         <section className="state-card" role="status">
           <p className="eyebrow">Not found</p>
           <h1 id="report-detail-title">That report is not available</h1>
-          <p>The report link may be stale or the record may not be part of the current demo scenario. Nothing was marked read.</p>
+          <p>{import.meta.env.VITE_APP_MODE === "live" ? "The report may have been removed or is not available to this owner. Nothing was marked read." : "The report link may be stale or the record may not be part of the current demo scenario. Nothing was marked read."}</p>
           <div className="state-card__actions"><Link className="primary-button" to={backPath} state={backState}>Return to Reports</Link></div>
         </section>
       ) : (
@@ -278,7 +275,7 @@ export default function ReportDetailPage() {
             <ReportContext report={report} agents={agentsQuery.data?.data ?? []} readError={readError} />
           </div>
           <ReportSources report={report} />
-          <CannedReportFollowUp key={report.id} report={report} />
+          {import.meta.env.VITE_APP_MODE === "live" ? null : <CannedReportFollowUp key={report.id} report={report} />}
         </>
       )}
     </section>

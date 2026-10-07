@@ -164,12 +164,12 @@ function ProfileRunControl({
   return (
     <section className="profile-run-card" aria-labelledby="profile-run-title">
       <div className="profile-run-card__main">
-        <p className="profile-card__eyebrow">Simulated execution</p>
+        <p className="profile-card__eyebrow">{import.meta.env.VITE_APP_MODE === "live" ? "Live dispatch" : "Simulated execution"}</p>
         <h2 id="profile-run-title">Run this analyst now</h2>
         <p>
           {task
-            ? `Queue “${task.name}” using the local demo adapter. No model, market-data, or OpenClaw request is made.`
-            : "A task is not available for this analyst in the current demo scenario."}
+            ? import.meta.env.VITE_APP_MODE === "live" ? `Submit “${task.name}” to the configured live dispatch queue.` : `Queue “${task.name}” using the local demo adapter. No model, market-data, or OpenClaw request is made.`
+            : import.meta.env.VITE_APP_MODE === "live" ? "No saved task is available for this analyst." : "A task is not available for this analyst in the current demo scenario."}
         </p>
         <dl className="profile-run-card__facts">
           <div>
@@ -257,7 +257,7 @@ function OverviewTab({ agent, task, latestReport }: { agent: Agent; task: Task |
               <p className="profile-card__eyebrow">Responsibility</p>
               <h2>What {agent.displayName} covers</h2>
             </div>
-            <span className="mode-chip"><span className="mode-chip__dot" aria-hidden="true" /> Demo</span>
+            <span className="mode-chip"><span className="mode-chip__dot" aria-hidden="true" />{import.meta.env.VITE_APP_MODE === "live" ? "Live" : "Demo"}</span>
           </div>
           <p className="profile-card__lead">{agent.responsibility}</p>
           <dl className="profile-facts">
@@ -287,7 +287,7 @@ function OverviewTab({ agent, task, latestReport }: { agent: Agent; task: Task |
         {latestReport ? (
           <ProfileReportLink report={latestReport} agent={agent} tab="overview" />
         ) : (
-          <p className="profile-card__empty">No reports have been generated for this analyst in the current demo scenario.</p>
+          <p className="profile-card__empty">{import.meta.env.VITE_APP_MODE === "live" ? "No reports have been saved for this analyst yet." : "No reports have been generated for this analyst in the current demo scenario."}</p>
         )}
       </section>
     </div>
@@ -301,7 +301,7 @@ function AssignmentTab({ agent, task }: { agent: Agent; task: Task | null }) {
         <ProfileState
           eyebrow="No assignment"
           title={`${agent.displayName} has no task configured`}
-          detail="The profile remains available, but there is no verified task or schedule to run in this demo scenario."
+          detail={import.meta.env.VITE_APP_MODE === "live" ? "The profile remains available, but no task or schedule is saved for this analyst." : "The profile remains available, but there is no verified task or schedule to run in this demo scenario."}
         />
       </div>
     );
@@ -331,17 +331,17 @@ function AssignmentTab({ agent, task }: { agent: Agent; task: Task | null }) {
           ) : (
             <p>No missing inputs are recorded for this task.</p>
           )}
-          <p className="profile-guidance__note">The demo uses fictional fixtures and does not infer or request personal holdings.</p>
+          <p className="profile-guidance__note">{import.meta.env.VITE_APP_MODE === "live" ? "Inputs reflect the saved task configuration; holdings and watchlist setup is handled separately." : "The demo uses fictional fixtures and does not infer or request personal holdings."}</p>
         </aside>
       </div>
       <section className="profile-card profile-card--schedule">
         <div>
           <p className="profile-card__eyebrow">Schedule</p>
           <h2>{task.scheduleLabel}</h2>
-          <p>Times are displayed in {task.timezone}. A schedule label is descriptive in demo mode; it does not start a background job.</p>
+          <p>Times are displayed in {task.timezone}. {import.meta.env.VITE_APP_MODE === "live" ? "The schedule label is the saved application value." : "A schedule label is descriptive in demo mode; it does not start a background job."}</p>
         </div>
         <dl className="profile-facts profile-facts--schedule">
-          <ProfileFact label="Enabled">{task.enabled ? "Yes · simulated" : "No · disabled"}</ProfileFact>
+          <ProfileFact label="Enabled">{task.enabled ? import.meta.env.VITE_APP_MODE === "live" ? "Yes" : "Yes · simulated" : "No · disabled"}</ProfileFact>
           <ProfileFact label="Next run">{task.nextRunAt ? formatDateTime(task.nextRunAt, task.timezone) : "Not scheduled"}</ProfileFact>
         </dl>
       </section>
@@ -393,7 +393,7 @@ function ReportsTab({
               action={<button className="secondary-button" type="button" onClick={refetchReports}>Retry</button>}
             />
           ) : reports.length === 0 ? (
-            <p className="profile-card__empty">No reports have been generated for this analyst in the current demo scenario.</p>
+            <p className="profile-card__empty">{import.meta.env.VITE_APP_MODE === "live" ? "No reports have been saved for this analyst yet." : "No reports have been generated for this analyst in the current demo scenario."}</p>
           ) : (
             <div className="profile-report-list" role="list" aria-label={`${agent.displayName} recent reports`}>
               {reports.map((report) => <ProfileReportLink key={report.id} report={report} agent={agent} />)}
@@ -432,6 +432,9 @@ function ReportsTab({
                       </span>
                       <code>{run.id}</code>
                     </div>
+                    <p className={`profile-run-row__processing profile-run-row__processing--${run.reportProcessingStatus}`}>
+                      Report {run.reportProcessingStatus === "processed" ? "saved" : run.reportProcessingStatus === "failed" ? "processing failed" : "processing pending"}
+                    </p>
                     <time dateTime={run.queuedAt}>Queued {formatDateTime(run.queuedAt)}</time>
                     {run.finishedAt ? <time dateTime={run.finishedAt}>Finished {formatDateTime(run.finishedAt)}</time> : null}
                     {run.errorSummary ? <p className="profile-run-row__error">{run.errorSummary}</p> : null}
@@ -486,7 +489,13 @@ export default function AnalystProfilePanel({ agentId, tab }: { agentId: AgentId
   });
   const runsQuery = useQuery({
     queryKey: ["agent-runs", agentId, revision],
-    queryFn: () => officeService.listRuns(agentId)
+    queryFn: () => officeService.listRuns(agentId),
+    refetchInterval: (query) => import.meta.env.VITE_APP_MODE === "live"
+      && document.visibilityState === "visible"
+      && (query.state.data?.data.some((run) => run.executionStatus === "queued" || run.executionStatus === "running") ?? false)
+      ? 5000
+      : false,
+    refetchIntervalInBackground: false
   });
 
   const agent = agentQuery.data?.data ?? null;
@@ -518,7 +527,10 @@ export default function AnalystProfilePanel({ agentId, tab }: { agentId: AgentId
     const idempotencyKey = `profile-${task.id}-${Date.now()}`;
     try {
       const result = await officeService.requestRun(task.id, idempotencyKey);
-      setRunMessage(result.data.reused ? `Existing demo run ${result.data.run.id} is still active.` : `Demo run ${result.data.run.id} queued.`);
+      await Promise.all([runsQuery.refetch(), agentQuery.refetch()]);
+      setRunMessage(import.meta.env.VITE_APP_MODE === "live"
+        ? result.data.reused ? `Existing run ${result.data.run.id} is still active.` : `Run ${result.data.run.id} queued for dispatch.`
+        : result.data.reused ? `Existing demo run ${result.data.run.id} is still active.` : `Demo run ${result.data.run.id} queued.`);
     } catch (error: unknown) {
       setRunError(getErrorMessage(error));
     } finally {

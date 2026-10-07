@@ -3,7 +3,7 @@
 Prepared: 2 October 2026  
 Scope: frontend demonstration, private live application, OpenClaw integration, four analyst tasks, scheduling, conversations, deployment, and ongoing operation.
 
-This guide expands [Investment Office Implementation Plan.md](./Investment%20Office%20Implementation%20Plan.md) into an executable engineering roadmap. It describes work to perform; it does not claim that any application, database, server, agent, or schedule has already been built or connected. Shell commands and configuration examples below are future implementation instructions, not operations performed while writing this document.
+This guide expands [Investment Office Implementation Plan.md](./Investment%20Office%20Implementation%20Plan.md) into an executable engineering roadmap and records implementation updates as the work progresses. Shell commands and configuration examples remain instructions until a dated implementation update says otherwise. No live OpenClaw server, agent, or recurring schedule is claimed as connected by the frontend and backend foundation steps.
 
 The product brief remains the source of truth for requirements. Technical choices introduced here are proposed implementation defaults. Current OpenClaw documentation was checked while preparing this guide; verify it against the exact installed release before running integration commands.
 
@@ -30,7 +30,7 @@ Animation implementation: [Step 42 — avatar animation, movement, and UI motion
 
 ### 1.1 What exists in this workspace
 
-Inspection of `/Users/gregorykurnia/projects/virtual-office` found:
+The initial workspace inspection on 2 October 2026 found:
 
 - `Investment Office Implementation Plan.md`: the complete product brief and phased plan.
 - `VISUAL_UI_DIRECTION.md`: an earlier general virtual-office visual direction.
@@ -618,6 +618,10 @@ Use bounded retry policies for safe app processing and connection checks. Extern
 
 **Deliverables:** authenticated live UI rendering the application database.  
 **Done when:** a connection outage never substitutes fictional reports or fabricated live status.
+
+**Implementation update, 7 October 2026 — Step 19 implemented:** the frontend now selects the demo or live adapter through `VITE_APP_MODE`. The live path remains behind Firebase sign-in and backend owner verification; each HTTP request obtains a current Firebase ID token and uses the same-origin `/api` boundary. The live adapter maps the implemented agent, task, report, run, read-state, manual-run, and connection routes into the existing office UI, including cursor-based report pagination. The owner sees database-backed empty states, dated reports and sources, and persisted run history; demo fixtures and canned follow-up responses are not rendered in live mode. The header distinguishes a checked Gateway connection, stale status, an untested connection, and an unavailable connection. Run history shows execution and report-processing states separately. Active runs refresh every five seconds only while the page is visible, and Gateway status refreshes every 30 seconds only while visible. Historical report reads remain independent of Gateway status.
+
+The adapter uses only data returned by the API. Report Markdown is rendered as the saved report body; when a report does not record separate findings, uncertainties, missing inputs, or elapsed time, the live UI does not invent them. Preferences, task editing, holdings/watchlist, and conversations remain later-step features. Production build and lint pass. The private sign-in screen was visually inspected at desktop and phone widths; authenticated dashboard inspection and Firestore Emulator checks remain part of verification because no owner session/emulator is configured in this workspace.
 
 ## 6. Phase C2: OpenClaw setup and first live report
 

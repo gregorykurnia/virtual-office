@@ -226,6 +226,21 @@ select:focus-visible {
   box-shadow: 0 0 0 3px color-mix(in srgb, var(--io-green) 14%, transparent);
 }
 
+.connection-status--stale .connection-status__dot {
+  background: var(--io-amber);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--io-amber) 14%, transparent);
+}
+
+.connection-status--unknown .connection-status__dot {
+  background: var(--io-subtle);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--io-subtle) 14%, transparent);
+}
+
+.connection-status--unavailable .connection-status__dot {
+  background: var(--io-red);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--io-red) 14%, transparent);
+}
+
 .header-button,
 .profile-button,
 .icon-button {
@@ -420,6 +435,46 @@ main {
 .demo-banner > span:last-child {
   min-width: 0;
   overflow-wrap: anywhere;
+}
+
+.live-banner {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  min-height: 3rem;
+  margin: 0;
+  padding: 0.75rem 1rem;
+  border: 1px solid color-mix(in srgb, var(--io-green) 30%, var(--io-line));
+  border-radius: var(--io-radius-md);
+  color: var(--io-ink);
+  background: var(--io-green-soft);
+  font-size: 0.86rem;
+  line-height: 1.45;
+}
+
+.live-banner strong {
+  flex: 0 0 auto;
+  color: var(--io-green);
+}
+
+.live-banner span {
+  color: var(--io-muted);
+}
+
+.profile-run-row__processing {
+  margin: 0.35rem 0;
+  color: var(--io-muted);
+  font-size: 0.78rem;
+}
+
+.profile-run-row__processing--failed {
+  color: var(--io-red);
+}
+
+.report-list__more {
+  display: flex;
+  justify-content: center;
+  margin-top: 1rem;
 }
 
 .demo-controls {

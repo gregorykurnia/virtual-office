@@ -10,6 +10,7 @@ import {
   type User
 } from "firebase/auth";
 import { firebaseApp, isFirebaseConfigured } from "../lib/firebase";
+import LiveApplication from "./LiveApplication";
 
 type AccessState =
   | { kind: "loading" }
@@ -148,8 +149,7 @@ export default function OwnerAccessApp() {
     setPassword("");
   }
 
-  const ownerEmail = state.kind === "owner" ? state.email : null;
-  const ownerName = state.kind === "owner" ? state.displayName : null;
+  if (state.kind === "owner" && auth?.currentUser) return <LiveApplication user={auth.currentUser} />;
 
   return (
     <div className="app-shell owner-access-shell">
@@ -171,16 +171,6 @@ export default function OwnerAccessApp() {
               <span className="owner-access-spinner" aria-hidden="true" />
               <h1 id="owner-access-title">{state.kind === "checking" ? "Verifying owner access" : "Preparing sign-in"}</h1>
               <p>{state.kind === "checking" ? "Checking this account with the private API." : "Checking Firebase Auth and private API settings."}</p>
-            </div>
-          ) : state.kind === "owner" ? (
-            <div className="owner-access-state" role="status" aria-live="polite">
-              <span className="owner-access-check" aria-hidden="true">✓</span>
-              <h1 id="owner-access-title">Owner access verified</h1>
-              <p>{ownerName || ownerEmail || "Your owner account"} is signed in to the private API.</p>
-              <p className="owner-access-note">Live reports and analyst data will appear here when the live data routes are connected.</p>
-              <button className="secondary-button owner-access-signout" type="button" onClick={() => void handleSignOut()}>
-                Sign out
-              </button>
             </div>
           ) : (
             <>

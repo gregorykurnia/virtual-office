@@ -50,7 +50,7 @@ export const TaskSchema = z.object({
   agentId: AgentIdSchema,
   name: z.string().min(1),
   purpose: z.string().min(1),
-  inputs: z.array(z.string().min(1)).min(1),
+  inputs: z.array(z.string().min(1)),
   missingInputs: z.array(z.string().min(1)),
   enabled: z.boolean(),
   scheduleLabel: z.string().min(1),
@@ -78,7 +78,7 @@ export type SampleSymbol = z.infer<typeof SampleSymbolSchema>;
 
 export const ReportMetadataSchema = z.object({
   timezone: z.string().min(1),
-  elapsedSeconds: z.number().nonnegative(),
+  elapsedSeconds: z.number().nonnegative().nullable(),
   sampleSymbols: z.array(SampleSymbolSchema)
 });
 export type ReportMetadata = z.infer<typeof ReportMetadataSchema>;
@@ -92,10 +92,11 @@ export const ReportSchema = z.object({
   generatedAt: TimestampSchema,
   dataAsOf: TimestampSchema.nullable(),
   summary: z.string().min(1),
-  findings: z.array(z.string().min(1)).min(1),
-  interpretation: z.string().min(1),
-  uncertainties: z.array(z.string().min(1)).min(1),
-  missingInputs: z.array(z.string().min(1)).min(1),
+  findings: z.array(z.string().min(1)),
+  bodyMarkdown: z.string().optional(),
+  interpretation: z.string(),
+  uncertainties: z.array(z.string().min(1)),
+  missingInputs: z.array(z.string().min(1)),
   sources: z.array(ReportSourceSchema).min(1),
   metadata: ReportMetadataSchema,
   readAt: TimestampSchema.nullable(),
