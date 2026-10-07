@@ -2,9 +2,11 @@
 
 Assessment date: 7 October 2026
 
-Status: **Preparation recorded; server installation and live acceptance pending a successful SSH inventory of the Oracle VM.**
+Status: **Preparation recorded; SSH and initial host inventory verified, with Step 20 server preparation still pending.**
 
 This record is a run plan, not evidence that OpenClaw is installed or connected. The owner supplied an Ubuntu 24.04 ARM64 image and a public IPv4, but a TCP port 22 connection attempt timed out and the configured Oracle private hostname does not resolve from this workstation. See [Step 20 host readiness](./step-20-host-readiness.md). Do not change the VM before its state and access are confirmed.
+
+SSH follow-up: authentication now succeeds as `ubuntu`; Ubuntu 24.04.5 LTS/ARM64 and initial host resources were verified. The earlier timeout is historical. See the successful follow-up in [Step 20 host readiness](./step-20-host-readiness.md). No OpenClaw installation or onboarding has been performed.
 
 ## Known prerequisites
 

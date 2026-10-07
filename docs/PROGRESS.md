@@ -77,3 +77,7 @@ Recorded the gated installation and acceptance sequence in [`docs/verification/s
 ## Technical guide workflow alignment — 7 October 2026
 
 Rewrote the active technical-guide Steps 31–33 to match the approved four-role responsibilities and complete editable WIB workflow/dependency schedule. Extended Steps 26, 30 and 37–40 for report metadata, versioned inputs/theses/candidates/targets, coordinated commands, bookmarks/filters and optional verified Telegram delivery. Updated provisioning language, cost assumptions and acceptance gates to distinguish four identities from multiple workflow jobs. Preserved historical implementation records and stable IDs/artwork; no app code, runtime, external job, migration or live acceptance changed. Reviewed the documentation diff against the workflow spec; implementation remains pending.
+
+## Step 20 SSH access verified — 7 October 2026
+
+Oracle networking now permits SSH. Restricted the existing local private key from 0644 to 0600, then authenticated as ubuntu and verified Ubuntu 24.04.5 LTS/ARM64, approximately 12 GB RAM, 44 GB available disk, synchronized UTC time, and administrator sudo access. Node, OpenClaw and Tailscale were absent from the login shell PATH. Updated the host-readiness evidence; no remote configuration changed. Step 20 remains in progress pending service/runtime/storage preparation, private administration and outbound/dependency checks.

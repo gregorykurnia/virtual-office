@@ -2,9 +2,17 @@
 
 Assessment date: 7 October 2026
 
-Status: **In progress — Oracle VM details are available, but SSH access timed out before host inspection.**
+Status: **In progress — SSH access and initial host inventory verified; server preparation and private administration remain pending.**
 
 This assessment records what was verifiable from the current development workstation. It does not claim that a remote host, OpenClaw installation, private network, or provider account does not exist elsewhere.
+
+## Successful SSH follow-up — 7 October 2026
+
+After the owner configured Oracle networking, SSH reached the supplied public IPv4. The local private key initially had mode 0644 and was rejected by OpenSSH; its permissions were restricted to 0600, after which authentication as `ubuntu` succeeded. The first observed ED25519 host key was recorded through SSH trust on first use; it was not independently compared against OCI console evidence. No remote configuration was changed.
+
+Verified directly on the host: Ubuntu 24.04.5 LTS, `aarch64`, approximately 12 GB RAM (11 GiB reported), 45 GB root filesystem with 44 GB available, timezone `Etc/UTC`, `NTPSynchronized=yes`, and passwordless sudo available for the administrator. `node`, `openclaw`, and `tailscale` were not found on this login shell's PATH; this does not rule out installations elsewhere.
+
+The timeout observations below are historical and superseded by this successful login. Remaining work: inspect existing services, accounts, storage ownership and host firewall; prepare separate service identities and the pinned runtime; establish and verify private administration and a second session before tightening ingress; verify server outbound provider/Firebase access and laptop-independent dependencies.
 
 ## Owner-provided Oracle setup details
 
