@@ -1,12 +1,12 @@
 # Maul avatar design guide
 
-Status: design handoff prepared, 7 October 2026. Actual generated idle preview pending. The built-in image generator rejected the idle request with `moderation_blocked` at the output stage; no generated avatar was returned. The [visual reference board](maul-avatar-preview.html) and [saved board image](maul-design-reference-board.png) show the supplied photo, existing style references, and a clearly labeled hand-authored [vector design exploration](maul-avatar-concept.svg), not an approved Maul render.
+Status: design guide revised, 7 October 2026. The current deliverable is documentation only. This guide defines Maul in the exact rendering family of the existing avatars. The [visual reference board](maul-avatar-preview.html) and [saved board image](maul-design-reference-board.png) contain the supplied photo and production style references. Artwork creation and replacement are future work described in the [replacement plan](../docs/MAUL_AVATAR_REPLACEMENT_PLAN.md).
 
 ## Goal and scope
 
 Translate the supplied Darth Maul photograph into the same rounded, softly rendered 3D avatar family as Rex and Paz. Maul replaces the display identity and artwork of the existing third, `research` analyst. Keep the Opportunity Scout responsibilities, stable ID `research`, `research-bot` artwork key, `research-library` desk key, violet role accent, and linked records. The [replacement plan](../docs/MAUL_AVATAR_REPLACEMENT_PLAN.md) covers the later rollout and complete Clara → Maul name audit.
 
-This pass produces the guide, replacement plan, and portable visual reference board. Runtime artwork and names have not been replaced. The user's request supersedes the Clara display-name preservation rule for the planned cosmetic replacement; research ownership and the four-agent boundary remain intact.
+This pass refines the design guide and reference handoff. Any future artwork must use the production avatars as the visual standard. The planned cosmetic replacement retains research ownership and the four-agent boundary.
 
 ## References and priority
 
@@ -18,7 +18,6 @@ Attach these actual image files to any image-generation handoff. Paths or Markdo
 | [Production Rex idle](../frontend/public/assets/office/avatars/market-bot-idle.png) | Primary rendering target: proportions, rounded construction, camera, lighting, finish, boots, and detail density. |
 | [Production Paz idle](../frontend/public/assets/office/avatars/portfolio-bot-idle.png) | Second finished family reference; confirms compact proportions, gentle material highlights, and role-badge scale. |
 | [Current research idle](../frontend/public/assets/office/avatars/research-bot-idle.png) | Replacement footprint, relaxed stance, and violet book badge. Do not preserve the robot face or antenna. |
-| [Vector design exploration](maul-avatar-concept.svg) | Hand-authored visual direction aid for the facial marking layout, horn placement, compact silhouette, dark outfit, and violet badge. It is not a generated or approved runtime asset. |
 | [Asset contract](../docs/ASSET_CONTRACT.md) | Runtime exports, placement, alpha, safe bounds, and semantic labels. |
 | [Rex design guide](CAPTAIN_REX_AVATAR_DESIGN_GUIDE.md), [Paz guide](PAZ_AVATAR_DESIGN_AND_REPLACEMENT_GUIDE.md) | Existing design and replacement workflow precedents. |
 
@@ -56,14 +55,39 @@ Suggested artwork colors: red `#C92D3D`, black markings `#17191E`, charcoal clot
 
 Reject tall realistic action figures, different collectible styles, flat cartoons, anime, pixel art, low-poly models, helmets, weapons, combat poses, and arbitrary tattoo redesigns. Clothing should not be as glossy as Rex's armor; matching family lighting and volume is more important than making all materials identical.
 
-## Idle preview and visual review
+### Shared construction: match the production artwork
+
+Use the actual Rex and Paz images above as the construction reference. Maul should look like another character from their same set, with these specific relationships preserved:
+
+| Shared feature | Required Maul construction |
+| --- | --- |
+| Head volume | Broad, rounded, oversized head with visible side depth, comparable in visual mass to the existing helmets. Build the forehead, brow, cheeks, nose, jaw, and ears as softly shaded volumes. |
+| Body volume | Small sturdy torso beneath the head, rounded shoulders, short thick upper arms and forearms, compact hips, and short legs. Keep the hands near the hips and the boots fully visible. |
+| Feet and stance | Wide rounded boot toes, visible top surfaces, thick soles, and a narrow relaxed stance matching the references. Feet share the existing family’s floor contact and perspective. |
+| Edges | Smooth raster contours defined by material and light. Avoid black drawn outlines, polygonal corners, or line-art seams. |
+| Surface depth | Use gentle shading under the brow, chin, neckline, arms, and clothing overlaps. Highlights follow curved surfaces; a gradient laid over a flat shape does not establish the required volume. |
+| Camera | Match the reference yaw, elevation, perspective, and facing direction together. The source face must be translated into that view, rather than retaining the photo’s frontal composition. |
+| Lighting | Broad soft highlights toward the upper left, diffuse illumination across the face and torso, and restrained shading on the opposite side. Keep the dark clothing readable using the same lighting environment. |
+| Detail scale | Broad facial markings and a few rounded clothing overlaps. Match the references’ visual density; avoid dense tattoo linework, tiny cloth wrinkles, or ornate costume equipment. |
+
+### Character identity within the shared style
+
+Maul’s red skin, black tattoos, amber eyes, horns, and charcoal clothing supply character identity. They do not change the shared proportions, camera, lighting, edge treatment, or rendering quality. Tattoo shapes follow the rounded forehead, cheek, and jaw surfaces, with the same illumination as the skin beneath them. Horns are small shaded tapered forms with rounded tips and visible bases. Eyes sit within modeled brow and socket forms, with restrained iris highlights. Cloth has broad rounded folds and readable volume while remaining less reflective than armor.
+
+Preserve the existing violet book badge’s apparent size and raised rounded construction. Keep its violet backing and light book symbol readable against the charcoal chest. The badge receives the same light as the surrounding outfit.
+
+The flat SVG substitute failed this standard and was removed. Future review must compare the actual artwork beside Rex and Paz at matched apparent height. A match requires the same volume, proportions, camera, lighting, and finish together.
+
+## Future artwork handoff and visual review
+
+These steps apply when artwork creation is requested separately. They are not tasks to execute during this documentation revision.
 
 1. Inspect and attach the four actual image references above.
 2. Generate one high-resolution transparent full-body idle master; save separately as `design-concepts/maul-idle-concept-v1.png`. Do not overwrite production images.
 3. Inspect the actual image and alpha on light and dark backgrounds. Review face landmarks, horns, head/body ratio, clothing, badge, camera, and light direction.
 4. Display the real result inline and in the [review page](maul-avatar-preview.html). Include Rex, Paz, and the existing research avatar at equal apparent character height and common foot baseline. Equal file-box sizes alone do not guarantee equal silhouette scale.
 5. Include true **32, 36, and 40 CSS px** samples, with no CSS doubling or zoom mislabeled as actual size. Review at larger portrait/scene sizes as well.
-6. Obtain approval of the shown idle design before producing the remaining poses and applying the replacement. The current vector study makes the intended direction visible in the folder, but it is not the staged approval candidate. This is the checkpoint used in the Paz guide; this plan-only request does not claim design acceptance.
+6. Obtain approval of the shown idle design before producing the remaining poses and applying the replacement. This is the staged design checkpoint used in the Paz guide; this plan-only request does not claim design acceptance.
 
 No idle approval question is pending now because no generated candidate exists. The reference board explicitly distinguishes current production artwork from the future Maul concept. Do not present the source photograph as the finished avatar or invent a successful generation record.
 
@@ -88,6 +112,13 @@ rounded hands, chunky boots, smooth polished toy-like 3D volumes, soft
 bevels, restrained highlights, detail density, shallow three-quarter
 camera, facing direction, and soft upper-left light with diffuse fill.
 The result should look made by the same artist in the same render session.
+Use their broad rounded head volume, small sturdy torso, compact shoulders,
+short thick arms, rounded hands near the hips, and chunky rounded boots.
+Model the brow, cheeks, nose, jaw, ears, horn bases, neckline, and cloth
+overlaps with visible soft depth. Tattoos conform to the curved face and
+share its lighting. Contours come from shaded volumes, without drawn black
+outlines. Keep the same camera yaw, elevation, perspective, and facing
+direction as the production references; do not copy the frontal photo view.
 
 Reference 4: current research idle avatar, role badge and footprint only.
 Small violet book badge on chest, matching its scale and visual language.
@@ -105,7 +136,8 @@ No scenery, floor, pedestal, ground shadow, furniture, weapon, lightsaber,
 combat stance, text, name, status icon, selection ring, watermark, poster,
 contact sheet, extra characters, adult anatomical proportions, photoreal
 skin texture, gritty surfaces, cinematic lighting, anime, flat illustration,
-pixel art, or low-poly style. Produce one square transparent avatar master.
+pixel art, low-poly style, vector drawing, heavy contour strokes, or flat
+shapes with decorative gradients. Produce one square transparent avatar master.
 ```
 
 Attach actual references when using the prompt. This brief is a future handoff; it is not evidence that image generation succeeded.
@@ -129,7 +161,6 @@ Export each as a **352 × 352 transparent WebP and matching PNG**, following the
 - [x] Supplied photograph preserved unchanged in this folder.
 - [x] Design requirements, generation prompt, pose brief, and replacement plan written.
 - [x] Portable visual reference board created with production style references.
-- [x] Hand-authored vector direction study added and shown in the folder; it is explicitly not a generated or approved runtime asset.
 - [ ] Actual Maul idle generated and shown; blocked by the generator's output-stage rejection.
 - [ ] Idle design approved.
 - [ ] Five matching poses exported and integrated.

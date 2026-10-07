@@ -29,8 +29,6 @@
       .stage img { display: block; width: 100%; height: 260px; object-fit: contain; }
       .stage--photo { background: #101719; }
       .stage--photo img { width: auto; max-width: 100%; }
-      .stage--concept { min-height: 290px; background: linear-gradient(135deg, #ffffff 0%, #f5f1ff 100%); }
-      .stage--concept img { width: 100%; height: 260px; }
       figcaption { border-top: 1px solid var(--wire-line); padding: 16px; font-size: .83rem; color: var(--wire-muted); }
       figcaption strong { display: block; margin-bottom: 4px; font-size: 1rem; color: var(--wire-ink); }
       .dark { background: #111827; }
@@ -41,14 +39,13 @@
       .rule p { margin: 0; color: var(--wire-muted); font-size: .9rem; }
       .pending { padding: 24px; border: 2px dashed var(--wire-line-strong); border-radius: var(--wire-radius-lg); background: var(--wire-surface-soft); }
       .pending p { margin-bottom: 0; }
-      .candidate-grid { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(280px, .9fr); gap: 16px; align-items: stretch; }
       .samples { display: flex; flex-wrap: wrap; gap: 12px; }
       .sample { display: grid; min-width: 90px; min-height: 110px; place-items: center; gap: 8px; padding: 12px; border: 1px solid var(--wire-line); border-radius: var(--wire-radius-md); background: #fff; }
       .sample.dark { background: #111827; color: #e7edf7; }
       .sample img { display: block; object-fit: contain; }
       .sample span { font-size: .75rem; }
       footer { margin-top: 32px; color: var(--wire-muted); font-size: .82rem; }
-      @media (max-width: 950px) { .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } .rules, .candidate-grid { grid-template-columns: 1fr; } }
+      @media (max-width: 950px) { .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } .rules { grid-template-columns: 1fr; } }
       @media (max-width: 520px) { main { width: calc(100% - 24px); padding-top: 28px; } .grid { grid-template-columns: 1fr; } .stage { height: 280px; } }
     </style>
   </head>
@@ -64,7 +61,7 @@
           <a href="maul-photo-reference.jpeg">Open the original photo</a>
           <a href="maul-design-reference-board.png">Open the saved board image</a>
         </nav>
-        <div class="notice"><strong>Reference board · generated Maul preview pending</strong>The image generator rejected the preview request and returned no avatar. The vector study below is a visual direction aid, not an approved runtime render. Runtime artwork and names have not been replaced.</div>
+        <div class="notice"><strong>Reference board · generated Maul preview pending</strong>The image generator rejected the preview request and returned no avatar. These are your photograph and existing production images. Runtime artwork and names have not been replaced.</div>
       </header>
 
       <section aria-labelledby="reference-heading">
@@ -74,7 +71,7 @@
           <figure class="card"><div class="stage stage--photo"><img src="maul-photo-reference.jpeg" width="365" height="547" alt="Supplied Maul portrait showing red and black facial tattoos, amber eyes, short horns, and black clothing" /></div><figcaption><strong>Maul · supplied identity</strong>Face and horn reference. The complete lower outfit is not visible in this photo.</figcaption></figure>
           <figure class="card"><div class="stage"><img src="../frontend/public/assets/office/avatars/market-bot-idle.png" width="352" height="352" alt="Current Rex avatar with large rounded helmet and compact body" /></div><figcaption><strong>Rex · production style</strong>Match head/body ratio, soft 3D volumes, camera, boots, and upper-left lighting.</figcaption></figure>
           <figure class="card"><div class="stage"><img src="../frontend/public/assets/office/avatars/portfolio-bot-idle.png" width="352" height="352" alt="Current Paz avatar with rounded blue armor and green book-like ledger badge" /></div><figcaption><strong>Paz · production style</strong>Match the same family finish, planted feet, restrained detail, and small chest badge.</figcaption></figure>
-          <figure class="card"><div class="stage"><img src="../frontend/public/assets/office/avatars/research-bot-idle.png" width="352" height="352" alt="Current research avatar with violet book badge, the artwork slot planned for replacement" /></div><figcaption><strong>Current research slot</strong>Former display identity → Maul planned. Keep research ID, desk, violet accent, and book badge.</figcaption></figure>
+          <figure class="card"><div class="stage"><img src="../frontend/public/assets/office/avatars/research-bot-idle.png" width="352" height="352" alt="Current Clara research robot with violet book badge, the artwork slot planned for replacement" /></div><figcaption><strong>Current research slot</strong>Clara → Maul planned. Keep research ID, desk, violet accent, and book badge.</figcaption></figure>
         </div>
       </section>
 
@@ -88,11 +85,8 @@
       </section>
 
       <section aria-labelledby="candidate-heading">
-        <h2 id="candidate-heading">Visual direction study</h2>
-        <div class="candidate-grid">
-          <figure class="card"><div class="stage stage--concept"><img src="maul-avatar-concept.svg" width="352" height="352" alt="Vector visual study of a compact red horned Maul avatar with black facial markings, amber eyes, charcoal clothing, and a violet research book badge" /></div><figcaption><strong>Maul · vector design exploration</strong>Face landmarks, horns, proportions, dark outfit, and research badge are made visible for review. This is a hand-authored direction aid, not a generated or approved production asset.</figcaption></figure>
-          <div class="pending"><strong>Runtime gate remains open.</strong><p>A transparent generated idle master still needs to be shown and approved before the five-pose family, <code>research-bot-*</code> replacement, or former display-name migration begins.</p><p><a href="maul-avatar-concept.svg">Open the standalone SVG concept</a></p></div>
-        </div>
+        <h2 id="candidate-heading">Actual Maul candidate</h2>
+        <div class="pending"><strong>No generated candidate available yet.</strong><p>Once a real transparent idle master exists, this section will show it on light and dark backgrounds at matched apparent height beside Rex, Paz, and the current research avatar. The shown idle design is reviewed before the five-pose production rollout.</p></div>
       </section>
 
       <section aria-labelledby="dark-heading">
