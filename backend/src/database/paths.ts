@@ -1,5 +1,5 @@
 import type { Firestore } from "firebase-admin/firestore";
-import type { VerifiedOwnerContext } from "../auth/ownerAuth.js";
+import type { OwnerPathContext } from "../auth/ownerAuth.js";
 
 export const OWNER_COLLECTIONS = [
   "agents",
@@ -17,7 +17,8 @@ export const OWNER_COLLECTIONS = [
   "runRequests",
   "taskMutations",
   "notificationOutbox",
-  "auditEvents"
+  "auditEvents",
+  "_unique"
 ] as const;
 
 export type OwnerCollection = (typeof OWNER_COLLECTIONS)[number];
@@ -27,19 +28,19 @@ function assertPathSegment(value: string, label: string): string {
   return value;
 }
 
-export function ownerDocument(db: Firestore, owner: VerifiedOwnerContext) {
+export function ownerDocument(db: Firestore, owner: OwnerPathContext) {
   return db.collection("owners").doc(assertPathSegment(owner.uid, "owner UID"));
 }
 
-export function ownerCollection(db: Firestore, owner: VerifiedOwnerContext, collection: OwnerCollection) {
+export function ownerCollection(db: Firestore, owner: OwnerPathContext, collection: OwnerCollection) {
   return ownerDocument(db, owner).collection(collection);
 }
 
-export function ownerRecord(db: Firestore, owner: VerifiedOwnerContext, collection: OwnerCollection, recordId: string) {
+export function ownerRecord(db: Firestore, owner: OwnerPathContext, collection: OwnerCollection, recordId: string) {
   return ownerCollection(db, owner, collection).doc(assertPathSegment(recordId, "document ID"));
 }
 
-export function assertOwnerPath(owner: VerifiedOwnerContext, documentPath: string): void {
+export function assertOwnerPath(owner: OwnerPathContext, documentPath: string): void {
   const prefix = `owners/${assertPathSegment(owner.uid, "owner UID")}/`;
   if (!documentPath.startsWith(prefix)) throw new Error("Cross-owner document reference rejected.");
 }

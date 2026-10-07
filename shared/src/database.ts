@@ -202,6 +202,7 @@ export const IntegrationInstanceDocumentSchema = z.object({
 });
 
 export const WorkItemDocumentSchema = z.object({
+  ownerUid: DocumentIdSchema,
   workKind: z.string().min(1).max(128),
   reference: z.object({ collection: z.string().min(1).max(128), id: DocumentIdSchema }).nullable(),
   payload: JsonObjectSchema,

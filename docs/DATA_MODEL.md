@@ -28,7 +28,7 @@ owners/{authUid}/auditEvents/{eventId}
 owners/{authUid}/_unique/{sha256ConstraintKey}
 integrationInstances/{integrationId}
 integrationInstances/{integrationId}/events/{eventId}
-workItems/{workItemId}
+workItems/{workItemId}                            ownerUid, work kind, lease and terminal state
 externalRunKeys/{sha256IntegrationAndExternalRunId}
 ```
 
@@ -50,8 +50,8 @@ All timestamps are Firestore `Timestamp` values in UTC. HTTP contracts serialize
 | Input snapshot/run input | `inputSnapshots/{id}`, `runInputs/{runId}` | Snapshots are immutable and content-hashed; the run ID path permits one primary input snapshot per run. |
 | Conversation/message | `conversations/{id}/messages/{id}` | Stable external session and context version are recorded; message generation state is explicit. |
 | Integration event | `integrationInstances/{id}/events/{id}` | Raw JSON is bounded and retained separately; event processing state/times are explicit. |
-| Work item | `workItems/{id}` | Availability, attempt count, and lease owner/expiry support durable processing. |
-| Run request | `runRequests/{id}` | Idempotency key/request hash and local run are persisted together. |
+| Work item | `workItems/{id}` | Owner UID, work kind, availability, attempt count, and lease owner/expiry support durable processing. |
+| Run request | `runRequests/{id}` | Idempotency key/request hash, local run, and dispatch state are persisted together. |
 | Task mutation | `taskMutations/{id}` | Desired patch, expected config version, external result/readback, and reconciliation state are preserved. |
 | Notification outbox | `notificationOutbox/{id}` | Deduplication key, destination, availability, attempts, and delivery state are explicit. |
 | Preferences/audit | `preferences/current`, `auditEvents/{id}` | Preferences are a single document; audit metadata excludes secrets and full research transcripts. |
@@ -61,6 +61,10 @@ All timestamps are Firestore `Timestamp` values in UTC. HTTP contracts serialize
 Firestore does not provide SQL foreign keys or composite unique constraints. This single-owner design makes the ownership boundary structural: data references are built under `owners/{verifiedUid}`, and server request bodies never select that UID. The Admin SDK bypasses Firestore Rules, so runtime repositories take a branded `VerifiedOwnerContext` created after token verification and the UID allowlist check; path helpers do not accept a raw UID or caller-supplied Firestore path.
 
 `createOwnerDocumentWithUniqueClaims()` reserves deterministic SHA-256 claim documents in the same Firestore transaction as the target write. It requires an existing enabled owner profile and can load declared parent records from that owner's subtree in the same transaction. Use it for `(owner, roleKey)`, `(owner, task definition key)`, `(owner, idempotency key)`, and other logical unique keys. Pass canonical values (case normalization is field-specific) and use a global claim incorporating the integration ID for external run IDs. Deterministic document IDs implement one report per run, one read state per report, and one primary input snapshot per run. Parent records must be loaded from the same owner's subtree before a child write. These checks are transactional application invariants rather than SQL constraints.
+
+Manual run creation uses a deterministic request document ID derived from the idempotency key and a matching owner-scoped unique claim. In the same transaction it checks the owner/task/analyst, reads bounded holdings and watchlist queries, creates a content-hashed input snapshot and `runInputs/{runId}`, creates the queued run and global work item, and reserves `_unique/{sha256("activeTaskRun:" + taskId)}`. This task lock also covers runs whose external outcome is unknown. Release it only in a transaction that proves the same run reached a terminal state. The worker receives a system owner context from validated server configuration; it never accepts a UID from work-item payload as authority.
+
+The dispatch worker claims queued work and changes the request to `dispatching` transactionally, then calls the adapter outside the transaction. It does not retry an expired dispatch lease: it records `unknown` on the request/run and leaves the task lock reserved for reconciliation. Only safe pre-submission connection checks retry, with a three-attempt bound. The real OpenClaw receipt/history reconciliation contract remains part of the later integration discovery step.
 
 The shared Zod schemas validate document data at every repository boundary. `database/firestore.rules` denies all direct web-client Firestore reads/writes; the browser authenticates with Firebase Auth and sends a bearer ID token to the private API. The Admin SDK uses Application Default Credentials or the host's workload identity and bypasses Rules. Keep its identity server-side and grant only the Firebase Auth verification and Firestore access the API needs.
 

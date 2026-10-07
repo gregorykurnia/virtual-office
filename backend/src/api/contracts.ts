@@ -58,6 +58,17 @@ export const ReportSourceApiSchema = ReportSourceDocumentSchema.extend({ id: Api
 
 export const RunApiSchema = RunDocumentSchema.extend({ id: ApiIdSchema });
 
+export const ManualRunBodySchema = z.object({
+  inputOverrides: z.record(z.string(), z.unknown()).optional()
+}).strict();
+
+export const IdempotencyKeySchema = z.string().trim().min(1).max(256);
+
+export const RunRequestResponseSchema = z.object({
+  run: RunApiSchema,
+  reused: z.boolean()
+});
+
 export const AgentProfileApiSchema = z.object({
   agent: AgentApiSchema,
   tasks: z.array(TaskApiSchema),
@@ -104,6 +115,7 @@ export type TaskApi = z.infer<typeof TaskApiSchema>;
 export type ReportApi = z.infer<typeof ReportApiSchema>;
 export type ReportSourceApi = z.infer<typeof ReportSourceApiSchema>;
 export type RunApi = z.infer<typeof RunApiSchema>;
+export type RunRequestResponse = z.infer<typeof RunRequestResponseSchema>;
 export type AgentProfileApi = z.infer<typeof AgentProfileApiSchema>;
 export type ReportPageApi = z.infer<typeof ReportPageApiSchema>;
 export type ReportDetailApi = z.infer<typeof ReportDetailApiSchema>;

@@ -5,16 +5,27 @@ import helmet from "@fastify/helmet";
 import rateLimit from "@fastify/rate-limit";
 import type { Auth } from "firebase-admin/auth";
 import type { Firestore } from "firebase-admin/firestore";
+import {
+  AgentIdParamSchema,
+  IdempotencyKeySchema,
+  ManualRunBodySchema,
+  RecordIdParamSchema,
+  ReportQuerySchema,
+  RunQuerySchema,
+  RunRequestResponseSchema
+} from "./api/contracts.js";
 import { ApiError, invalidInput, notFound } from "./api/errors.js";
-import { AgentIdParamSchema, RecordIdParamSchema, ReportQuerySchema, RunQuerySchema } from "./api/contracts.js";
-import { createRequireOwner } from "./auth/ownerAuth.js";
+import { createRequireOwner, createSystemOwnerContext } from "./auth/ownerAuth.js";
 import type { BackendConfig } from "./config.js";
 import { OwnerRepository } from "./database/ownerRepository.js";
+import { createManualRunRequest } from "./database/manualRuns.js";
+import { DurableRunDispatchWorker, type RunDispatchAdapter } from "./workers/runDispatchWorker.js";
 
 type AppDependencies = {
   config: BackendConfig;
   auth: Auth;
   firestore: Firestore;
+  dispatchAdapter?: RunDispatchAdapter;
 };
 
 function safeErrorCode(error: unknown): string {
@@ -236,8 +247,37 @@ export async function buildApp(dependencies: AppDependencies): Promise<FastifyIn
       return success(run);
     });
 
+    privateApi.post("/tasks/:id/runs", { config: { rateLimit: { max: 10, timeWindow: "1 minute" } } }, async (request, reply) => {
+      const params = RecordIdParamSchema.safeParse(request.params);
+      if (!params.success) throw notFound("The requested task was not found.");
+      const idempotencyKey = parseQuery(IdempotencyKeySchema, request.headers["idempotency-key"]);
+      const body = parseQuery(ManualRunBodySchema, request.body === undefined ? {} : request.body);
+      const result = await createManualRunRequest({
+        db: dependencies.firestore,
+        owner: request.ownerIdentity!,
+        taskId: params.data.id,
+        idempotencyKey,
+        inputOverrides: body.inputOverrides ?? {},
+        integrationId: dependencies.dispatchAdapter?.integrationId ?? null
+      });
+      const run = await repositoryFor(request).getRun(result.runId);
+      if (!run) throw new ApiError(500, "record_unavailable", "The queued run could not be read.");
+      return reply.code(202).send(success(RunRequestResponseSchema.parse({ run, reused: result.reused })));
+    });
+
     privateApi.get("/connection", async (request) => success(await repositoryFor(request).getConnection()));
   }, { prefix: "/api" });
+
+  if (dependencies.dispatchAdapter) {
+    const worker = new DurableRunDispatchWorker(
+      dependencies.firestore,
+      createSystemOwnerContext(config.ownerUid),
+      dependencies.dispatchAdapter,
+      (error) => app.log.warn({ errorName: error instanceof Error ? error.name : "Error" }, "Run dispatch worker encountered an error")
+    );
+    app.addHook("onClose", async () => worker.stop());
+    worker.start();
+  }
 
   return app;
 }

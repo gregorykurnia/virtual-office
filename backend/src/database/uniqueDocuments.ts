@@ -1,7 +1,7 @@
 import { createHash } from "node:crypto";
 import { Timestamp, type DocumentData, type Firestore } from "firebase-admin/firestore";
 import type { ZodType } from "zod";
-import type { VerifiedOwnerContext } from "../auth/ownerAuth.js";
+import type { OwnerPathContext } from "../auth/ownerAuth.js";
 import { OwnerProfileDocumentSchema } from "@investment-office/shared";
 import { ownerDocument, ownerRecord, type OwnerCollection } from "./paths.js";
 
@@ -29,7 +29,7 @@ function hash(value: string): string {
  */
 export async function createOwnerDocumentWithUniqueClaims<T extends DocumentData>(args: {
   db: Firestore;
-  owner: VerifiedOwnerContext;
+  owner: OwnerPathContext;
   collection: OwnerCollection;
   documentId: string;
   data: T;

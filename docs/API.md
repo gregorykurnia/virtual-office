@@ -17,6 +17,7 @@ The API is a Fastify service in `backend/`. It accepts Firebase ID tokens in an 
 | `PATCH /api/reports/:id/read` | Owner | Idempotently creates the owner's read-state document and returns its timestamp. |
 | `GET /api/runs` | Owner | Cursor-paginated run history; accepts `agentId`, `taskId`, `pageSize`, and `cursor`. |
 | `GET /api/runs/:id` | Owner | One owner-scoped run record. |
+| `POST /api/tasks/:id/runs` | Owner | Requires `Idempotency-Key`; commits a queued run, immutable inputs, request record, and dispatch work item, then returns `202`. |
 | `GET /api/connection` | Owner | Gateway status; reports `unknown` and stale until a successful connection check is persisted. |
 
 Successful resource responses use `{ dataMode: "live", observedAt, data }`. Record IDs that do not resolve below the authenticated owner's Firestore root return the same `404` response as unknown IDs.
@@ -36,16 +37,16 @@ The browser signs in and out through Firebase Auth. The API uses bearer tokens a
 - CORS is disabled by default for same-origin use. If enabled, `CORS_ORIGINS` accepts only exact origins; trusted proxy addresses are separately configured.
 - Errors use `{ "error": { "code", "message", "requestId" } }`. Internal exception text and dependency detail are not exposed on public routes.
 - Application validation errors use `422`; inaccessible resource IDs use `404`; expired/missing credentials use `401`; valid nonowner identities use `403`.
+- Manual run requests use `409` for idempotency-key/body mismatches, disabled/unconfigured tasks, or an existing active/unresolved run, and `503` when no enabled dispatch integration is configured.
 - Authorization headers and cookies are redacted from structured logs. Request bodies are not logged.
 - The API is a separate live data path; it does not read or fall back to the browser's demo fixtures.
 
-## Deferred write contracts
+## Later write contracts
 
-These routes are documented for the next implementation steps and are not mounted yet:
+These routes are documented for later implementation and are not mounted yet:
 
 | Planned method and route | Contract |
 | --- | --- |
-| `POST /api/tasks/:id/runs` | Require an `Idempotency-Key`; persist the request, queued run, immutable input reference, and dispatch work item in one transaction; return `202` with the app run ID. Reuse the response for the same key and canonical body; return `409` when a key is reused with a different body or an active-task conflict exists. |
 | `GET/PUT /api/holdings` | Validate dated holdings, decimal strings, and an expected collection version. Return `409` on a version mismatch; never derive owner identity from the body. |
 | `GET/PUT /api/watchlist` | Validate the owner research universe and expected collection version; return `409` on a version mismatch. |
 | `PATCH /api/tasks/:id` | Accept only supported schedule/timezone/enabled/instruction fields plus the expected config version. Persist a mutation before external work, serialize updates per task, and report saved state only after external readback. |
@@ -54,6 +55,14 @@ These routes are documented for the next implementation steps and are not mounte
 | `POST /integrations/openclaw/report` | Use a separate private listener and dedicated constant-time-checked integration credential, with bounded payload validation and idempotent event handling. It is not a browser route and does not use the owner Firebase bearer token. |
 
 The durable run, task mutation, conversation, and integration routes must keep external work outside Firestore transaction callbacks. A provider timeout is an unknown outcome to reconcile, not permission to blindly repeat a potentially paid action.
+
+### Manual run requests
+
+`POST /api/tasks/:id/runs` accepts an optional JSON body of `{ "inputOverrides": { ... } }` and requires a trimmed, 1–256 character `Idempotency-Key`. Missing bodies and empty overrides are equivalent. The request hash uses canonical JSON plus the task ID, so object-key ordering does not change the request identity. Reusing a key with the same body returns the same local run ID with `reused: true`; reusing it with another task or body returns `409 idempotency_key_reused`.
+
+The request transaction validates the enabled owner, task, and analyst, confirms an enabled OpenClaw integration record, snapshots current holdings/watchlist and task mappings, then creates the request, local queued run, immutable input snapshot/reference, task-scoped active-run claim, and dispatch work item together. Input snapshots are bounded to 200 holdings and 200 watchlist entries and 150 KB of canonical JSON. A distinct key for an already active or unresolved task returns `409 active_run_exists`. When no adapter is configured, a new request returns `503 integration_unavailable`; a retry of an already stored request still returns its original local run.
+
+The worker claims a work item and marks its request `dispatching` in one transaction, then calls the injected adapter outside the transaction. Safe connection checks may retry at most three times. An expired lease after dispatch began becomes `unknown` and is never blindly resent. A definite rejection becomes failed and releases the task lock; acceptance stores the external run ID and a global integration-scoped uniqueness claim. A future OpenClaw adapter must implement receipt/history reconciliation for unresolved `unknown` requests before any manual resend.
 
 ## Local setup
 

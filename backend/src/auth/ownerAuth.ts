@@ -8,11 +8,16 @@ export type OwnerIdentity = {
 };
 
 const verifiedOwnerContextKey: unique symbol = Symbol("verified-owner-context");
+const systemOwnerContextKey: unique symbol = Symbol("system-owner-context");
 
 /** A request identity that has passed token verification and the configured UID allowlist. */
 export type VerifiedOwnerContext = Readonly<OwnerIdentity & {
   [verifiedOwnerContextKey]: true;
 }>;
+
+/** A configured server identity for background work; never construct this from request data. */
+export type SystemOwnerContext = Readonly<{ uid: string; [systemOwnerContextKey]: true }>;
+export type OwnerPathContext = VerifiedOwnerContext | SystemOwnerContext;
 
 declare module "fastify" {
   interface FastifyRequest {
@@ -37,6 +42,11 @@ function getIdentity(claims: DecodedIdToken): VerifiedOwnerContext {
   const displayName = typeof claims.name === "string" ? claims.name : null;
   const email = typeof claims.email === "string" ? claims.email : null;
   return Object.freeze({ uid: claims.uid, email, displayName, [verifiedOwnerContextKey]: true as const });
+}
+
+export function createSystemOwnerContext(uid: string): SystemOwnerContext {
+  if (!/^[A-Za-z0-9_-]{1,128}$/.test(uid)) throw new Error("Invalid configured owner UID.");
+  return Object.freeze({ uid, [systemOwnerContextKey]: true as const });
 }
 
 export function createRequireOwner(auth: Auth, allowlistedUid: string): preHandlerHookHandler {

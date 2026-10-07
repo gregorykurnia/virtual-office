@@ -37,6 +37,14 @@
       "collectionGroup": "runs",
       "queryScope": "COLLECTION",
       "fields": [
+        { "fieldPath": "taskId", "order": "ASCENDING" },
+        { "fieldPath": "executionStatus", "order": "ASCENDING" }
+      ]
+    },
+    {
+      "collectionGroup": "runs",
+      "queryScope": "COLLECTION",
+      "fields": [
         { "fieldPath": "agentId", "order": "ASCENDING" },
         { "fieldPath": "observedAt", "order": "DESCENDING" }
       ]
@@ -80,6 +88,26 @@
       "fields": [
         { "fieldPath": "state", "order": "ASCENDING" },
         { "fieldPath": "availableAt", "order": "ASCENDING" }
+      ]
+    },
+    {
+      "collectionGroup": "workItems",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "ownerUid", "order": "ASCENDING" },
+        { "fieldPath": "workKind", "order": "ASCENDING" },
+        { "fieldPath": "state", "order": "ASCENDING" },
+        { "fieldPath": "availableAt", "order": "ASCENDING" }
+      ]
+    },
+    {
+      "collectionGroup": "workItems",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "ownerUid", "order": "ASCENDING" },
+        { "fieldPath": "workKind", "order": "ASCENDING" },
+        { "fieldPath": "state", "order": "ASCENDING" },
+        { "fieldPath": "leaseExpiresAt", "order": "ASCENDING" }
       ]
     },
     {
