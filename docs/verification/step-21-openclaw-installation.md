@@ -2,13 +2,13 @@
 
 Assessment date: 7 October 2026
 
-Status: **Preparation recorded; server installation and live acceptance pending Oracle VM verification and authorized SSH access.**
+Status: **Preparation recorded; server installation and live acceptance pending a successful SSH inventory of the Oracle VM.**
 
-This record is a run plan, not evidence that OpenClaw is installed or connected. The configured Oracle private hostname is not yet a verified route from this workstation. Do not use it as a public SSH address or change the VM before its state and access are confirmed.
+This record is a run plan, not evidence that OpenClaw is installed or connected. The owner supplied an Ubuntu 24.04 ARM64 image and a public IPv4, but a TCP port 22 connection attempt timed out and the configured Oracle private hostname does not resolve from this workstation. See [Step 20 host readiness](./step-20-host-readiness.md). Do not change the VM before its state and access are confirmed.
 
 ## Known prerequisites
 
-- Oracle Cloud instance creation is in progress in Batam (`ap-batam-1`). Its running state, OS, architecture, public/private connectivity, and authorized SSH path are not verified; see [Step 20 host readiness](./step-20-host-readiness.md).
+- The owner reports an Oracle Cloud VM in Batam (`ap-batam-1`) using `Canonical-Ubuntu-24.04-Minimal-aarch64-2026.09.18-0`. Its running state, VNIC/IP attachment, SSH reachability, and authorized login are not verified; see [Step 20 host readiness](./step-20-host-readiness.md).
 - The host may already contain an OpenClaw installation or service. Inspect it before installing, updating, onboarding, or repairing anything.
 - The repository pins Node `26.10.0`. Confirm that version and its linked SQLite are supported on the verified host. Record any OpenClaw-managed private runtime separately from the app runtime.
 - No provider credential or renewal method has been verified on the server. Do not copy laptop credentials or place secrets in the repository, shell history, process arguments, or browser build.
