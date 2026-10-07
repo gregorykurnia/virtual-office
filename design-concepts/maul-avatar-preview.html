@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Maul avatar — design reference board</title>
+    <link rel="stylesheet" href="step-4-tokens.css" />
+    <style>
+      * { box-sizing: border-box; }
+      body { margin: 0; color: var(--wire-ink); background: var(--wire-canvas); font: 16px/1.5 var(--wire-font); }
+      main { width: min(1200px, calc(100% - 32px)); margin: auto; padding: 48px 0; }
+      h1 { margin: 0; font-size: clamp(2rem, 5vw, 3.3rem); line-height: 1.1; letter-spacing: -.035em; }
+      h2 { margin: 0 0 8px; font-size: 1.3rem; }
+      p { margin: 8px 0 16px; }
+      .eyebrow { color: var(--wire-violet); font-size: .75rem; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; }
+      .lede, .muted { color: var(--wire-muted); }
+      .lede { max-width: 800px; }
+      a { color: #244fb9; text-underline-offset: 3px; }
+      a:focus-visible { outline: 3px solid var(--wire-blue); outline-offset: 4px; border-radius: 4px; }
+      nav { display: flex; flex-wrap: wrap; gap: 8px 20px; margin: 20px 0; }
+      nav a { display: inline-flex; align-items: center; min-height: 44px; }
+      .notice { padding: 16px 20px; border: 1px solid #e2c796; border-radius: var(--wire-radius-lg); background: var(--wire-amber-soft); color: #70420d; }
+      .notice strong { display: block; }
+      section { margin-top: 32px; }
+      .grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; }
+      figure { margin: 0; }
+      .card { overflow: hidden; background: var(--wire-surface); border: 1px solid var(--wire-line); border-radius: var(--wire-radius-lg); box-shadow: var(--wire-shadow-sm); }
+      .stage { display: grid; height: 290px; place-items: center; background: #fff; padding: 12px; }
+      .stage img { display: block; width: 100%; height: 260px; object-fit: contain; }
+      .stage--photo { background: #101719; }
+      .stage--photo img { width: auto; max-width: 100%; }
+      figcaption { border-top: 1px solid var(--wire-line); padding: 16px; font-size: .83rem; color: var(--wire-muted); }
+      figcaption strong { display: block; margin-bottom: 4px; font-size: 1rem; color: var(--wire-ink); }
+      .dark { background: #111827; }
+      .stage.dark img { width: 100%; height: 260px; }
+      .rules { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
+      .rule { padding: 20px; border: 1px solid var(--wire-line); border-radius: var(--wire-radius-lg); background: var(--wire-surface); }
+      .rule h3 { margin: 0 0 8px; font-size: 1rem; }
+      .rule p { margin: 0; color: var(--wire-muted); font-size: .9rem; }
+      .pending { padding: 24px; border: 2px dashed var(--wire-line-strong); border-radius: var(--wire-radius-lg); background: var(--wire-surface-soft); }
+      .pending p { margin-bottom: 0; }
+      .samples { display: flex; flex-wrap: wrap; gap: 12px; }
+      .sample { display: grid; min-width: 90px; min-height: 110px; place-items: center; gap: 8px; padding: 12px; border: 1px solid var(--wire-line); border-radius: var(--wire-radius-md); background: #fff; }
+      .sample.dark { background: #111827; color: #e7edf7; }
+      .sample img { display: block; object-fit: contain; }
+      .sample span { font-size: .75rem; }
+      footer { margin-top: 32px; color: var(--wire-muted); font-size: .82rem; }
+      @media (max-width: 950px) { .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } .rules { grid-template-columns: 1fr; } }
+      @media (max-width: 520px) { main { width: calc(100% - 24px); padding-top: 28px; } .grid { grid-template-columns: 1fr; } .stage { height: 280px; } }
+    </style>
+  </head>
+  <body>
+    <main>
+      <header>
+        <p class="eyebrow">Virtual office · third avatar · design handoff</p>
+        <h1>Maul, in the office avatar style</h1>
+        <p class="lede">The supplied face is the identity target. Rex and Paz are the finished style targets. Maul will replace the research analyst's display identity while retaining its violet book badge and Opportunity Scout responsibilities.</p>
+        <nav aria-label="Design handoff files">
+          <a href="MAUL_AVATAR_DESIGN_GUIDE.md">Read the design guide</a>
+          <a href="../docs/MAUL_AVATAR_REPLACEMENT_PLAN.md">Read the replacement plan</a>
+          <a href="maul-photo-reference.jpeg">Open the original photo</a>
+          <a href="maul-design-reference-board.png">Open the saved board image</a>
+        </nav>
+        <div class="notice"><strong>Reference board · generated Maul preview pending</strong>The image generator rejected the preview request and returned no avatar. These are your photograph and existing production images. Runtime artwork and names have not been replaced.</div>
+      </header>
+
+      <section aria-labelledby="reference-heading">
+        <h2 id="reference-heading">Identity → finished style → replacement slot</h2>
+        <p class="muted">Preserve Maul's facial landmarks. Match the compact, rounded 3D construction, gentle highlights, camera, and light direction of the two armored avatars.</p>
+        <div class="grid">
+          <figure class="card"><div class="stage stage--photo"><img src="maul-photo-reference.jpeg" width="365" height="547" alt="Supplied Maul portrait showing red and black facial tattoos, amber eyes, short horns, and black clothing" /></div><figcaption><strong>Maul · supplied identity</strong>Face and horn reference. The complete lower outfit is not visible in this photo.</figcaption></figure>
+          <figure class="card"><div class="stage"><img src="../frontend/public/assets/office/avatars/market-bot-idle.png" width="352" height="352" alt="Current Rex avatar with large rounded helmet and compact body" /></div><figcaption><strong>Rex · production style</strong>Match head/body ratio, soft 3D volumes, camera, boots, and upper-left lighting.</figcaption></figure>
+          <figure class="card"><div class="stage"><img src="../frontend/public/assets/office/avatars/portfolio-bot-idle.png" width="352" height="352" alt="Current Paz avatar with rounded blue armor and green book-like ledger badge" /></div><figcaption><strong>Paz · production style</strong>Match the same family finish, planted feet, restrained detail, and small chest badge.</figcaption></figure>
+          <figure class="card"><div class="stage"><img src="../frontend/public/assets/office/avatars/research-bot-idle.png" width="352" height="352" alt="Current Clara research robot with violet book badge, the artwork slot planned for replacement" /></div><figcaption><strong>Current research slot</strong>Clara → Maul planned. Keep research ID, desk, violet accent, and book badge.</figcaption></figure>
+        </div>
+      </section>
+
+      <section aria-labelledby="translation-heading">
+        <h2 id="translation-heading">What the Maul design must preserve</h2>
+        <div class="rules">
+          <article class="rule"><h3>Recognizable face</h3><p>Exposed red head; photo-specific black forehead, eye, cheek, and chin markings; amber eyes; short ivory-gray horns. Simplify skin texture while keeping the defining shapes.</p></article>
+          <article class="rule"><h3>Same office family</h3><p>Oversized head, tiny torso, short rounded limbs, chunky boots, soft volumes, shallow three-quarter camera. Calm expression and empty hands in idle.</p></article>
+          <article class="rule"><h3>Research identity</h3><p>Simple charcoal tunic with a compact split hem and violet book badge. The full outfit is an office adaptation. The research interface accent stays violet.</p></article>
+        </div>
+      </section>
+
+      <section aria-labelledby="candidate-heading">
+        <h2 id="candidate-heading">Actual Maul candidate</h2>
+        <div class="pending"><strong>No generated candidate available yet.</strong><p>Once a real transparent idle master exists, this section will show it on light and dark backgrounds at matched apparent height beside Rex, Paz, and the current research avatar. The shown idle design is reviewed before the five-pose production rollout.</p></div>
+      </section>
+
+      <section aria-labelledby="dark-heading">
+        <h2 id="dark-heading">Existing family on the dark surface</h2>
+        <p class="muted">These current images establish the edge quality and contrast standard for Maul's future dark outfit. This is a reference check, not a Maul alpha test.</p>
+        <div class="grid">
+          <figure class="card"><div class="stage dark"><img src="../frontend/public/assets/office/avatars/market-bot-idle.png" alt="Production Rex on dark background" /></div><figcaption><strong>Rex</strong>Soft highlights and clean edges.</figcaption></figure>
+          <figure class="card"><div class="stage dark"><img src="../frontend/public/assets/office/avatars/portfolio-bot-idle.png" alt="Production Paz on dark background" /></div><figcaption><strong>Paz</strong>Dark undersuit remains separated.</figcaption></figure>
+          <figure class="card"><div class="stage dark"><img src="../frontend/public/assets/office/avatars/research-bot-idle.png" alt="Current research robot on dark background" /></div><figcaption><strong>Current research</strong>Violet book badge is the role cue.</figcaption></figure>
+        </div>
+      </section>
+
+      <section aria-labelledby="size-heading">
+        <h2 id="size-heading">True CSS size references</h2>
+        <p class="muted">Rex at actual 32, 36, and 40 CSS px image-box widths, on light and dark backgrounds. Future Maul samples use these same sizes; no enlarged sample is labeled as actual size.</p>
+        <div class="samples">
+          <figure class="sample"><img src="../frontend/public/assets/office/avatars/market-bot-idle.png" width="32" height="32" alt="Rex at 32 CSS pixels on light" /><span>32 px · light</span></figure>
+          <figure class="sample dark"><img src="../frontend/public/assets/office/avatars/market-bot-idle.png" width="32" height="32" alt="Rex at 32 CSS pixels on dark" /><span>32 px · dark</span></figure>
+          <figure class="sample"><img src="../frontend/public/assets/office/avatars/market-bot-idle.png" width="36" height="36" alt="Rex at 36 CSS pixels on light" /><span>36 px · light</span></figure>
+          <figure class="sample dark"><img src="../frontend/public/assets/office/avatars/market-bot-idle.png" width="36" height="36" alt="Rex at 36 CSS pixels on dark" /><span>36 px · dark</span></figure>
+          <figure class="sample"><img src="../frontend/public/assets/office/avatars/market-bot-idle.png" width="40" height="40" alt="Rex at 40 CSS pixels on light" /><span>40 px · light</span></figure>
+          <figure class="sample dark"><img src="../frontend/public/assets/office/avatars/market-bot-idle.png" width="40" height="40" alt="Rex at 40 CSS pixels on dark" /><span>40 px · dark</span></figure>
+        </div>
+      </section>
+      <footer>Prepared 7 October 2026 · Portable project reference board · All four research identities and asset keys stay stable.</footer>
+    </main>
+  </body>
+</html>

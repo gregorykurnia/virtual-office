@@ -32,6 +32,10 @@ The shared rounded bot shape remains recognizable while state, role details, and
 
 The [Paz avatar design and replacement guide](PAZ_AVATAR_DESIGN_AND_REPLACEMENT_GUIDE.md) records the completed staged replacement. The [Paz avatar review](paz-avatar-preview.html) shows the transparent idle master, the approved pose family, and the matched comparisons beside production Rex and the former portfolio avatar.
 
+## Maul design and replacement handoff
+
+The [Maul design guide](MAUL_AVATAR_DESIGN_GUIDE.md) and [Clara → Maul replacement plan](../docs/MAUL_AVATAR_REPLACEMENT_PLAN.md) specify the third research avatar's photo-to-style translation and later complete display-name migration. Open the [Maul visual reference board](maul-avatar-preview.html) in a browser, or view its [saved PNG](maul-design-reference-board.png), to see the supplied photo beside production Rex, Paz, and the current research avatar. The original input is preserved as [maul-photo-reference.jpeg](maul-photo-reference.jpeg). Image generation rejected the first idle request; no actual Maul candidate or runtime replacement is claimed.
+
 ## 4. Desktop UI
 
 The desktop product view keeps the office canvas central, with search and filters on the left and selected-bot details on the right.
