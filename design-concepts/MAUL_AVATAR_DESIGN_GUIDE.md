@@ -1,6 +1,6 @@
 # Maul avatar design guide
 
-Status: design handoff prepared, 7 October 2026. Actual generated idle preview pending. The built-in image generator rejected the first preview request with `moderation_blocked` at the output stage; no generated avatar was returned. The [visual reference board](maul-avatar-preview.html) and [saved board image](maul-design-reference-board.png) show the supplied photo and existing style references, not an approved Maul render.
+Status: design handoff prepared, 7 October 2026. Actual generated idle preview pending. The built-in image generator rejected the idle request with `moderation_blocked` at the output stage; no generated avatar was returned. The [visual reference board](maul-avatar-preview.html) and [saved board image](maul-design-reference-board.png) show the supplied photo, existing style references, and a clearly labeled hand-authored [vector design exploration](maul-avatar-concept.svg), not an approved Maul render.
 
 ## Goal and scope
 
@@ -18,6 +18,7 @@ Attach these actual image files to any image-generation handoff. Paths or Markdo
 | [Production Rex idle](../frontend/public/assets/office/avatars/market-bot-idle.png) | Primary rendering target: proportions, rounded construction, camera, lighting, finish, boots, and detail density. |
 | [Production Paz idle](../frontend/public/assets/office/avatars/portfolio-bot-idle.png) | Second finished family reference; confirms compact proportions, gentle material highlights, and role-badge scale. |
 | [Current research idle](../frontend/public/assets/office/avatars/research-bot-idle.png) | Replacement footprint, relaxed stance, and violet book badge. Do not preserve the robot face or antenna. |
+| [Vector design exploration](maul-avatar-concept.svg) | Hand-authored visual direction aid for the facial marking layout, horn placement, compact silhouette, dark outfit, and violet badge. It is not a generated or approved runtime asset. |
 | [Asset contract](../docs/ASSET_CONTRACT.md) | Runtime exports, placement, alpha, safe bounds, and semantic labels. |
 | [Rex design guide](CAPTAIN_REX_AVATAR_DESIGN_GUIDE.md), [Paz guide](PAZ_AVATAR_DESIGN_AND_REPLACEMENT_GUIDE.md) | Existing design and replacement workflow precedents. |
 
@@ -62,7 +63,7 @@ Reject tall realistic action figures, different collectible styles, flat cartoon
 3. Inspect the actual image and alpha on light and dark backgrounds. Review face landmarks, horns, head/body ratio, clothing, badge, camera, and light direction.
 4. Display the real result inline and in the [review page](maul-avatar-preview.html). Include Rex, Paz, and the existing research avatar at equal apparent character height and common foot baseline. Equal file-box sizes alone do not guarantee equal silhouette scale.
 5. Include true **32, 36, and 40 CSS px** samples, with no CSS doubling or zoom mislabeled as actual size. Review at larger portrait/scene sizes as well.
-6. Obtain approval of the shown idle design before producing the remaining poses and applying the replacement. This is the staged design checkpoint used in the Paz guide; this plan-only request does not claim design acceptance.
+6. Obtain approval of the shown idle design before producing the remaining poses and applying the replacement. The current vector study makes the intended direction visible in the folder, but it is not the staged approval candidate. This is the checkpoint used in the Paz guide; this plan-only request does not claim design acceptance.
 
 No idle approval question is pending now because no generated candidate exists. The reference board explicitly distinguishes current production artwork from the future Maul concept. Do not present the source photograph as the finished avatar or invent a successful generation record.
 
@@ -128,6 +129,7 @@ Export each as a **352 × 352 transparent WebP and matching PNG**, following the
 - [x] Supplied photograph preserved unchanged in this folder.
 - [x] Design requirements, generation prompt, pose brief, and replacement plan written.
 - [x] Portable visual reference board created with production style references.
+- [x] Hand-authored vector direction study added and shown in the folder; it is explicitly not a generated or approved runtime asset.
 - [ ] Actual Maul idle generated and shown; blocked by the generator's output-stage rejection.
 - [ ] Idle design approved.
 - [ ] Five matching poses exported and integrated.

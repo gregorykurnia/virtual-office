@@ -1,6 +1,6 @@
 # Clara → Maul avatar replacement plan
 
-Status: planned, 7 October 2026. Design guide and visual reference board complete; actual generated idle, user design acceptance, runtime replacement, and name migration pending. The built-in image generator rejected the idle request at the output stage (`moderation_blocked`); no Maul render was returned.
+Status: planned, 7 October 2026. Design guide and visual reference board complete; a hand-authored vector direction study is now visible in the folder. Actual generated idle, user design acceptance, runtime replacement, and name migration remain pending. The built-in image generator rejected the idle request at the output stage (`moderation_blocked`); no Maul render was returned.
 
 ## Intended result
 
@@ -14,13 +14,14 @@ The user's requested Clara → Maul display replacement supersedes earlier name-
 
 - [Maul design guide](../design-concepts/MAUL_AVATAR_DESIGN_GUIDE.md): precise photo translation, style constraints, prompt, and five-pose brief.
 - [Visual reference board](../design-concepts/maul-avatar-preview.html): source photo beside actual Rex, Paz, and research art. **Not a generated Maul preview.**
+- [Vector design exploration](../design-concepts/maul-avatar-concept.svg): hand-authored direction aid for review; **not a generated or approved runtime asset.**
 - [Portable source photograph](../design-concepts/maul-photo-reference.jpeg): unchanged copy of the user's input.
 - [Asset contract](ASSET_CONTRACT.md), [shared styles](../frontend/src/styles.css), [wireframes](../design-concepts/step-4-wireframes.html), and [tokens](../design-concepts/step-4-tokens.css).
 - [Rex replacement precedent](REX_AVATAR_REPLACEMENT_PLAN.md) and [Paz guide](../design-concepts/PAZ_AVATAR_DESIGN_AND_REPLACEMENT_GUIDE.md).
 
 ## 1. Review an actual idle candidate
 
-Generate and inspect a transparent Maul idle master following the design guide. Show it inline and in the reference board on light and dark surfaces, beside Rex/Paz/current research at matched apparent height and shared floor contact. Include true 32/36/40 CSS px samples. Inspect reference-specific tattoos, amber eyes, horn placement, black clothing, violet book badge, camera, proportions, alpha edges, and small-size readability.
+Generate and inspect a transparent Maul idle master following the design guide. The vector direction study in the reference board is available for discussion while generation is blocked, but it cannot satisfy the approval gate. Show the actual candidate inline and in the reference board on light and dark surfaces, beside Rex/Paz/current research at matched apparent height and shared floor contact. Include true 32/36/40 CSS px samples. Inspect reference-specific tattoos, amber eyes, horn placement, black clothing, violet book badge, camera, proportions, alpha edges, and small-size readability.
 
 Obtain acceptance of that concrete shown design before generating the remaining poses or changing runtime art/names, matching the staged Paz workflow. No design approval is requested from a text description or a source photograph. A blocked generation remains pending, with no fabricated concept file or accepted preview record.
 
@@ -72,7 +73,7 @@ No rename is performed in this planning pass; current documentation and fixtures
 
 ## Current handoff acceptance
 
-- [x] Design guide and replacement plan saved with portable source photo and visible style reference board.
+- [x] Design guide and replacement plan saved with portable source photo, visible style reference board, and a clearly labeled vector direction study.
 - [x] Complete active-name audit and historical evidence treatment specified.
 - [ ] Real Maul idle generated, shown, and accepted.
 - [ ] Five matching runtime poses integrated.

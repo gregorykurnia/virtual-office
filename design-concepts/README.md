@@ -34,7 +34,7 @@ The [Paz avatar design and replacement guide](PAZ_AVATAR_DESIGN_AND_REPLACEMENT_
 
 ## Maul design and replacement handoff
 
-The [Maul design guide](MAUL_AVATAR_DESIGN_GUIDE.md) and [Clara → Maul replacement plan](../docs/MAUL_AVATAR_REPLACEMENT_PLAN.md) specify the third research avatar's photo-to-style translation and later complete display-name migration. Open the [Maul visual reference board](maul-avatar-preview.html) in a browser, or view its [saved PNG](maul-design-reference-board.png), to see the supplied photo beside production Rex, Paz, and the current research avatar. The original input is preserved as [maul-photo-reference.jpeg](maul-photo-reference.jpeg). Image generation rejected the first idle request; no actual Maul candidate or runtime replacement is claimed.
+The [Maul design guide](MAUL_AVATAR_DESIGN_GUIDE.md) and [Clara → Maul replacement plan](../docs/MAUL_AVATAR_REPLACEMENT_PLAN.md) specify the third research avatar's photo-to-style translation and later complete display-name migration. Open the [Maul visual reference board](maul-avatar-preview.html) in a browser, or view its [saved PNG](maul-design-reference-board.png), to see the supplied photo beside production Rex, Paz, the current research avatar, and the hand-authored [vector design exploration](maul-avatar-concept.svg). The original input is preserved as [maul-photo-reference.jpeg](maul-photo-reference.jpeg). Image generation rejected the idle request; the vector is a direction aid only, and no approved Maul candidate or runtime replacement is claimed.
 
 ## 4. Desktop UI
 
