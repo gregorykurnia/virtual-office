@@ -1,6 +1,5 @@
 import { Timestamp, type Firestore } from "firebase-admin/firestore";
 import { DatabaseSchemaVersion } from "@investment-office/shared";
-import { ownerDocument } from "./paths.js";
 
 const SCHEMA_VERSION_DOCUMENT = "system/schema";
 const MIGRATION_DOCUMENT = `schemaVersions/${String(DatabaseSchemaVersion).padStart(4, "0")}`;
@@ -8,7 +7,9 @@ const MIGRATION_DOCUMENT = `schemaVersions/${String(DatabaseSchemaVersion).padSt
 export async function applyDatabaseMigrations(db: Firestore, ownerUid: string): Promise<{ schemaVersion: number }> {
   const schemaRef = db.doc(SCHEMA_VERSION_DOCUMENT);
   const migrationRef = db.doc(MIGRATION_DOCUMENT);
-  const profileRef = ownerDocument(db, ownerUid);
+  // Migrations receive the trusted owner UID from validated server configuration,
+  // not from a request. Runtime repositories use VerifiedOwnerContext instead.
+  const profileRef = db.collection("owners").doc(ownerUid);
 
   await db.runTransaction(async (transaction) => {
     const [schemaSnapshot, migrationSnapshot, profileSnapshot] = await Promise.all([

@@ -7,9 +7,16 @@ export type OwnerIdentity = {
   displayName: string | null;
 };
 
+const verifiedOwnerContextKey: unique symbol = Symbol("verified-owner-context");
+
+/** A request identity that has passed token verification and the configured UID allowlist. */
+export type VerifiedOwnerContext = Readonly<OwnerIdentity & {
+  [verifiedOwnerContextKey]: true;
+}>;
+
 declare module "fastify" {
   interface FastifyRequest {
-    ownerIdentity: OwnerIdentity | null;
+    ownerIdentity: VerifiedOwnerContext | null;
   }
 }
 
@@ -26,10 +33,10 @@ function authFailureCode(error: unknown): string {
   return "auth/verification-failed";
 }
 
-function getIdentity(claims: DecodedIdToken): OwnerIdentity {
+function getIdentity(claims: DecodedIdToken): VerifiedOwnerContext {
   const displayName = typeof claims.name === "string" ? claims.name : null;
   const email = typeof claims.email === "string" ? claims.email : null;
-  return { uid: claims.uid, email, displayName };
+  return Object.freeze({ uid: claims.uid, email, displayName, [verifiedOwnerContextKey]: true as const });
 }
 
 export function createRequireOwner(auth: Auth, allowlistedUid: string): preHandlerHookHandler {

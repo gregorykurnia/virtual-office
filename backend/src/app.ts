@@ -5,8 +5,11 @@ import helmet from "@fastify/helmet";
 import rateLimit from "@fastify/rate-limit";
 import type { Auth } from "firebase-admin/auth";
 import type { Firestore } from "firebase-admin/firestore";
+import { ApiError, invalidInput, notFound } from "./api/errors.js";
+import { AgentIdParamSchema, RecordIdParamSchema, ReportQuerySchema, RunQuerySchema } from "./api/contracts.js";
 import { createRequireOwner } from "./auth/ownerAuth.js";
 import type { BackendConfig } from "./config.js";
+import { OwnerRepository } from "./database/ownerRepository.js";
 
 type AppDependencies = {
   config: BackendConfig;
@@ -124,9 +127,16 @@ export async function buildApp(dependencies: AppDependencies): Promise<FastifyIn
     if (statusCode >= 500) {
       request.log.error({ errorName: error instanceof Error ? error.name : "Error", errorCode: safeErrorCode(error) }, "API request failed");
     }
-    const code = statusCode === 429 ? "rate_limited" : statusCode >= 500 ? "internal_error" : "invalid_request";
+    if (error instanceof ApiError) {
+      return reply.code(error.statusCode).send({
+        error: { code: error.code, message: error.safeMessage, requestId: request.id }
+      });
+    }
+    const code = statusCode === 429 ? "rate_limited" : statusCode === 422 ? "validation_failed" : statusCode >= 500 ? "internal_error" : "invalid_request";
     const message = statusCode === 429
       ? "Too many requests. Try again shortly."
+      : statusCode === 422
+        ? "The request parameters are invalid."
       : statusCode >= 500
         ? "The request could not be completed."
         : "The request is invalid.";
@@ -150,6 +160,23 @@ export async function buildApp(dependencies: AppDependencies): Promise<FastifyIn
   await app.register(async (privateApi) => {
     privateApi.addHook("onRequest", requireOwner);
 
+    const repositoryFor = (request: import("fastify").FastifyRequest) => {
+      if (!request.ownerIdentity) throw new ApiError(401, "unauthenticated", "Sign in to access this private API.");
+      return new OwnerRepository(dependencies.firestore, request.ownerIdentity);
+    };
+
+    const success = <T,>(data: T) => ({
+      dataMode: "live" as const,
+      observedAt: new Date().toISOString(),
+      data
+    });
+
+    function parseQuery<T>(schema: { safeParse(value: unknown): { success: true; data: T } | { success: false } }, value: unknown): T {
+      const parsed = schema.safeParse(value);
+      if (!parsed.success) throw invalidInput();
+      return parsed.data;
+    }
+
     privateApi.get("/auth/session", { config: { rateLimit: { max: 60, timeWindow: "1 minute" } } }, async (request) => ({
       data: {
         uid: request.ownerIdentity!.uid,
@@ -166,6 +193,50 @@ export async function buildApp(dependencies: AppDependencies): Promise<FastifyIn
         dependencies: readiness.dependencies
       });
     });
+
+    privateApi.get("/agents", async (request) => success(await repositoryFor(request).listAgents()));
+
+    privateApi.get("/agents/:id", async (request) => {
+      const params = AgentIdParamSchema.safeParse(request.params);
+      if (!params.success) throw notFound("The requested analyst was not found.");
+      const profile = await repositoryFor(request).getAgentProfile(params.data.id);
+      if (!profile) throw notFound("The requested analyst was not found.");
+      return success(profile);
+    });
+
+    privateApi.get("/reports", async (request) => {
+      const filters = parseQuery(ReportQuerySchema, request.query);
+      return success(await repositoryFor(request).listReports(filters));
+    });
+
+    privateApi.get("/reports/:id", async (request) => {
+      const params = RecordIdParamSchema.safeParse(request.params);
+      if (!params.success) throw notFound("The requested report was not found.");
+      const report = await repositoryFor(request).getReportDetail(params.data.id);
+      if (!report) throw notFound("The requested report was not found.");
+      return success(report);
+    });
+
+    privateApi.patch("/reports/:id/read", async (request) => {
+      const params = RecordIdParamSchema.safeParse(request.params);
+      if (!params.success) throw notFound("The requested report was not found.");
+      return success(await repositoryFor(request).markReportRead(params.data.id));
+    });
+
+    privateApi.get("/runs", async (request) => {
+      const filters = parseQuery(RunQuerySchema, request.query);
+      return success(await repositoryFor(request).listRuns(filters));
+    });
+
+    privateApi.get("/runs/:id", async (request) => {
+      const params = RecordIdParamSchema.safeParse(request.params);
+      if (!params.success) throw notFound("The requested run was not found.");
+      const run = await repositoryFor(request).getRun(params.data.id);
+      if (!run) throw notFound("The requested run was not found.");
+      return success(run);
+    });
+
+    privateApi.get("/connection", async (request) => success(await repositoryFor(request).getConnection()));
   }, { prefix: "/api" });
 
   return app;

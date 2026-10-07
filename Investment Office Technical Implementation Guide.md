@@ -1758,8 +1758,9 @@ Although service supervision and private connectivity appear again in Phase F, t
 - [x] Frontend demo runnable with four analysts and clickable desks.
 - [x] Reports, profile tabs, filters, unread state, back navigation, and demo runs verified.
 - [x] Steps 14–15 implementation added: private Fastify API, Firebase owner login/allowlist, versioned Firestore schema/migration, Rules, indexes, and data-model documentation.
+- [x] Steps 16–17 implemented: owner-context-only Firestore repositories and same-owner parent validation; authenticated agent/profile, report, read-state, run, and connection API contracts with stable cursors and documented errors.
 - [ ] Firebase Auth/Firestore project configuration and server ADC verified; emulator checks cover expired/nonowner auth, migration repeatability, duplicate claims, and cross-owner path rejection.
-- [ ] Remaining Step 16 ownership repository checks verified against a second authenticated identity.
+- [ ] Step 16 repository isolation verified against a second authenticated identity in the Firestore emulator.
 - [ ] Durable manual-run requests and ambiguous-dispatch handling implemented.
 - [ ] Exact OpenClaw/server runtime and supported interface record captured.
 - [ ] First analyst, tool policy, and search access validated.

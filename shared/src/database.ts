@@ -59,6 +59,10 @@ export const AgentDocumentSchema = z.object({
 export const TaskDocumentSchema = z.object({
   agentId: DocumentIdSchema,
   definitionKey: z.string().min(1).max(160),
+  name: z.string().trim().min(1).max(160).optional(),
+  purpose: z.string().trim().min(1).max(2000).optional(),
+  inputs: z.array(z.string().trim().min(1).max(500)).max(40).optional(),
+  missingInputs: z.array(z.string().trim().min(1).max(1000)).max(40).optional(),
   externalJobId: z.string().min(1).max(256).nullable(),
   promptVersion: z.string().min(1).max(160),
   enabled: z.boolean(),
