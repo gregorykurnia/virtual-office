@@ -1,6 +1,6 @@
 # Investment Office — Step-by-Step Technical Implementation Guide
 
-> Requirements update — 7 October 2026: [Four-agent workflow specification](./docs/FOUR_AGENT_WORKFLOW_SPEC.md) is authoritative for the revised roles, investor context, watchlists, reporting, coordination, editable WIB schedules, UI controls, and acceptance checks. Conflicting historical defaults below are superseded. Preserve Rex (`market`), Adrian (`portfolio`), Clara (`research`), and Theo (`risk`) and their artwork. This update records requirements; it does not claim implementation or live connectivity.
+> Requirements update — 7 October 2026: [Four-agent workflow specification](./docs/FOUR_AGENT_WORKFLOW_SPEC.md) is authoritative for the revised roles, investor context, watchlists, reporting, coordination, editable WIB schedules, UI controls, and acceptance checks. Conflicting historical defaults below are superseded. Preserve Rex (`market`), Paz (`portfolio`), Clara (`research`), and Theo (`risk`) and their stable artwork keys. Paz is the approved cosmetic replacement for the portfolio display identity; linked responsibilities and records remain unchanged. This update records requirements; it does not claim implementation or live connectivity.
 
 Prepared: 2 October 2026  
 Scope: frontend demonstration, private live application, OpenClaw integration, four analyst tasks, scheduling, conversations, deployment, and ongoing operation.
@@ -1010,8 +1010,8 @@ Read back and store the actual agent IDs. Provision separate instructions and ef
 
 | App role / character | Proposed external ID | Input access |
 | --- | --- | --- |
-| `market` / Maya | `investment-market` | Research universe, market preferences; no position sizes needed |
-| `portfolio` / Adrian | `investment-portfolio` | Dated holdings/watchlist and thesis notes |
+| `market` / Rex | `investment-market` | Research universe, market preferences; no position sizes needed |
+| `portfolio` / Paz | `investment-portfolio` | Dated holdings/watchlist and thesis notes |
 | `research` / Clara | `investment-research` | Explicit research topic/queue and investment criteria |
 | `risk` / Theo | `investment-risk` | Dated sizes, objectives, valuation inputs, verified holdings data, selected prior reports |
 
@@ -1024,7 +1024,7 @@ Give the Risk Analyst prior reports only as material to critique. An earlier ana
 
 Create one reviewed instruction file per task. All inherit Step 24's common policy and Step 26's report schema. Keep prompts in version control, record prompt hashes/versions per run, and deploy the reviewed files into the active workspaces.
 
-#### Task 1: Maya — Market morning briefing
+#### Task 1: Rex — Market morning briefing
 
 **Task key:** `market-morning-brief`  
 **Instruction file:** `research/market-brief.md`
@@ -1051,7 +1051,7 @@ Prepare the owner's market morning briefing.
 
 **Initial boundaries:** broad market context and source-backed developments; no fabricated live quotes or market predictions stated as certainty.
 
-#### Task 2: Adrian — Holdings and watchlist update
+#### Task 2: Paz — Holdings and watchlist update
 
 **Task key:** `portfolio-daily-review`  
 **Instruction file:** `research/portfolio-review.md`
@@ -1401,7 +1401,7 @@ As of 4 October 2026, commit `e9eda69` provides a stationary foundation: normali
 
 | Prerequisite | Required deliverable before enabling the activity |
 | --- | --- |
-| Stable character identity | One validated master/model per identity; resolve the market slot's Maya/Rex artwork choice before producing its animation family. Keep stable agent ID `market`. |
+| Stable character identity | One validated master/model per identity; keep the market slot's Rex artwork and stable agent ID `market` before producing its animation family. |
 | Consistent animation source | Shared rig and fixed camera where feasible, or a validated consistent sequence. A single transparent preview does not supply a rig or motion frames. |
 | Walk artwork | In-place visible stepping, required route-facing directions, turning, and matched departure/arrival poses. |
 | Chair artwork | Sit-down, seated idle/work/read, and stand-up frames with a measured pelvis/seat anchor. |
@@ -1913,7 +1913,7 @@ The full requirements and acceptance checklist are in [the workflow specificatio
 | --- | --- | --- |
 | Steps 6/15–19: schemas, storage and API | Version additive report metadata, theses/candidates, targets, findings, bookmarks, command coordination and dependencies; immutable current-input snapshots | `shared/src/database.ts`, `shared/src/contracts.ts`, numbered migrations, owner repositories and `backend/src/app.ts`; preserve legacy role keys and existing read contracts |
 | Steps 20–29: OpenClaw | Discover exact installed version, supported run/history/completion/scheduler interfaces and real research access; implement adapter/reconciliation | Existing `backend/src/workers/runDispatchWorker.ts` injection boundary; do not assume native messaging or create jobs before verification |
-| Steps 30–36: four roles/schedules | Four versioned role instructions, stable mappings, editable WIB defaults, dependency cutoff and partial digest assembly by Adrian | Owner-scoped tasks/findings/reports and verified external job readback; one scheduler and idempotent task/job reconciliation |
+| Steps 30–36: four roles/schedules | Four versioned role instructions, stable mappings, editable WIB defaults, dependency cutoff and partial digest assembly by Paz | Owner-scoped tasks/findings/reports and verified external job readback; one scheduler and idempotent task/job reconciliation |
 | Steps 37–41: owner controls | Watchlist/thesis/target edits, natural-language routing, explicit selection, coordinated requests, bookmarks/filters, optional Telegram | Existing authenticated API/service adapters and profile/feed components; Telegram disabled until verified, with persistent deduplication |
 | Steps 42–47: visual/operational acceptance | Retain office identities/artwork, inspect responsive states, test persistence/restart/failure/stale and missing-input paths | Existing visual contracts, repository checks and dated acceptance evidence; live operation requires verified remote execution |
 

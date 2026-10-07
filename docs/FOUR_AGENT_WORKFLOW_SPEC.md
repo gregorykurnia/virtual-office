@@ -6,9 +6,9 @@ Approved requirements: 7 October 2026. Status: documented requirements; implemen
 
 The owner earns/spends IDR, invests in US-listed stocks and ETFs, seeks wealth accumulation over 10–20+ years, and also investigates emerging sectors and future compounders. AI research supports coding, agents, DEUS Human Capital Services, and solo software opportunities. Use Asia/Jakarta and display WIB.
 
-| Stable ID | Preserved name | New primary role | Preserved artwork |
+| Stable ID | Display name | Primary role | Stable artwork |
 | --- | --- | --- | --- |
-| portfolio | Adrian | Portfolio Analyst; combined digest assembler | portfolio-bot / portfolio-ledger |
+| portfolio | Paz | Portfolio Analyst; combined digest assembler | portfolio-bot / portfolio-ledger |
 | market | Rex | Global Markets Analyst | market-bot / market-terminal |
 | research | Clara | Opportunity Scout | research-bot / research-library |
 | risk | Theo | AI & Technology Analyst | risk-bot / risk-console |
@@ -19,7 +19,7 @@ Initial editable stock watchlist: MSFT, V, GOOG, AMZN, SPGI, META, NVDA, TSM, AV
 
 ## Agent instructions and outputs
 
-### Adrian: Portfolio Analyst
+### Paz: Portfolio Analyst
 
 Monitor stock earnings, guidance, revenue growth, margins, free cash flow per share, dilution, capital allocation, competition, and material risks. Persist each stock thesis: owned/watchlisted reason, dated supporting evidence, milestones, weakening conditions, and invalidation criteria. Track all saved ETFs including AVUV: distributions, fees, methodology and material exposure changes. Concentration and stock/ETF overlap require adequate dated holdings and look-through data; state coverage gaps. Track declared dividends, ex-dates, issuer payment dates, estimated amounts, and separately confirmed brokerage receipts. Monthly allocation, DCA, and dividend-reinvestment proposals require current holdings, approved targets, contribution amount/date, available cash and relevant FX assumptions. Ask for specific missing fields and block unsupported calculations. Explain price changes as business change, valuation change, or uncertain cause with evidence.
 
@@ -41,7 +41,7 @@ Outputs: weekly radar with at most three meaningful developments; one weekly dee
 
 ### Theo: AI & Technology Analyst
 
-Track meaningful models, capabilities, pricing, APIs, limits and availability; coding agents, automation, OpenClaw and infrastructure; official documentation, credible independent evaluations and practical evidence. Explain benchmark limitations. Track infrastructure spending, inference costs, adoption and monetization. Identify concrete applications for DEUS, development and solo software businesses. Distinguish announcement from general availability. Share investment implications with Adrian/Clara through the app data layer.
+Track meaningful models, capabilities, pricing, APIs, limits and availability; coding agents, automation, OpenClaw and infrastructure; official documentation, credible independent evaluations and practical evidence. Explain benchmark limitations. Track infrastructure spending, inference costs, adoption and monetization. Identify concrete applications for DEUS, development and solo software businesses. Distinguish announcement from general availability. Share investment implications with Paz/Clara through the app data layer.
 
 Classify findings as Use now, Watch, or Investment implication. Outputs: concise digest up to three times weekly; weekly worth-testing recommendation with use case, expected benefit, cost and limitations; exceptional alerts for substantial practical changes.
 
@@ -49,7 +49,7 @@ Classify findings as Use now, Watch, or Investment implication. Outputs: concise
 
 Every report includes title, agent, type, generation time, coverage period, data freshness, changes since previous report, personal relevance, linked sources with publication dates, facts distinct from interpretation, risks/uncertainty/contradictions, follow-up questions, related holdings/ETFs/sectors/topics and proposed next step (including no action needed). Unknown publication dates must remain unknown. Prefer filings, IR, ETF issuers, central banks, official statistics and product docs; supplement with credible reporting. Never fabricate research, citations or activity. Label demo, stale, unavailable and missing data distinctly.
 
-Primary ownership: portfolio/ETFs → Adrian; macro/rates/FX/commodities → Rex; new investment opportunities → Clara; AI tools/models/industry → Theo. Share persistent findings with event keys, primary owner and linked specialist reports through owner-scoped storage; native agent messaging is unverified. One event appears once in the 400–700 word combined digest with links to specialist analysis. Adrian assembles it from completed reports; no fifth agent. Store previous findings and research deltas. Lightweight screening precedes deeper work; scan frequency, report length, research budgets and model selection are editable.
+Primary ownership: portfolio/ETFs → Paz; macro/rates/FX/commodities → Rex; new investment opportunities → Clara; AI tools/models/industry → Theo. Share persistent findings with event keys, primary owner and linked specialist reports through owner-scoped storage; native agent messaging is unverified. One event appears once in the 400–700 word combined digest with links to specialist analysis. Paz assembles it from completed reports; no fifth agent. Store previous findings and research deltas. Lightweight screening precedes deeper work; scan frequency, report length, research budgets and model selection are editable.
 
 ## Editable schedules and dependency handling
 
@@ -59,11 +59,11 @@ All cron expressions below are desired application defaults in Asia/Jakarta, not
 | --- | --- | --- | --- |
 | Morning collection/specialist screening | Relevant owners | Tue–Sat 06:00 WIB | 0 6 * * 2-6 |
 | Morning prerequisite report completion | Relevant owners | Tue–Sat 06:40 WIB | 40 6 * * 2-6 |
-| Combined preceding-US-session digest | Adrian | Tue–Sat 07:00 WIB | 0 7 * * 2-6 |
+| Combined preceding-US-session digest | Paz | Tue–Sat 07:00 WIB | 0 7 * * 2-6 |
 | Weekly specialist reviews | All four | Sat 09:00 WIB | 0 9 * * 6 |
-| Combined weekly review | Adrian | Sat 10:00 WIB | 0 10 * * 6 |
-| Monthly portfolio inputs/review generation | Adrian | Day 1, 09:00 WIB | 0 9 1 * * |
-| Monthly portfolio/DCA review | Adrian | Day 1, 10:00 WIB | 0 10 1 * * |
+| Combined weekly review | Paz | Sat 10:00 WIB | 0 10 * * 6 |
+| Monthly portfolio inputs/review generation | Paz | Day 1, 09:00 WIB | 0 9 1 * * |
+| Monthly portfolio/DCA review | Paz | Day 1, 10:00 WIB | 0 10 1 * * |
 | AI digest | Theo | Mon/Wed/Fri 09:00 WIB | 0 9 * * 1,3,5 |
 | Opportunity deep dive, when justified | Clara | Fri 17:00 WIB | 0 17 * * 5 |
 
@@ -79,7 +79,7 @@ Preserve the existing React/TypeScript/Vite, Fastify, Zod and owner-scoped Fires
 
 Feed: agent/type/topic or ticker/importance/date filters, search, source-rich details, related reports, bookmarks/read state and distinct digest/deep-dive/alert/portfolio-review types. Keep current bounded search limitations explicit until expanded.
 
-Commands accept explicit agent selection or automatic routing. Persist owner, routing explanation, coordinated child tasks, progress and resulting report. Cross-role requests create one parent and consolidated answer, with failed/missing children visible. Route weekly 13-stock review and ETF changes to Adrian; Treasury yields to Rex; emerging themes to Clara; AI worth-testing requests to Theo; DCA to Adrian with missing-input gates; combined briefing to coordinated specialist tasks and Adrian assembly. An explicit selection remains visible; requests beyond that role require transparent coordination. Never interpret a research command as trade authorization.
+Commands accept explicit agent selection or automatic routing. Persist owner, routing explanation, coordinated child tasks, progress and resulting report. Cross-role requests create one parent and consolidated answer, with failed/missing children visible. Route weekly 13-stock review and ETF changes to Paz; Treasury yields to Rex; emerging themes to Clara; AI worth-testing requests to Theo; DCA to Paz with missing-input gates; combined briefing to coordinated specialist tasks and Paz assembly. An explicit selection remains visible; requests beyond that role require transparent coordination. Never interpret a research command as trade authorization.
 
 ## Technical delivery sequence and acceptance checklist
 

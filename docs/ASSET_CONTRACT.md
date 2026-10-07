@@ -1,8 +1,8 @@
 # Office production asset contract
 
-> Requirements update — 7 October 2026: [Four-agent workflow specification](./FOUR_AGENT_WORKFLOW_SPEC.md) is authoritative for the revised roles, investor context, watchlists, reporting, coordination, editable WIB schedules, UI controls, and acceptance checks. Conflicting historical defaults below are superseded. Preserve Rex (`market`), Adrian (`portfolio`), Clara (`research`), and Theo (`risk`) and their artwork. This update records requirements; it does not claim implementation or live connectivity.
+> Requirements update — 7 October 2026: [Four-agent workflow specification](./FOUR_AGENT_WORKFLOW_SPEC.md) is authoritative for the revised roles, investor context, watchlists, reporting, coordination, editable WIB schedules, UI controls, and acceptance checks. Conflicting historical defaults below are superseded. Preserve Rex (`market`), Paz (`portfolio`), Clara (`research`), and Theo (`risk`) and their stable artwork keys. Paz is the approved cosmetic replacement for the portfolio display identity; linked responsibilities and records remain unchanged. This update records requirements; it does not claim implementation or live connectivity.
 
-The office uses a bot-free rendered environment with semantic HTML interaction layers and a reusable raster character set. The environment and avatars follow the visual concepts' soft, shallow-isometric direction with warm materials, visible furniture depth, glass, plants, rounded shells, glossy face panels, cyan eyes, and consistent diffuse lighting. The concept PNGs remain references; the production assets are separate runtime files.
+The office uses a bot-free rendered environment with semantic HTML interaction layers and a reusable raster character set. The environment and avatars follow the visual concepts' soft, shallow-isometric direction with warm materials, visible furniture depth, glass, plants, rounded shells, glossy face panels, role badges, and consistent diffuse lighting. The concept PNGs remain references; the production assets are separate runtime files.
 
 ## Source and manifest
 
@@ -25,7 +25,7 @@ The TypeScript manifest is the application-facing record. The scene renders the 
 | Agent | Avatar key | Desk key | Accent | Persistent role distinction |
 | --- | --- | --- | --- | --- |
 | Rex — Global Markets Analyst | `market-bot` | `market-terminal` | Blue `#3867e8` | Rex helmet/armor and market-chart badge |
-| Adrian — Portfolio Analyst | `portfolio-bot` | `portfolio-ledger` | Green `#16845b` | Ledger badge and portfolio folio |
+| Paz — Portfolio Analyst | `portfolio-bot` | `portfolio-ledger` | Green `#16845b` | Blue armored helmet, green ledger badge, and portfolio folio |
 | Clara — Opportunity Scout | `research-bot` | `research-library` | Violet `#7759c7` | Book badge and bookmark/book desk prop |
 | Theo — AI & Technology Analyst | `risk-bot` | `risk-console` | Red `#c53b4a` | Shield badge and console alert light |
 

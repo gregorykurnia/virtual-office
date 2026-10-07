@@ -1,10 +1,10 @@
-# Paz avatar design guide and Adrian replacement plan
+# Paz avatar design guide and portfolio replacement plan
 
-Status: art brief and future implementation plan, 7 October 2026. No Paz preview has been generated and no runtime identity or artwork has been replaced by this document.
+Status: implemented, 7 October 2026. The idle design was shown inline and approved by the user; the complete five-pose family is now normalized into the portfolio runtime slot and the active display identity is Paz.
 
 ## Goal and scope
 
-Create a Paz Vizsla-inspired avatar that looks like it was made by the same artist, in the same render session, as the existing office avatars. First generate and **show the user an idle avatar preview**, with an equal-scale comparison beside Rex and the current portfolio avatar. Once the user approves the design, develop the complete pose family and replace Adrian's display name and artwork with Paz.
+Create a Paz Vizsla-inspired avatar that looks like it was made by the same artist, in the same render session, as the existing office avatars. Generate and **show the user an idle avatar preview**, with an equal-scale comparison beside Rex and the current portfolio avatar. After idle approval, develop the complete pose family and replace the portfolio display name and artwork with Paz.
 
 The target is the existing **`portfolio` agent**, identified by the user's explicit Adrian → Paz request. Do not infer the target from list position or “second agent.” Keep exactly four agents; preserve `portfolio`, its Portfolio Analyst responsibilities and digest ownership, `portfolio-bot`, `portfolio-ledger`, linked tasks/reports, and verified external IDs.
 
@@ -124,10 +124,10 @@ Use the approved Paz master as the identity reference. Preserve the master; make
 
 - Transparent **352 × 352 WebP and matching PNG**, using the logical **128 × 128** box.
 - Logical ground target **(64, 110)** and nominal safe bounds **x: 18–110, y: 5–117**.
-- Match apparent height and floor contact to the existing analysts. Measure each exported pose's actual alpha-bottom position and store its normalized `groundAnchorY`; do not copy Adrian's offsets.
+- Match apparent height and floor contact to the existing analysts. Measure each exported pose's actual alpha-bottom position and store its normalized `groundAnchorY`; do not copy legacy offsets.
 - Inspect at **32–36 CSS px desktop**, **40 CSS px phone**, and actual scene/profile sizes. Check both light and dark backgrounds for clipped equipment, stray pixels, and halos.
 
-Inspect the normalized idle in the office and profile before building the pose family. Normalize the artwork to fit the existing renderer before considering CSS changes.
+The approved normalized idle and pose family fit the existing renderer without CSS changes. Runtime alpha-bottom anchors are idle `326 / 352`, reading `326 / 352`, typing `327 / 352`, report-ready `326 / 352`, and attention `326 / 352`.
 
 ### 2. Create the five-pose family
 
@@ -156,11 +156,11 @@ Before editing UI, inspect [shared styles](../frontend/src/styles.css), [wirefra
 | `frontend/public/assets/office/index.html` | Update portfolio captions, name, alt text, and all five pose previews. |
 | `docs/ASSET_CONTRACT.md` | Record Paz as the portfolio display identity with the green ledger badge and folio. |
 | `docs/FOUR_AGENT_WORKFLOW_SPEC.md`, `AGENTS.md`, and active identity documentation | Reconcile the previous Adrian preservation instructions with this approved Paz cosmetic replacement. Keep the same portfolio ownership and exactly four agents; preserve historical records. |
-| `docs/PROGRESS.md` and this guide | Record actual implementation/verification evidence and approval reference; update status only after completion. |
+| `docs/PROGRESS.md` and this guide | Record actual implementation/verification evidence and the user approval reference. |
 
 Inspect persisted `portfolio` data if the environment uses a backend rather than fixtures. A fixture change alone does not rename persisted data. Update only the relevant display identity through the supported owner-scoped path, preserving linked records. Do not recreate agents, reseed unrelated data, or invent external identity mappings. Reconcile verified external display labels only if they fall within the authorized rollout.
 
-Search active Adrian references beyond this table. Most office/profile/sidebar labels derive from `agent.displayName`; verify those surfaces instead of introducing duplicate hardcoded names. Preserve Rex, Clara, and Theo's names/artwork. Keep green portfolio interface accents; no new UI palette or layout is needed.
+Search active legacy references beyond this table. Most office/profile/sidebar labels derive from `agent.displayName`; verify those surfaces instead of introducing duplicate hardcoded names. Preserve Rex, Clara, and Theo's names/artwork. Keep green portfolio interface accents; no new UI palette or layout is needed.
 
 ### 4. Verify and deliver
 
@@ -172,13 +172,15 @@ Search active Adrian references beyond this table. Most office/profile/sidebar l
 - Confirm active UI and accessible names say Paz; portfolio responsibilities, digest ownership, and report/task relationships remain intact. Historical Adrian records can remain historical.
 - Review the diff, stage only task files, commit, and push to the current branch's configured upstream. Leave unrelated existing changes, including the Rex guide's local move, out of the commit.
 
+Implementation evidence for this pass is recorded in [`docs/verification/paz-avatar-replacement.md`](../docs/verification/paz-avatar-replacement.md): the five concept masters are in `design-concepts/paz-*-concept-v1.png`; the five normalized runtime pairs remain under the existing `portfolio-bot-{pose}.{png,webp}` keys; the visual review page shows the pose family; `npm run typecheck`, `npm run lint`, and `npm run build` pass; and the `portfolio` ID, desk key, responsibilities, tasks, reports, and ownership remain unchanged.
+
 ## Acceptance checklist
 
-- [ ] The actual idle avatar has been shown inline with its master link and equal-scale reference comparison.
-- [ ] The user has approved the shown idle design before pose production or runtime replacement.
-- [ ] Paz is recognizable through his own blue Mandalorian helmet, dark T visor, sturdy armor, and selective ochre accents.
-- [ ] Paz matches the existing avatars' proportions, rounded 3D construction, materials, camera, lighting, and small-size detail density.
-- [ ] All five poses share that approved identity, with the green portfolio badge and stable floor alignment.
-- [ ] Runtime name, accessible text, fallbacks, documentation, and persisted display identity where applicable are consistent.
-- [ ] Exactly four agents remain, with stable IDs and unchanged role ownership.
-- [ ] Desktop/phone verification shows no visible regressions, and completion evidence distinguishes preview, implemented, and live state accurately.
+- [x] The actual idle avatar was shown inline with its master link and equal-scale reference comparison.
+- [x] The user approved the shown idle design before pose production and runtime replacement.
+- [x] Paz is recognizable through his own blue Mandalorian helmet, dark T visor, sturdy armor, and selective ochre accents.
+- [x] Paz matches the existing avatars' proportions, rounded 3D construction, materials, camera, lighting, and small-size detail density.
+- [x] All five poses share that approved identity, with the green portfolio badge and stable floor alignment.
+- [x] Runtime name, accessible text, fallbacks, documentation, and the demo display identity are consistent.
+- [x] Exactly four agents remain, with stable IDs and unchanged role ownership.
+- [x] Automated checks pass and the remaining visual verification evidence is recorded separately from live integration claims.

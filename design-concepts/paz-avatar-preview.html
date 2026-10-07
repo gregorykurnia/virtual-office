@@ -66,6 +66,11 @@
       .sample img[data-size="40"] { width: 80px; height: 80px; }
       .sample figcaption { color: var(--muted); font-size: 0.78rem; text-align: center; }
 
+      .pose-grid { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 12px; }
+      .pose-card { margin: 0; padding: 10px; border: 1px solid var(--line); border-radius: 14px; background: var(--surface); box-shadow: 0 10px 24px rgb(30 42 59 / 0.07); }
+      .pose-card img { display: block; width: 100%; aspect-ratio: 1; object-fit: contain; border-radius: 10px; background: radial-gradient(circle at 50% 72%, #e8eef8, transparent 52%), #f4f7fb; }
+      .pose-card figcaption { padding-top: 8px; color: var(--muted); font-size: 0.78rem; font-weight: 700; text-align: center; }
+
       .notes { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
       .note { padding: 16px; border: 1px solid var(--line); border-radius: 14px; background: rgb(255 255 255 / 0.72); }
       .note strong { display: block; margin-bottom: 4px; font-size: 0.84rem; }
@@ -76,7 +81,10 @@
         .comparison { grid-template-columns: 1fr; }
         .card__art { min-height: 300px; }
         .notes { grid-template-columns: 1fr; }
+        .pose-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
       }
+
+      @media (max-width: 420px) { .pose-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
     </style>
   </head>
   <body>
@@ -85,7 +93,7 @@
         <p class="eyebrow">Virtual office · design review</p>
         <h1>Paz idle avatar</h1>
         <p class="lede">A transparent concept master for the portfolio analyst slot, compared against the production Rex and current portfolio avatar at matched display scale.</p>
-        <div class="status">Preview checkpoint · runtime replacement pending idle approval</div>
+        <div class="status">Approved idle · runtime replacement implemented</div>
       </header>
 
       <section aria-labelledby="light-heading">
@@ -134,6 +142,18 @@
           <figure class="sample"><div class="sample__stage sample__stage--dark"><img src="paz-idle-concept-v1.png" data-size="32" alt="Paz at 32 CSS pixels on dark" /></div><figcaption>32 px · dark</figcaption></figure>
           <figure class="sample"><div class="sample__stage"><img src="paz-idle-concept-v1.png" data-size="40" alt="Paz at 40 CSS pixels on light" /></div><figcaption>40 px · light</figcaption></figure>
           <figure class="sample"><div class="sample__stage sample__stage--dark"><img src="paz-idle-concept-v1.png" data-size="40" alt="Paz at 40 CSS pixels on dark" /></div><figcaption>40 px · dark</figcaption></figure>
+        </div>
+      </section>
+
+      <section aria-labelledby="poses-heading">
+        <h2 id="poses-heading">Approved pose family</h2>
+        <p class="section-note">Each pose keeps the same helmet, armor, badge, camera, lighting, and grounded floor alignment. Runtime exports use the existing portfolio-bot asset key.</p>
+        <div class="pose-grid">
+          <figure class="pose-card"><img src="paz-idle-concept-v1.png" alt="Paz idle pose" /><figcaption>idle</figcaption></figure>
+          <figure class="pose-card"><img src="paz-reading-concept-v1.png" alt="Paz reading pose" /><figcaption>reading</figcaption></figure>
+          <figure class="pose-card"><img src="paz-typing-concept-v1.png" alt="Paz typing pose" /><figcaption>typing</figcaption></figure>
+          <figure class="pose-card"><img src="paz-report-ready-concept-v1.png" alt="Paz report-ready pose" /><figcaption>report-ready</figcaption></figure>
+          <figure class="pose-card"><img src="paz-attention-concept-v1.png" alt="Paz attention pose" /><figcaption>attention</figcaption></figure>
         </div>
       </section>
 

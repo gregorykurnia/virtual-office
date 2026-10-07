@@ -1,6 +1,6 @@
 # Reference-matched 3D office visual plan
 
-> Requirements update — 7 October 2026: [Four-agent workflow specification](./FOUR_AGENT_WORKFLOW_SPEC.md) is authoritative for the revised roles, investor context, watchlists, reporting, coordination, editable WIB schedules, UI controls, and acceptance checks. Conflicting historical defaults below are superseded. Preserve Rex (`market`), Adrian (`portfolio`), Clara (`research`), and Theo (`risk`) and their artwork. This update records requirements; it does not claim implementation or live connectivity.
+> Requirements update — 7 October 2026: [Four-agent workflow specification](./FOUR_AGENT_WORKFLOW_SPEC.md) is authoritative for the revised roles, investor context, watchlists, reporting, coordination, editable WIB schedules, UI controls, and acceptance checks. Conflicting historical defaults below are superseded. Preserve Rex (`market`), Paz (`portfolio`), Clara (`research`), and Theo (`risk`) and their stable artwork keys. Paz is the approved cosmetic replacement for the portfolio display identity; linked responsibilities and records remain unchanged. This update records requirements; it does not claim implementation or live connectivity.
 
 Status: environment and avatar slices implemented, 3 October 2026. The rendered office background, normalized interaction frame, and reference-matched raster analyst family are now in the frontend.
 
@@ -41,7 +41,7 @@ Use the same overall spatial arrangement as `02-office-layout.png`, with four an
 
 Keep the lounge and meeting room behind the workstations, with reception and servers nearer the viewer. Use broad paths around the central work area. Replace the existing four oversized pastel rectangles and dashed borders with spatial separation through furniture and flooring.
 
-Suggested analyst assignment: Maya at the left work station, Adrian at the rear station, Clara at the front station, and Theo at the right station. Exact anchors must be measured from the final artwork, rather than imposed on an image generated independently.
+Suggested analyst assignment: Rex at the left work station, Paz at the rear station, Clara at the front station, and Theo at the right station. Exact anchors must be measured from the final artwork, rather than imposed on an image generated independently.
 
 ## Art requirements
 
@@ -67,7 +67,7 @@ Suggested analyst assignment: Maya at the left work station, Adrian at the rear 
 
 ### Analyst identity
 
-Preserve the existing manifest identities: Maya / market blue, Adrian / portfolio green, Clara / research violet, Theo / risk red. Keep a small headset/chart, folio/ledger, book, and shield/console distinction respectively. The reference's antenna colors are inspiration, not a reason to change application role meanings.
+Preserve the existing manifest identities: Rex / market blue, Paz / portfolio green, Clara / research violet, Theo / risk red. Keep a small headset/chart, blue armored folio/ledger, book, and shield/console distinction respectively. The reference's antenna colors are inspiration, not a reason to change application role meanings.
 
 Produce the five existing pose keys (`idle`, `reading`, `typing`, `report-ready`, `attention`) using consistent silhouettes and ground anchors. Validate one character in context first, then expand to four characters and their poses. Reuse matching portraits in roster and profile components so the scene and surrounding UI share one character style.
 

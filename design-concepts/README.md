@@ -30,7 +30,7 @@ The shared rounded bot shape remains recognizable while state, role details, and
 
 ## Paz idle concept review
 
-The [Paz avatar design and replacement guide](PAZ_AVATAR_DESIGN_AND_REPLACEMENT_GUIDE.md) includes the staged replacement plan. The current visual checkpoint is available in the [Paz idle avatar review](paz-avatar-preview.html), with the transparent [Paz idle concept master](paz-idle-concept-v1.png) shown beside the production Rex and current portfolio avatar.
+The [Paz avatar design and replacement guide](PAZ_AVATAR_DESIGN_AND_REPLACEMENT_GUIDE.md) records the completed staged replacement. The [Paz avatar review](paz-avatar-preview.html) shows the transparent idle master, the approved pose family, and the matched comparisons beside production Rex and the former portfolio avatar.
 
 ## 4. Desktop UI
 

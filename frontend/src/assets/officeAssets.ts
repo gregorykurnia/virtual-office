@@ -64,8 +64,8 @@ export const OFFICE_ASSETS = {
     avatarKey: "portfolio-bot",
     deskKey: "portfolio-ledger",
     accent: "#16845b",
-    accessory: "green ledger badge and portfolio folio",
-    accessibleName: "Adrian, Portfolio Analyst"
+    accessory: "blue armored helmet, green ledger badge and portfolio folio",
+    accessibleName: "Paz, Portfolio Analyst"
   },
   research: {
     avatarKey: "research-bot",
@@ -114,9 +114,9 @@ export const AVATAR_ASSETS = {
     attention: 325 / 352
   }),
   portfolio: createAvatarManifest("portfolio-bot", {
-    idle: 328 / 352,
-    reading: 325 / 352,
-    typing: 343 / 352,
+    idle: 326 / 352,
+    reading: 326 / 352,
+    typing: 327 / 352,
     "report-ready": 326 / 352,
     attention: 326 / 352
   }),

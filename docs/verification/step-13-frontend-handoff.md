@@ -33,7 +33,7 @@ The responsive pass found a compact-header and demo-control wrapping issue at ph
 
 | Requirement | Evidence |
 | --- | --- |
-| Four character/desk mappings | `officeAssets.ts`, `fixtures.ts`, and `officeSceneMap.ts` map Rex/market, Adrian/portfolio, Clara/research, and Theo/risk. The office captures show all four anchors and the Rex production avatar. |
+| Four character/desk mappings | `officeAssets.ts`, `fixtures.ts`, and `officeSceneMap.ts` map Rex/market, Paz/portfolio, Clara/research, and Theo/risk. The office captures show all four anchors and the Rex production avatar. |
 | Profile tabs | The Rex profile capture shows Overview, Assignment, and Reports tabs; tab state is URL-backed as `?agent=market&tab=...`. |
 | Search, analyst/date filters, unread state | The Reports capture shows the search, analyst, date, and Unread only controls; `ReportListPage` preserves them in URL parameters and report rows render unread markers. |
 | Detail and back context | The detail capture shows the report metadata/context panel and `Back to Reports`; the route derives its return path from navigation state or the current list query. |

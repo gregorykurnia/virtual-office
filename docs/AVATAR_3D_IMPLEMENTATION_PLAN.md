@@ -1,6 +1,6 @@
 # Rendered 3D analyst avatar implementation plan
 
-> Requirements update — 7 October 2026: [Four-agent workflow specification](./FOUR_AGENT_WORKFLOW_SPEC.md) is authoritative for the revised roles, investor context, watchlists, reporting, coordination, editable WIB schedules, UI controls, and acceptance checks. Conflicting historical defaults below are superseded. Preserve Rex (`market`), Adrian (`portfolio`), Clara (`research`), and Theo (`risk`) and their artwork. This update records requirements; it does not claim implementation or live connectivity.
+> Requirements update — 7 October 2026: [Four-agent workflow specification](./FOUR_AGENT_WORKFLOW_SPEC.md) is authoritative for the revised roles, investor context, watchlists, reporting, coordination, editable WIB schedules, UI controls, and acceptance checks. Conflicting historical defaults below are superseded. Preserve Rex (`market`), Paz (`portfolio`), Clara (`research`), and Theo (`risk`) and their stable artwork keys. Paz is the approved cosmetic replacement for the portfolio display identity; linked responsibilities and records remain unchanged. This update records requirements; it does not claim implementation or live connectivity.
 
 Status: implemented, 3 October 2026. This document records the reference-matched avatar work delivered after the rendered office environment. The fixed-camera character slice is complete; walking, roaming, camera rotation, and a real-time 3D engine remain outside scope.
 
@@ -50,8 +50,8 @@ If generation cannot keep the camera, silhouette, or pose alignment consistent, 
 
 | Analyst | Accent retained | Persistent identity detail |
 | --- | --- | --- |
-| Maya / market | Blue `#3867e8` | Small headset and chart detail |
-| Adrian / portfolio | Green `#16845b` | Ledger/folio detail |
+| Rex / market | Blue `#3867e8` | Small headset and chart detail |
+| Paz / portfolio | Green `#16845b` | Blue armor with ledger/folio detail |
 | Clara / research | Violet `#7759c7` | Book/bookmark detail |
 | Theo / risk | Red `#c53b4a` | Shield detail |
 
@@ -70,7 +70,7 @@ Keep accessories subtle enough for the reference's simple rounded silhouette, bu
 
 ### 1. Prove one robot in the real office
 
-Produce Maya's idle pose first. Make a temporary in-context composition at her intended waypoint using the actual production background and current screenshot as the baseline.
+Produce Rex's idle pose first. Make a temporary in-context composition at his intended waypoint using the actual production background and current screenshot as the baseline.
 
 Tune perspective, proportions, visible height relative to the chairs and monitors, white balance, face readability, alpha edges, and shadow softness at actual browser size. Start around 4–6% of artwork width for visible robot width, then choose the final size from the composition rather than treating that range as a fixed requirement.
 

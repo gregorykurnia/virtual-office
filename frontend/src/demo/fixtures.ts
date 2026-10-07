@@ -88,7 +88,7 @@ const agents: Agent[] = [
   AgentSchema.parse({
     id: "portfolio",
     role: "portfolio",
-    displayName: "Adrian",
+    displayName: "Paz",
     title: "Portfolio Analyst",
     responsibility: "Material developments affecting sample holdings and watchlist",
     avatarKey: "portfolio-bot",
