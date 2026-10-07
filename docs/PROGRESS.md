@@ -62,7 +62,11 @@ Completed repository and documentation inspection; recorded the revised specific
 
 ## Step 20 host-readiness assessment — 7 October 2026
 
-Recorded a workstation-side host preflight in [`docs/verification/step-20-host-readiness.md`](./verification/step-20-host-readiness.md). This session is on macOS with Node `v20.20.2`; the repository pins `v26.10.0`. No Linux VPS target or named SSH host was supplied, and no `openclaw` or `tailscale` executable was found on this shell's PATH. Host accounts, private connectivity, runtime/storage paths, time sync, provider egress, and laptop-independent execution remain unverified. Step 20 is **not complete**; no infrastructure, account, firewall, service, or credential was changed. The target host and authorized access are required to continue.
+Recorded a workstation-side host preflight in [`docs/verification/step-20-host-readiness.md`](./verification/step-20-host-readiness.md). The owner has since supplied Oracle Cloud region `ap-batam-1`, VCN/subnet names, and a configured private DNS hostname; instance creation is still awaiting verification. The hostname is not a verified SSH route. This session is on macOS with Node `v20.20.2`; the repository pins `v26.10.0`. No remote OpenClaw or Tailscale executable, host account, connectivity, runtime/storage path, time sync, provider egress, or laptop-independent execution has been verified. Step 20 remains **incomplete**; no remote infrastructure or service was changed. See the host-readiness record for owner-supplied details and verified boundaries.
+
+## Step 21 OpenClaw installation preparation — 7 October 2026
+
+Recorded the gated installation and acceptance sequence in [`docs/verification/step-21-openclaw-installation.md`](./verification/step-21-openclaw-installation.md), using current official OpenClaw installation, Node, onboarding, Linux service, and security references. The exact stable release is selected at execution time after VM verification; the plan preserves any existing installation, skips onboarding during package installation, expects onboarding to make a real model call, and keeps the Gateway private under supported systemd supervision. No OpenClaw package, credential, service, or agent turn was run. Step 21 remains **pending Oracle VM verification and authorized SSH access**.
 
 ## Technical guide workflow alignment — 7 October 2026
 

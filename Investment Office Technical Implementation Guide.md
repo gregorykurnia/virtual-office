@@ -644,7 +644,7 @@ Keep the Gateway on the server, not dependent on the owner's laptop or a laptop-
 **Deliverables:** host inventory, private connectivity, runtime paths, storage paths.  
 **Done when:** the future research path has no required component running on the owner's device.
 
-**Implementation assessment, 7 October 2026:** the available development workstation is macOS 25.2.0/ARM64 with Node `v20.20.2`; the repository pins Node `v26.10.0`. No Linux VPS target or named SSH host was supplied, and neither `openclaw` nor `tailscale` is on this shell's `PATH`. No remote host, private connectivity, service identities, persistent paths, clock sync, or server-side provider access could therefore be verified. Step 20 remains incomplete pending a target host and authorized access. See [`docs/verification/step-20-host-readiness.md`](./docs/verification/step-20-host-readiness.md). This is a workstation observation, not evidence that no remote installation exists elsewhere.
+**Implementation assessment, 7 October 2026:** the available development workstation is macOS 25.2.0/ARM64 with Node `v20.20.2`; the repository pins Node `v26.10.0`. At the initial workstation assessment, no Linux host or SSH target had been supplied, and neither `openclaw` nor `tailscale` was on this shell's `PATH`. The owner has since supplied Oracle Cloud setup details for Batam (`ap-batam-1`) and a private DNS hostname; VM creation and SSH access are still awaiting verification. No remote host, private connectivity, service identities, persistent paths, clock sync, or server-side provider access has been verified. Step 20 remains incomplete pending a reachable, authorized host. See [`docs/verification/step-20-host-readiness.md`](./docs/verification/step-20-host-readiness.md). This is a workstation observation, not evidence that no remote installation exists elsewhere.
 
 ### Step 21 — Install, onboard, and supervise OpenClaw
 
@@ -671,6 +671,8 @@ Onboarding may itself make a verification model call. Keep that in the authorize
 
 **Deliverables:** healthy supervised Gateway and sanitized installation notes.  
 **Done when:** one controlled agent turn works using server credentials and the service survives logout.
+
+**Preparation update, 7 October 2026:** the Oracle VM is still awaiting owner verification, so no remote installation, onboarding/model call, or service mutation has been performed. The host-independent execution sequence, release/runtime gates, service checks, and acceptance evidence are recorded in [`docs/verification/step-21-openclaw-installation.md`](./docs/verification/step-21-openclaw-installation.md). Step 21 remains pending a verified VM and authorized SSH access.
 
 ### Step 22 — Discover and pin the real integration contract
 
