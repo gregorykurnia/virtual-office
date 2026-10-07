@@ -417,6 +417,11 @@ main {
   font-size: 0.7rem;
 }
 
+.demo-banner > span:last-child {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
 .demo-controls {
   display: flex;
   align-items: center;
@@ -3157,16 +3162,24 @@ main {
 
   .topbar__main {
     width: 100%;
-    justify-content: space-between;
+    gap: 0.35rem;
+    justify-content: flex-start;
   }
 
   .topbar__actions {
     width: 100%;
+    flex-wrap: wrap;
     justify-content: flex-end;
   }
 
   .topbar nav {
     flex: 0 0 auto;
+    gap: 0;
+  }
+
+  .topbar nav a {
+    padding: 0 0.5rem;
+    font-size: 0.8rem;
   }
 
   .demo-controls {
@@ -3176,6 +3189,8 @@ main {
 
   .demo-controls__actions {
     align-items: stretch;
+    flex-direction: column;
+    width: 100%;
   }
 
   .demo-controls__field {
@@ -3184,6 +3199,10 @@ main {
 
   .demo-controls__field select {
     min-width: 0;
+    width: 100%;
+  }
+
+  .demo-controls__reset {
     width: 100%;
   }
 
@@ -3281,7 +3300,7 @@ main {
     padding: 0 0.6rem;
   }
 
-  .header-button span:last-child {
+  .header-button > span:last-child {
     display: none;
   }
 
