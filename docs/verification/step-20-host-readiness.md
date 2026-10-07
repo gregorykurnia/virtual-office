@@ -2,59 +2,56 @@
 
 Assessment date: 7 October 2026
 
-Status: **In progress — SSH access and initial host inventory verified; server preparation and private administration remain pending.**
+Status: **In progress — host runtime, service identities, persistent paths, clock synchronization, remote egress, and SSH tunneling are prepared; OCI SSH ingress remains broad and provider/Firebase authentication is not configured.**
 
-This assessment records what was verifiable from the current development workstation. It does not claim that a remote host, OpenClaw installation, private network, or provider account does not exist elsewhere.
-
-## Successful SSH follow-up — 7 October 2026
-
-After the owner configured Oracle networking, SSH reached the supplied public IPv4. The local private key initially had mode 0644 and was rejected by OpenSSH; its permissions were restricted to 0600, after which authentication as `ubuntu` succeeded. The first observed ED25519 host key was recorded through SSH trust on first use; it was not independently compared against OCI console evidence. No remote configuration was changed.
-
-Verified directly on the host: Ubuntu 24.04.5 LTS, `aarch64`, approximately 12 GB RAM (11 GiB reported), 45 GB root filesystem with 44 GB available, timezone `Etc/UTC`, `NTPSynchronized=yes`, and passwordless sudo available for the administrator. `node`, `openclaw`, and `tailscale` were not found on this login shell's PATH; this does not rule out installations elsewhere.
-
-The timeout observations below are historical and superseded by this successful login. Remaining work: inspect existing services, accounts, storage ownership and host firewall; prepare separate service identities and the pinned runtime; establish and verify private administration and a second session before tightening ingress; verify server outbound provider/Firebase access and laptop-independent dependencies.
+This record distinguishes owner-reported details from checks performed on the host. It does not claim that OpenClaw or the application is installed, that provider credentials work, or that live research is running.
 
 ## Owner-provided Oracle setup details
 
-- Provider: Oracle Cloud; the owner now reports that the VM has been created. Its running state has not been verified.
-- Selected region: Batam (`ap-batam-1`); home-region status remains unverified.
-- VCN name: `investment-office-vcn`.
-- Subnet name: `investment-office-subnet`.
-- Configured private DNS hostname: `investment-office.investmentoffic.investmentoffic.oraclevcn.com`.
-- Image reported by the owner: `Canonical-Ubuntu-24.04-Minimal-aarch64-2026.09.18-0`; the OCI instance record has not been inspected.
-- Public IPv4 supplied by the owner: redacted in this repository. SSH to TCP port 22 from the workstation timed out; no SSH session was established.
-- Expected SSH login: `ubuntu`, based on OCI's default for Ubuntu platform images; not yet authenticated.
-- The private DNS hostname did not resolve from this workstation and is not a verified public connection address.
+- Provider: Oracle Cloud; region reported as Batam (`ap-batam-1`); home-region status remains unverified.
+- VCN: `investment-office-vcn`; subnet: `investment-office-subnet`.
+- Image reported by the owner: `Canonical-Ubuntu-24.04-Minimal-aarch64-2026.09.18-0`.
+- Public IPv4 is redacted in this repository. It was confirmed on the primary VNIC and SSH access works.
+- Private DNS hostname: `investment-office.investmentoffic.investmentoffic.oraclevcn.com`; it did not resolve from this workstation.
+- The owner showed the default security list allowing stateful TCP/22 from `0.0.0.0/0` plus ICMP rules. No NSG names were shown on the primary VNIC. A source-IP restriction was requested and remains pending.
 
-The workstation observations below include this follow-up preflight. The local Step 20 key-path configuration names both private and public key files; both files exist and are readable. Key contents and local paths were not recorded.
+## Verified host inventory and preparation
 
-## Observed inventory
-
-| Item | Verified observation | Step 20 status |
+| Area | Observation and evidence | Status |
 | --- | --- | --- |
-| Current execution machine | macOS 25.2.0, ARM64; this is the owner's laptop environment, not an always-on Linux host. | Does not satisfy the host requirement. |
-| Local runtime | Node `v20.20.2`, npm `10.8.2`. The repository pins Node `26.10.0` in `.node-version`. | No compatible server runtime installed or checked. |
-| Host target | Owner reports an Oracle Cloud VM with the image and public IPv4 above. OCI running state and VNIC attachment have not been verified. | Host selected; connection pending. |
-| SSH route | A read-only SSH connection attempt to the supplied public IPv4 on TCP port 22 timed out, including an attempt outside the shell sandbox. The private DNS hostname did not resolve from this workstation. | No SSH handshake or host inventory yet; inspect OCI state, routing, and ingress. |
-| Local SSH key | The ignored local Step 20 configuration points to existing readable private/public key files. Their values and paths were not included in this record. | Key files are available locally; authorization by the VM is unverified. |
-| OpenClaw | `openclaw` is not on this shell's `PATH`. No remote executable, release, service, or Gateway was inspected. | No server installation verified. |
-| Private administration | An SSH client is installed. `tailscale` is not on this shell's `PATH`. No private network, remote login, or second SSH session was verified. | Pending on the selected host. Do not tighten ingress before the second access path is proven. |
-| Service identities | No remote application or OpenClaw service accounts could be inspected or created. | Create distinct nonroot accounts on the selected Linux host. |
-| Network boundaries | The app API example binds to `127.0.0.1:3001`; there is no deployed receiver or Gateway listener to inspect. | Keep Gateway and integration receiver private; expose only the intended private app ingress. |
-| Time | The product timezone is `Asia/Jakarta`; no server time service or synchronization state was available to inspect. | Verify time synchronization on the host; persist UTC and display WIB. |
-| Persistent storage | No remote volume or runtime directories are configured. Paths such as `/opt/investment-office`, `/var/lib/investment-office`, and `/srv/investment-agents` are examples in the guide, not verified paths. | Select and verify durable app configuration, Gateway state, and workspace storage on the host. |
-| Outbound access | No server was available for connectivity checks to model/search providers or Firebase Auth/Firestore. | Verify from the server after host and provider configuration; do not infer access from laptop connectivity. |
-| Laptop dependencies | No production research path has been established. The current workspace and local tools run on the laptop. | Ensure the deployed model, search, browser, credentials, and Gateway do not depend on the owner's devices. |
+| OS and architecture | SSH reports Ubuntu 24.04.5 LTS, `aarch64`; account `ubuntu` has passwordless sudo. | Verified |
+| Compute and disk | 2 CPUs, 11 GiB RAM, 45.6 GB ext4 root partition (`/dev/sda1`), about 44 GB free at initial inspection. `/`, `/opt`, `/var/lib`, and `/srv` share the boot filesystem; there is no separate data volume or backup policy recorded. | Inventory complete; backup/recovery policy pending |
+| Existing services/accounts | Existing Ubuntu/Oracle services include SSH, Oracle Cloud Agent, timesyncd, rpcbind, and system services. No OpenClaw or Investment Office package, running process, or unit file existed before this preparation. Pre-existing `opc` is password-locked and has no sudo rights; `ubuntu` is the active sudo admin. `rpcbind` listens on all interfaces at port 111, while OCI ingress shown to the owner only allows SSH and ICMP. | Existing state recorded; service accounts remain separate |
+| Admin and SSH | Public-key SSH works as `ubuntu`; password and keyboard-interactive SSH auth are disabled; TCP forwarding is enabled. Root SSH is currently permitted by key (`PermitRootLogin without-password`). The local private key mode was corrected from 0644 to 0600. The observed ED25519 host key was accepted on first use but not independently compared with OCI console evidence. | SSH works; OCI source rule still permits all IPv4 |
+| Second session/private access | A separate SSH session successfully forwarded a temporary loopback-only listener on the VM to the workstation and returned the expected response. The listener exited afterward. This verifies SSH tunnel operation, not a separate recovery route. | Tunnel verified; OCI console remains the recovery path |
+| Host firewall | Effective nftables input accepts established traffic, loopback, ICMP, and new TCP/22; other new input is rejected. Egress is allowed except OCI metadata/service-specific restrictions. | Inspected |
+| Service identities | Created locked system accounts `investment-office` (no-login shell) and `openclaw`. They are distinct from pre-existing `ubuntu` and `opc` accounts. OpenClaw account has systemd lingering enabled. | Created and checked |
+| Runtime | Downloaded Node `v26.10.0` ARM64 from the official Node distribution, checked its archive against the published SHA-256 manifest, and installed it under `/opt/node-v26.10.0-linux-arm64`; `/usr/local/bin` links expose `node`, `npm`, and `npx`. Verified Node `v26.10.0`, npm `11.19.1`, and linked SQLite `3.53.4`. The version and SQLite meet OpenClaw's published Node 26 and WAL-safe SQLite floors. | Installed and validated |
+| Dependencies | Installed/confirmed CA certificates, curl, xz, Git, Python 3, and build tools. APT also applied four available package updates; 32 other packages remained held back. | Installed |
+| Persistent paths | Code and config: `/opt/investment-office` and `/etc/investment-office` (`root:investment-office`, mode 750). App state: `/var/lib/investment-office` (`investment-office`, mode 700). OpenClaw state: `/var/lib/openclaw/.openclaw` and workspace `/var/lib/openclaw/.openclaw/workspace` (`openclaw`, mode 700). `/srv/investment-agents` is also reserved to `openclaw`, mode 700. Both users ran Node successfully; directory traversal checks confirm cross-account isolation. These paths are on the root boot volume. | Created and checked; backup/reboot restore not tested |
+| Time | `systemd-timesyncd` is enabled; `NTPSynchronized=yes`; system timezone is UTC. The app should persist UTC timestamps and display Asia/Jakarta/WIB. | Verified |
+| Outbound network | From both service accounts, TLS verification succeeded to Google APIs, OpenAI, Anthropic, Brave Search, and the project Firestore endpoint. Responses were unauthenticated/probe statuses: Google JWK 200, model endpoints 401, Brave Search 422 without query/auth, Firestore 404 without auth. This proves DNS/TLS endpoint reachability only, not API credentials, project/database readiness, or provider functionality. | Basic egress verified; chosen-provider and authenticated checks pending |
+| Laptop independence | Host-side outbound probes and remote services run independently of the workstation, but no app/OpenClaw service or credentials have been installed. No live research path exists yet. | Cannot claim complete until later live-path acceptance |
 
-## Required next actions
+## Changes made in this pass
 
-1. In OCI, verify the VM is running and the supplied public IPv4 is attached to its primary VNIC. Check that the subnet has a route to an Internet Gateway and inspect both attached security lists and Network Security Groups for SSH ingress.
-2. Inspect the attached security lists and NSGs before changing rules. If public SSH is intended and no current rule permits it, add stateful TCP port 22 ingress from the owner's current public client address (`/32`); do not open it to all IPv4 sources or remove an existing working rule before a second access path is proven. If the VM is private-only, establish an authorized private route such as OCI Bastion, VPN, or Tailscale instead.
-3. Once TCP/22 is reachable, retry the read-only inventory before changing the host. If OCI network settings appear correct but SSH still times out, inspect `sshd` and the host firewall through OCI's console/serial access.
-4. After successful login, record OS, architecture, resources, users, existing runtimes/services, network listeners, storage, and time synchronization before creating service identities or installing runtimes.
-5. Establish private administration and prove a second working connection before tightening existing ingress. Keep the Gateway and integration receiver private.
-6. Verify clock synchronization, persistent paths, required outbound provider/Firebase connectivity, and that no required component depends on the laptop.
+- Installed the pinned Node runtime and required system packages.
+- Created separate application and OpenClaw service accounts, state/config/workspace paths, and OpenClaw user-service lingering.
+- No persistent listener, public application port, Gateway, app service, or scheduled job was enabled. The one temporary loopback test listener exited after the tunnel check. OpenClaw installation and onboarding belong to Step 21.
+- No provider credentials or Firebase credentials were copied to the VM. No model call or research task was run.
 
-No accounts, infrastructure, firewall rules, services, or credentials were changed during this assessment. The next step is to resolve the Oracle-side network path or use a private access route, then repeat the read-only inventory.
+## Remaining acceptance work
 
-The host/network sequence was checked against Oracle's [instance details](https://docs.oracle.com/en-us/iaas/Content/Compute/Tasks/inst-get.htm), [public IP requirements](https://docs.oracle.com/en-us/iaas/Content/Network/Tasks/managingpublicIPs.htm), and [security list rules](https://docs.oracle.com/en-us/iaas/Content/Network/Concepts/creating-securitylist.htm). The network and storage guidance was also checked against the [official OpenClaw Linux server guide](https://docs.openclaw.ai/vps), whose secure default keeps Gateway state on the server and the Gateway itself on loopback, accessed through SSH tunneling or a private network.
+1. Restrict the OCI SSH ingress source to the owner's stable administrative IP or replace public SSH with a verified private network; retain and test the OCI console recovery route before removing any working access.
+2. Decide whether to disable direct root key login; effective SSH configuration currently permits root key authentication (`PermitRootLogin without-password`), while the verified admin path is `ubuntu` plus sudo.
+3. Confirm the intended model/search provider names. From the corresponding service account, test the selected endpoints after server-owned credentials are provisioned in Step 21; never record secret values.
+4. Verify Firebase Auth/Firestore with the intended project configuration and authorized server identity. Current unauthenticated HTTP responses only establish the network path.
+5. Configure application-to-Gateway access only after the supported OpenClaw interface and a loopback-only Gateway are installed and inspected. Keep browser builds and agent workspace free of Gateway credentials.
+6. Define and verify a backup/recovery procedure for the boot-volume state, then prove service persistence across logout/reboot in Step 21.
+7. Complete Step 21's controlled agent turn and confirm no credential, browser, search service, or local model needed by the research process depends on the workstation.
+
+No recurring jobs or public application listener have been created. The app, OpenClaw Gateway, provider authentication, and live-research path are not installed or configured.
+
+## References
+
+The host/network sequence was checked against Oracle's [instance details](https://docs.oracle.com/en-us/iaas/Content/Compute/Tasks/inst-get.htm), [public IP requirements](https://docs.oracle.com/en-us/iaas/Content/Network/Tasks/managingpublicIPs.htm), and [security list rules](https://docs.oracle.com/en-us/iaas/Content/Network/Concepts/creating-securitylist.htm). Node/SQLite compatibility and the private Gateway posture were checked against the current [OpenClaw Node requirements](https://docs.openclaw.ai/install/node), [Node compatibility table](https://docs.openclaw.ai/install/node-compatibility), and [Linux server guide](https://docs.openclaw.ai/vps).

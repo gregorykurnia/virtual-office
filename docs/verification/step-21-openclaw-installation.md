@@ -2,15 +2,15 @@
 
 Assessment date: 7 October 2026
 
-Status: **Preparation recorded; SSH and initial host inventory verified, with Step 20 server preparation still pending.**
+Status: **Preparation recorded; Step 20 runtime/accounts/storage are prepared, but OpenClaw installation and live acceptance remain pending.**
 
-This record is a run plan, not evidence that OpenClaw is installed or connected. The owner supplied an Ubuntu 24.04 ARM64 image and a public IPv4, but a TCP port 22 connection attempt timed out and the configured Oracle private hostname does not resolve from this workstation. See [Step 20 host readiness](./step-20-host-readiness.md). Do not change the VM before its state and access are confirmed.
+This record is a run plan, not evidence that OpenClaw is installed or connected. The configured Oracle private hostname does not resolve from this workstation; public-key SSH works and an SSH loopback tunnel was verified. OCI's shown TCP/22 ingress remains open to all IPv4 while source restriction is pending. See [Step 20 host readiness](./step-20-host-readiness.md).
 
-SSH follow-up: authentication now succeeds as `ubuntu`; Ubuntu 24.04.5 LTS/ARM64 and initial host resources were verified. The earlier timeout is historical. See the successful follow-up in [Step 20 host readiness](./step-20-host-readiness.md). No OpenClaw installation or onboarding has been performed.
+SSH follow-up: authentication succeeds as `ubuntu`; Ubuntu 24.04.5 LTS/ARM64, 2 CPUs, 11 GiB RAM, 45.6 GB root filesystem, synchronized UTC, systemd lingering, separate service accounts, persistent paths, and Node `v26.10.0`/SQLite `3.53.4` were verified. No OpenClaw package, onboarding, provider credential, service, or agent turn has been run.
 
 ## Known prerequisites
 
-- The owner reports an Oracle Cloud VM in Batam (`ap-batam-1`) using `Canonical-Ubuntu-24.04-Minimal-aarch64-2026.09.18-0`. Its running state, VNIC/IP attachment, SSH reachability, and authorized login are not verified; see [Step 20 host readiness](./step-20-host-readiness.md).
+- The owner reports an Oracle Cloud VM in Batam (`ap-batam-1`) using `Canonical-Ubuntu-24.04-Minimal-aarch64-2026.09.18-0`; direct host inspection confirms Ubuntu 24.04.5 LTS/ARM64 and SSH as `ubuntu`. See [Step 20 host readiness](./step-20-host-readiness.md).
 - The host may already contain an OpenClaw installation or service. Inspect it before installing, updating, onboarding, or repairing anything.
 - The repository pins Node `26.10.0`. Confirm that version and its linked SQLite are supported on the verified host. Record any OpenClaw-managed private runtime separately from the app runtime.
 - No provider credential or renewal method has been verified on the server. Do not copy laptop credentials or place secrets in the repository, shell history, process arguments, or browser build.
