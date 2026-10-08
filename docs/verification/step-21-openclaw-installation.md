@@ -2,7 +2,7 @@
 
 Assessment date: 8 October 2026
 
-Status: **Preparation recorded; Step 20 runtime/accounts/storage are prepared and direct root SSH is disabled, but OCI backup/recovery, provider credentials, OpenClaw installation, and live acceptance remain pending.**
+Status: **Preparation recorded; the current stable release is provisionally pinned to `2026.9.8` and the recorded host runtime meets the documented version floor. Remote inventory is still pending because this workspace has no SSH target; backup/recovery, provider credentials, OpenClaw installation, and live acceptance remain pending.**
 
 This record is a run plan, not evidence that OpenClaw is installed or connected. The configured Oracle private hostname does not resolve from this workstation; public-key SSH works and an SSH loopback tunnel was verified. The owner reports narrowing OCI TCP/22 ingress to the current administrative `/32`; a fresh connection succeeds from that address, but the saved console value is owner-reported. Direct root SSH is disabled; `ubuntu` login and sudo were reverified after the sshd reload. See [Step 20 host readiness](./step-20-host-readiness.md).
 
@@ -63,3 +63,11 @@ Step 21 is complete only after a controlled agent turn succeeds with server-owne
 - [OpenClaw onboarding](https://docs.openclaw.ai/start/wizard) — onboarding verifies the selected provider connection with a real completion.
 - [OpenClaw Linux server guide](https://docs.openclaw.ai/vps) and [Gateway service runbook](https://docs.openclaw.ai/gateway) — loopback access, systemd user service, lingering, and service inspection.
 - [OpenClaw security guidance](https://docs.openclaw.ai/gateway/security) — secure defaults and audit command.
+
+## Execution preflight — 8 October 2026
+
+Checked the official release list and current installation/runtime documentation before resuming Step 21. `2026.9.8` is the latest stable release shown; `2026.10.1-beta.1` is marked prerelease, so the stable release is the provisional pin. Recheck the stable release immediately before installation. The current Node policy is `>=24.16.0 <25` or `>=26.1.0`, with a WAL-safe linked SQLite library. Step 20 records Node `26.10.0` and SQLite `3.53.4` on the host, which meet those published floors; no OpenClaw binary has been installed or exercised against them yet.
+
+Connection discovery in this workspace found `ssh` but no `oci` or `openclaw` executable, no SSH host entry in the local SSH config, and no VM address in the local Step 20 environment file (it only defines SSH key paths). The private VM hostname is already documented as unresolvable from this workstation. No SSH connection or remote inventory command ran in this pass, and no host state changed. The VM address remains intentionally absent from committed files.
+
+To resume the required read-only inventory, supply the VM's current public IP/FQDN or a usable SSH host alias and confirm the authorized account/key path. Before onboarding, provide or install the selected model provider's server-owned credential through a supported secure flow and its renewal procedure. Complete the documented boot-volume recovery/access preparation before reboot acceptance. Do not copy laptop credentials or record any secret in this repository. Firebase server authorization remains a later app integration prerequisite; it is not required for the OpenClaw installation inventory or an isolated first model turn.
