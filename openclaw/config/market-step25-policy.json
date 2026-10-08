@@ -1,0 +1,71 @@
+{
+  "tools": {
+    "web": {
+      "search": {
+        "enabled": true,
+        "provider": "codex",
+        "maxResults": 3,
+        "timeoutSeconds": 30,
+        "openaiCodex": {
+          "enabled": true,
+          "mode": "live"
+        }
+      },
+      "fetch": {
+        "enabled": true
+      }
+    }
+  },
+  "agents": {
+    "defaults": {
+      "maxConcurrent": 1,
+      "timeoutSeconds": 600
+    },
+    "entries": {
+      "investment-market": {
+        "model": {
+          "primary": "openai/gpt-6.1-sol",
+          "fallbacks": []
+        },
+        "thinkingDefault": "low",
+        "tools": {
+          "profile": "coding",
+          "allow": ["read", "web_search", "web_fetch"],
+          "deny": [
+            "exec",
+            "process",
+            "write",
+            "edit",
+            "apply_patch",
+            "gateway",
+            "automations",
+            "cron",
+            "openclaw",
+            "message",
+            "sessions_spawn",
+            "sessions_send",
+            "sessions_list",
+            "sessions_history",
+            "session_status",
+            "browser",
+            "codex_threads",
+            "codex_plugins",
+            "codex_endpoint_probe",
+            "codex_sessions_list",
+            "codex_session_read",
+            "codex_session_send",
+            "codex_session_interrupt"
+          ],
+          "fs": {
+            "workspaceOnly": true
+          },
+          "elevated": {
+            "enabled": false
+          },
+          "codeMode": false,
+          "swarm": false
+        }
+      }
+    }
+  }
+}

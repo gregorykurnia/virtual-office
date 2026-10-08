@@ -808,6 +808,8 @@ Configure and test the selected search provider rather than relying on undocumen
 **Deliverables:** actual allowlist/denylist, source-fetch smoke, model/search capability record.  
 **Done when:** the agent can research an official source and cannot modify schedules or send messages.
 
+**Implementation update, 8 October 2026 — Step 25 access acceptance complete; market research remains gated:** configured the explicit Codex Hosted Search provider and read-only fetch path for Rex, with the actual tool IDs `read`, `web_search`, and `web_fetch`; pinned GPT-6.1 Sol low with no fallback; set one Gateway-wide concurrent agent run and a 600-second default turn ceiling; and kept the scheduler disabled. Interactive and isolated scheduler-runner traces both show successful official OpenClaw source search/fetch with no delivery. Added versioned market data-quality/calculation rules and deployed the updated brief. The existing server auth profile has no configured/verified monthly USD cap, so the brief requires an approved budget before market-data searches; the two technical acceptance runs were limited to OpenClaw documentation and did not produce a market report. App dispatch and immutable input delivery remain pending. See [Step 25 verification](./docs/verification/step-25-market-research-access.md).
+
 ### Step 26 — Define and validate the report output contract
 
 Store `report-contract.md` with a versioned app-owned JSON schema. This is the agent's final output format, not the Gateway webhook envelope.

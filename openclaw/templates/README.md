@@ -20,8 +20,10 @@ research/report-contract.v2.schema.json <- common/report-contract.v2.schema.json
 
 The absolute workspace path and file-loading behavior must be confirmed against the installed OpenClaw `2026.9.8` interface before deployment. A workspace directory and these instructions do not create a filesystem sandbox or enforce tool restrictions. Step 25 owns the actual per-agent tool policy and search-provider check; Step 26 owns application-side report validation and persistence.
 
-Instruction version: `investment-office-market-instructions@1.0.0`
+Shared instruction version: `investment-office-market-instructions@1.0.0`
+
+Market brief version: `investment-office-market-brief@1.1.0`
 
 Report contract: `investment-office-report@2.0.0`
 
-The applied Step 24 policy is recorded in [`../config/market-step24-policy.json`](../config/market-step24-policy.json). Its finite allowlist permits `read` with `fs.workspaceOnly=true`; explicit denials remove shell, writes, administration, delegation, messaging, and browser tools. The installed Codex harness treats a finite allowlist as a restriction on its native tool surface. The baseline profile is intersected with that allowlist. Do not set the runtime execution-host policy to `deny`: that also prevents the Codex app-server from starting. Agent shell access is denied through the tool policy. Research access remains Step 25 work.
+The current Rex policy is recorded in [`../config/market-step25-policy.json`](../config/market-step25-policy.json), with the accepted live configuration and source-fetch evidence in [`../../docs/verification/step-25-market-research-access.md`](../../docs/verification/step-25-market-research-access.md). Its finite allowlist exposes only `read`, `web_search`, and `web_fetch`, with `fs.workspaceOnly=true`; explicit denials remove shell, writes, administration, delegation, messaging, browser automation, and Codex session controls. The search provider is explicitly Codex Hosted Search through the server-owned auth profile. The installed Codex harness treats a finite allowlist as a restriction on its native tool surface. Keep Code Mode, swarm, and elevated execution disabled. Do not set the runtime execution-host policy to `deny`: that also prevents the Codex app-server from starting.

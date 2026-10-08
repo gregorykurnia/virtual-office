@@ -6,17 +6,36 @@
   "workspace": "/var/lib/openclaw/.openclaw/workspace-market",
   "verifiedAt": "2026-10-08T11:09:54Z",
   "instructionVersion": "investment-office-market-instructions@1.0.0",
+  "marketBriefVersion": "investment-office-market-brief@1.1.0",
   "reportContractVersion": "investment-office-report@2.0.0",
   "fileSha256": {
     "AGENTS.md": "c46514fc353566f162e79f781e85cbef81e59e6cd68c98019e3e4bc522c69208",
     "IDENTITY.md": "866a8d7d7b056b67dba9edf5acca256ad94e1818d6637e4e3c6972b6d400cc05",
     "SOUL.md": "76e307515659383ec2585695b459c31609ec2cf436b4b9141507244d1f3ef854",
     "USER.md": "088f59548a465eac1e12163b39b216a2743ba5a328a5508bf618fa0b7858d966",
-    "research/market-brief.md": "97d75f44bbe22733d5a108e0085386626fad3cc3210e565d231001bec520f3ae",
+    "research/market-brief.md": "0a1b4742de5cd49d87fcdbffc3d1675836f49c9189b9e38f5fcaa3524baec91c",
     "research/report-contract.md": "11e2df470091ba4862329c4b5a719443150438256d6b4f25733aaaf21093c4e6",
     "research/report-contract.v2.schema.json": "0cc54f2ae0aefbc0a51a59b12ff304fe91e615e234851fd115ca0ee49f903786"
   },
-  "toolPolicySource": "openclaw/config/market-step24-policy.json",
+  "toolPolicySource": "openclaw/config/market-step25-policy.json",
   "acceptanceRunId": "71beed02-9206-4046-bd14-96971411bc17",
-  "applicationOwnerMappingPersisted": false
+  "applicationOwnerMappingPersisted": false,
+  "step25": {
+    "verifiedAt": "2026-10-08T11:54:46Z",
+    "toolPolicySha256": "6b931ebbe89fe9f46ad04304dc2b02940d79f301e4470976cb7571547cc1042a",
+    "searchProvider": "codex",
+    "exposedToolIds": ["read", "web_search", "web_fetch"],
+    "primaryModel": "openai/gpt-6.1-sol",
+    "fallbackModels": [],
+    "maxConcurrentAgentRuns": 1,
+    "defaultAgentTimeoutSeconds": 600,
+    "searchMaxResults": 3,
+    "searchTimeoutSeconds": 30,
+    "monthlyProviderSpendLimitUsd": null,
+    "applicationManualDispatchAvailable": false,
+    "interactiveAcceptanceRunId": "bcb517f5-fe04-41ed-9c0c-a36c16b297fb",
+    "scheduledAcceptanceRunId": "manual:01a33f46-c963-4846-b601-ac5650d71a5b:1791459631854:8",
+    "scheduledAcceptanceJobRemoved": true,
+    "automaticSchedulerEnabled": false
+  }
 }
