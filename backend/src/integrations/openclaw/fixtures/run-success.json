@@ -1,0 +1,10 @@
+{
+  "action": "finished",
+  "status": "ok",
+  "completionStatus": "succeeded",
+  "runId": "manual:fixture:success",
+  "runAtMs": 1791440410777,
+  "durationMs": 5019,
+  "deliveryStatus": "not-requested",
+  "tsIso": "2026-10-08T06:20:10.796+00:00"
+}

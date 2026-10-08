@@ -1,0 +1,11 @@
+{
+  "action": "finished",
+  "status": "error",
+  "completionStatus": "failed",
+  "error": "command exited with code 1",
+  "runId": "manual:fixture:failure",
+  "runAtMs": 1791440363546,
+  "durationMs": 24,
+  "deliveryStatus": "not-requested",
+  "tsIso": "2026-10-08T06:19:23.570+00:00"
+}

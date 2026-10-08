@@ -1,0 +1,11 @@
+{
+  "agents": [
+    {
+      "id": "main",
+      "name": "main",
+      "workspace": "<redacted-workspace-path>",
+      "agentDir": "<redacted-agent-path>",
+      "isDefault": true
+    }
+  ]
+}

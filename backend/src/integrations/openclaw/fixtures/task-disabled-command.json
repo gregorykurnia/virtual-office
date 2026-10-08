@@ -1,0 +1,22 @@
+{
+  "id": "19be6bdd-5572-469b-a8db-462b4167ba1d",
+  "name": "investment-office-step22-webhook-success-capture-20261008b",
+  "enabled": false,
+  "schedule": {
+    "kind": "at",
+    "at": "2036-01-01T00:00:00.000Z"
+  },
+  "sessionTarget": "isolated",
+  "payload": {
+    "kind": "command",
+    "argv": ["/bin/echo", "STEP22_WEBHOOK_SUCCESS"],
+    "timeoutSeconds": 10,
+    "outputMaxBytes": 2048
+  },
+  "state": {
+    "runningAtMs": 1791441620211,
+    "nextRunAtMs": 1791441620193,
+    "lastRunStatus": "ok",
+    "lastRunAtMs": 1791441620211
+  }
+}

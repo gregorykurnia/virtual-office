@@ -703,7 +703,7 @@ openclaw automations runs --help
 
 Current documentation presents `automations` and `cron` as equivalent CLI spellings. Do not rewrite an existing working integration solely for naming. The documentation also requires administrative authority for automation mutations. [OpenClaw automation CLI](https://docs.openclaw.ai/cli/cron)
 
-**Version gate — updated 8 October 2026:** the installed stable OpenClaw `2026.9.8` release, Node runtime, actual CLI surface, one configured bootstrap agent, scheduler state, manual run receipts, and sanitized success/failure webhook envelopes are recorded in [`docs/OPENCLAW_INTEGRATION.md`](./docs/OPENCLAW_INTEGRATION.md). CLI enqueue, run-history, and webhook payload fields are pinned for this release. The observed webhook requests have no authentication header and the CLI exposes no outbound auth option; the production receiver therefore needs an independently reviewed private authentication path before accepting callbacks. The app receiver, adapter, and persisted report path remain unimplemented, so end-to-end integration is not tested.
+**Version gate — updated 8 October 2026:** the installed stable OpenClaw `2026.9.8` release, Node runtime, actual CLI surface, one configured bootstrap agent, scheduler state, manual run receipts, and sanitized success/failure webhook envelopes are recorded in [`docs/OPENCLAW_INTEGRATION.md`](./docs/OPENCLAW_INTEGRATION.md). CLI enqueue, run-history, and webhook payload fields are pinned for this release. The observed webhook requests have no authentication header and the CLI exposes no outbound auth option; the production receiver therefore needs an independently reviewed private authentication path before accepting callbacks. The Step 23 backend adapter is implemented, but the authenticated app receiver, run-input binding, adapter-to-worker integration, and persisted report path remain pending; end-to-end integration is not tested.
 
 ### Step 23 — Implement one backend OpenClaw adapter
 
@@ -727,10 +727,12 @@ interface ResearchRuntimeAdapter {
 
 **Later alternative:** use the supported Gateway client and documented RPC methods if persistent events or remote connectivity justify it. Pin and test client/Gateway versions together; the client documentation's example package version is not proof it matches the deployed Gateway. [Gateway client guidance](https://docs.openclaw.ai/gateway/clients), [external-app interfaces](https://docs.openclaw.ai/gateway/external-apps)
 
-Map all external results into app-owned types. Keep raw observed statuses for debugging. Capability flags control the UI: unsupported cancellation, event streaming, or schedule features stay disabled.
+Map all external results into app-owned types. Keep raw observed statuses for debugging. Capability flags control the UI: unsupported cancellation, event streaming, input-snapshot binding, and schedule activation stay disabled.
 
 **Deliverables:** version-specific adapter, mock adapter, sanitized fixture tests.  
 **Done when:** every live operation is accessible through one reviewed server boundary.
+
+**Implementation update, 8 October 2026 — Step 23 implemented:** added `ResearchRuntimeAdapter`, the `2026.9.8` CLI adapter, and an explicitly simulated in-memory adapter under `backend/src/integrations/openclaw/`. The CLI uses an absolute executable, `execFile` argument arrays, `shell: false`, a 512 KiB output cap, operation timeouts, and a minimal child environment with credentials supplied only through supported server-side configuration. It verifies both CLI and Gateway versions before reporting live capabilities. Task creation is isolated and disabled by default; updates can disable but not activate a schedule. Mutations and run/history operations require explicit owner-scoped agent mappings and exact job-to-agent pairs; no such Investment Office mappings exist yet. The adapter checks observed task ownership against the saved pair and refuses the bootstrap `main` agent. Mutations require exact readback, and uncertain outcomes require reconciliation before retry. Command jobs are also blocked from analyst-run requests. Cancellation, event streaming, schedule activation, and immutable input-snapshot binding are reported unsupported. Sanitized Step 22 fixtures and adapter tests cover the command contract. No live job or run was changed; the adapter is not connected to the durable worker until Step 29 and input delivery remains pending.
 
 ### Step 24 — Create the first analyst and its operating instructions
 

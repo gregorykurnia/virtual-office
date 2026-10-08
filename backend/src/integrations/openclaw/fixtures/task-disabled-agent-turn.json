@@ -1,0 +1,22 @@
+{
+  "fixtureOnly": true,
+  "id": "fixture-job-1",
+  "name": "Fixture market task",
+  "agentId": "fixture-market",
+  "enabled": false,
+  "schedule": {
+    "kind": "cron",
+    "expr": "0 6 * * 2-6",
+    "tz": "Asia/Jakarta"
+  },
+  "sessionTarget": "isolated",
+  "payload": {
+    "kind": "agentTurn",
+    "message": "Fixture instructions only.",
+    "timeoutSeconds": 600
+  },
+  "state": {
+    "nextRunAtMs": null,
+    "lastRunStatus": null
+  }
+}
