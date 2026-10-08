@@ -1,0 +1,15 @@
+Observed with OpenClaw 2026.9.8 sessions tail for the controlled acceptance session.
+All timestamps below are UTC on 8 October 2026.
+11:07:33 session.started  session started
+11:07:33 context.compiled context compiled (1 tools)
+11:07:34 prompt.submitted prompt submitted
+11:07:43 tool.call        read {...redacted...}
+11:07:43 tool.result      read ok
+11:07:43 tool.call        read {...redacted...}
+11:07:43 tool.result      read ok
+11:07:43 tool.call        read {...redacted...}
+11:07:43 tool.result      read ok
+11:07:46 tool.call        read {...redacted...}
+11:07:46 tool.result      read error
+11:08:07 model.completed  openai/gpt-6.1-sol done
+11:08:07 session.ended    success

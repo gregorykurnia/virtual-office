@@ -2,7 +2,7 @@
 
 Assessment date: 8 October 2026
 
-Status: **Step 22 contract discovery and Step 23 adapter implementation complete for OpenClaw `2026.9.8`.** The installed release, agent roster, automation inventory, command surface, manual enqueue receipt, active-state observation, successful/failed terminal receipts, and sanitized success/failure webhook envelopes were captured on 8 October 2026. The backend now has a version-pinned CLI adapter and mock implementation with sanitized fixture tests. Both webhook requests had no authentication headers, and the CLI exposes no outbound webhook-auth option. The app receiver, production callback authentication, run-input binding, worker wiring, and persisted report path remain unimplemented, so end-to-end app integration is not tested.
+Status: **Steps 22–24 complete for the pinned contract, backend adapter, and first runtime analyst on OpenClaw `2026.9.8`.** The installed release, agent roster, automation inventory, command surface, manual enqueue receipt, active-state observation, successful/failed terminal receipts, and sanitized success/failure webhook envelopes were captured on 8 October 2026. The backend now has a version-pinned CLI adapter and mock implementation with sanitized fixture tests. Rex was subsequently provisioned with a verified external ID and bounded read-only acceptance, described below. Both webhook requests had no authentication headers, and the CLI exposes no outbound webhook-auth option. The app receiver, production callback authentication, owner-scoped mapping persistence, run-input binding, worker wiring, and persisted report path remain unimplemented, so end-to-end app integration is not tested.
 
 ## Evidence boundary
 
@@ -251,6 +251,14 @@ Added `MockResearchRuntimeAdapter` plus sanitized fixtures and tests. The agent/
 ## Existing controlled-turn receipt
 
 Step 21 records a bounded, no-tools `openclaw agent` acceptance on `main`: run ID `0cfd982a-665f-404d-8ac6-c1e195863e21`, terminal `ok` / `completed`, effective model `gpt-6-sol`, native `codex` harness, OAuth auth-profile source, and no fallback. This verifies that the installed Gateway can complete a controlled agent turn. It is not an automation enqueue receipt, not a specialist identity mapping, and not evidence of a persisted Investment Office research report.
+
+## Step 24 first analyst — 8 October 2026
+
+Fresh installed-interface inventory confirmed only bootstrap `main` before creating the first analyst. `agents add investment-market --workspace /var/lib/openclaw/.openclaw/workspace-market --model openai/gpt-6.1-sol --non-interactive --json` returned normalized ID `investment-market`. `agents set-identity` and subsequent `agents list --json` confirm Rex, the isolated workspace, no channel bindings, and nondefault status. The stable app role is `market`; the [deployment manifest](../openclaw/deployments/market.json) records the verified external mapping and instruction hashes. It is not yet an owner-scoped Firestore mapping or a configured adapter input.
+
+The per-agent finite allowlist contains only `read`, with workspace-only filesystem access. Installed Codex documentation confirms that explicit allowlists restrict native tools; inherited `minimal` profile narrowing alone does not. The completed acceptance run exposed only `read`, kept native Code Mode off, and recorded three successful instruction reads followed by one failed outside-workspace probe. GPT-6.1 Sol low produced a schema-valid limited report, with unknown market dates and empty sources/facts, without fallback or delivery. The initial execution-host deny setting blocked runtime startup before a model turn; removing that startup block retained the explicit denied shell tools and enabled the one completed acceptance.
+
+The supported `sessions tail` command read the bounded trajectory from the installed SQLite-backed session storage; no internal database query was used. Fresh Gateway health passed afterward, and `automations status --json` remained disabled with no next wake. No research job or recurring schedule was created. Evidence and limits: [Step 24 acceptance](./verification/step-24-market-analyst.md). Private project SSH access is documented in [SSH_ACCESS.md](./SSH_ACCESS.md); addresses, key values, and connection profiles remain outside Git.
 
 ## Official discovery references
 

@@ -740,8 +740,8 @@ Begin with the Market Analyst because it can produce useful research without pri
 
 ```bash
 openclaw agents add investment-market \
-  --workspace /srv/investment-agents/market \
-  --non-interactive
+  --workspace /var/lib/openclaw/.openclaw/workspace-market \
+  --non-interactive --json
 ```
 
 Save the returned normalized ID as the application's `external_agent_id`. Do not assume the requested display string is necessarily the stored identity. [OpenClaw agent management](https://docs.openclaw.ai/cli/agents)
@@ -749,12 +749,14 @@ Save the returned normalized ID as the application's `external_agent_id`. Do not
 Deploy reviewed workspace files:
 
 ```text
-/srv/investment-agents/market/
+/var/lib/openclaw/.openclaw/workspace-market/
   AGENTS.md                 operating policy and report contract reference
   IDENTITY.md               analyst identity
   SOUL.md                   concise communication/personality guidance
+  USER.md                   approved dated owner context
   research/
     report-contract.md      application output specification
+    report-contract.v2.schema.json  analyst payload schema
     market-brief.md         task-specific instructions
 ```
 
@@ -787,7 +789,7 @@ failure convention and a concise safe explanation.
 **Deliverables:** one isolated analyst, reviewed instructions, explicit identity mapping.  
 **Done when:** the agent produces the required report structure and cannot perform out-of-scope operations.
 
-**Implementation update, 8 October 2026 — source templates prepared:** added a versioned Rex/`market` instruction set and the v2 report payload contract under [`openclaw/templates/`](./openclaw/templates/). This is reviewed source only; a template edit does not change a running OpenClaw agent. Live agent creation, workspace deployment, normalized-ID readback/mapping, bounded report acceptance, and effective tool-policy verification remain pending because this workspace has no current SSH target or saved connection profile. The policy is not a technical permission boundary; Step 25 must configure and verify the runtime's actual tool restrictions before Step 24 acceptance is claimed. See [Step 24 verification](./docs/verification/step-24-market-analyst.md).
+**Implementation update, 8 October 2026 — Step 24 complete:** provisioned Rex with returned external ID `investment-market`, an isolated service-owned workspace, and seven reviewed instruction/contract files whose SHA-256 hashes match the source templates. The [deployment manifest](./openclaw/deployments/market.json) records the verified `market` mapping. The applied finite tool allowlist permits only workspace reads and restricts the native Codex surface; shell, writes, administration, messaging, and delegation are excluded. A bounded GPT-6.1 Sol low acceptance completed with only `read` exposed, three successful instruction reads, one failed outside-workspace read, no native Code Mode, and no fallback. Its honest limited JSON report passed the v2 schema without inventing market evidence or holdings. Fresh-session Gateway health passed and the scheduler remains disabled. The existing private SSH details were recovered and saved in a durable ignored project profile; see [VM access](./docs/SSH_ACCESS.md). The recorded mapping is not yet persisted to owner-scoped Firestore or supplied to the app worker; research access, report ingestion, and app integration remain later work. See [Step 24 verification](./docs/verification/step-24-market-analyst.md).
 
 ### Step 25 — Configure research tools and the permission ceiling
 

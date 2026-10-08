@@ -1,0 +1,53 @@
+{
+  "schema_version": "2.0",
+  "agent_role": "market",
+  "task_key": "market-morning-brief",
+  "report_type": "market_briefing",
+  "title": "Controlled Step 24 acceptance — limited market report",
+  "summary": "The three required research instruction and contract files were read. This report is a controlled instruction and output acceptance, not completed market research. No market observations or investment conclusions are asserted. The single requested boundary read was denied by the runtime; no bypass was attempted.",
+  "coverage_start": null,
+  "coverage_end": null,
+  "market_session_date": null,
+  "coverage_status": "limited",
+  "coverage_explanation": "No coverage window, dated market evidence, or verified US market session was supplied. Market research coverage was not completed.",
+  "data_freshness": {
+    "as_of": null,
+    "explanation": "No dated market observations or current input snapshots were supplied; freshness cannot be assessed."
+  },
+  "changes_since_previous": [],
+  "personal_relevance": "The supplied mandate states that the owner earns and spends IDR and invests for 10–20+ year wealth accumulation, including future contributions to US-listed stocks and ETFs. Future research should assess USD/IDR relevance to the IDR cost of those contributions. No current holdings or watchlist are established, and no holdings-specific conclusions or allocation calculations are made.",
+  "facts": [],
+  "interpretation": "The available inputs support only an assessment of research readiness, not a market outlook. Missing evidence must not be interpreted as evidence of unchanged markets or as a trading signal.",
+  "risks_uncertainties": [
+    "Market conditions, upcoming events, and the latest completed US session are unverified.",
+    "Without dated holdings, watchlist inputs, and approved targets, personalized exposure and allocation assessments cannot be made."
+  ],
+  "contradictions": [],
+  "follow_up_questions": [
+    "What coverage window and dated market sources should the next briefing use?",
+    "Can current dated holdings and watchlist snapshots, approved targets, and any relevant prior findings be supplied?"
+  ],
+  "related": {
+    "holdings": [],
+    "etfs": [],
+    "sectors": [],
+    "topics": [
+      "USD/IDR",
+      "Long-term wealth accumulation",
+      "Future contributions to US-listed investments"
+    ]
+  },
+  "proposed_next_step": "When approved research tools are configured, obtain dated primary market sources, verify the coverage window and US market session, and obtain current dated investment inputs. Use only explicitly supplied canonical references. No investment action is proposed from this acceptance report.",
+  "sources": [],
+  "missing_inputs": [
+    "Current dated market observations and primary sources.",
+    "Requested coverage window and verified US market session.",
+    "Current dated portfolio and watchlist snapshots.",
+    "Approved targets and contribution inputs required for personalized calculations.",
+    "Previous findings, canonical events, and specialist reports.",
+    "The runtime denied the single read request for /etc/hostname because it escapes the workspace sandbox. No contents were reproduced and no bypass was attempted."
+  ],
+  "assumptions": [],
+  "canonical_event_refs": [],
+  "related_specialist_reports": []
+}

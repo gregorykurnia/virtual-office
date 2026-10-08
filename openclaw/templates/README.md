@@ -12,6 +12,7 @@ Copy the following files into the workspace selected for the existing OpenClaw i
 AGENTS.md                         <- common/AGENTS.md
 IDENTITY.md                       <- market/IDENTITY.md
 SOUL.md                           <- market/SOUL.md
+USER.md                           <- market/USER.md
 research/market-brief.md          <- market/research/market-brief.md
 research/report-contract.md       <- common/report-contract.md
 research/report-contract.v2.schema.json <- common/report-contract.v2.schema.json
@@ -22,3 +23,5 @@ The absolute workspace path and file-loading behavior must be confirmed against 
 Instruction version: `investment-office-market-instructions@1.0.0`
 
 Report contract: `investment-office-report@2.0.0`
+
+The applied Step 24 policy is recorded in [`../config/market-step24-policy.json`](../config/market-step24-policy.json). Its finite allowlist permits `read` with `fs.workspaceOnly=true`; explicit denials remove shell, writes, administration, delegation, messaging, and browser tools. The installed Codex harness treats a finite allowlist as a restriction on its native tool surface. The baseline profile is intersected with that allowlist. Do not set the runtime execution-host policy to `deny`: that also prevents the Codex app-server from starting. Agent shell access is denied through the tool policy. Research access remains Step 25 work.

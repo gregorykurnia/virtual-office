@@ -1,0 +1,22 @@
+{
+  "agents": {
+    "entries": {
+      "investment-market": {
+        "model": {
+          "primary": "openai/gpt-6.1-sol",
+          "fallbacks": []
+        },
+        "thinkingDefault": "low",
+        "tools": {
+          "profile": "coding",
+          "allow": ["read"],
+          "deny": ["exec", "process", "write", "edit", "apply_patch", "gateway", "automations", "cron", "openclaw", "message", "sessions_spawn", "sessions_send", "browser"],
+          "fs": { "workspaceOnly": true },
+          "elevated": { "enabled": false },
+          "codeMode": false,
+          "swarm": false
+        }
+      }
+    }
+  }
+}
