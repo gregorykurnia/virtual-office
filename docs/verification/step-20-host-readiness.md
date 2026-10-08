@@ -1,8 +1,8 @@
 # Step 20 — Always-on host readiness
 
-Assessment date: 7 October 2026
+Assessment date: 8 October 2026
 
-Status: **In progress — host runtime, service identities, persistent paths, clock synchronization, remote egress, and SSH tunneling are prepared; OCI SSH ingress remains broad and provider/Firebase authentication is not configured.**
+Status: **In progress — host runtime, service identities, persistent paths, clock synchronization, remote egress, SSH tunneling, and an owner-reported SSH source restriction are prepared; provider/Firebase authentication is not configured.**
 
 This record distinguishes owner-reported details from checks performed on the host. It does not claim that OpenClaw or the application is installed, that provider credentials work, or that live research is running.
 
@@ -13,7 +13,7 @@ This record distinguishes owner-reported details from checks performed on the ho
 - Image reported by the owner: `Canonical-Ubuntu-24.04-Minimal-aarch64-2026.09.18-0`.
 - Public IPv4 is redacted in this repository. It was confirmed on the primary VNIC and SSH access works.
 - Private DNS hostname: `investment-office.investmentoffic.investmentoffic.oraclevcn.com`; it did not resolve from this workstation.
-- The owner showed the default security list allowing stateful TCP/22 from `0.0.0.0/0` plus ICMP rules. No NSG names were shown on the primary VNIC. A source-IP restriction was requested and remains pending.
+- The owner showed the default security list allowing stateful TCP/22 from `0.0.0.0/0` plus ICMP rules. No NSG names were shown on the primary VNIC. On 8 October the owner reported changing the TCP/22 source to their current public IPv4 `/32`; a fresh SSH connection then succeeded from that same address. The OCI rule's saved value was not independently inspected, so the exact console configuration remains owner-reported. The address is omitted from this repository.
 
 ## Verified host inventory and preparation
 
@@ -22,7 +22,7 @@ This record distinguishes owner-reported details from checks performed on the ho
 | OS and architecture | SSH reports Ubuntu 24.04.5 LTS, `aarch64`; account `ubuntu` has passwordless sudo. | Verified |
 | Compute and disk | 2 CPUs, 11 GiB RAM, 45.6 GB ext4 root partition (`/dev/sda1`), about 44 GB free at initial inspection. `/`, `/opt`, `/var/lib`, and `/srv` share the boot filesystem; there is no separate data volume or backup policy recorded. | Inventory complete; backup/recovery policy pending |
 | Existing services/accounts | Existing Ubuntu/Oracle services include SSH, Oracle Cloud Agent, timesyncd, rpcbind, and system services. No OpenClaw or Investment Office package, running process, or unit file existed before this preparation. Pre-existing `opc` is password-locked and has no sudo rights; `ubuntu` is the active sudo admin. `rpcbind` listens on all interfaces at port 111, while OCI ingress shown to the owner only allows SSH and ICMP. | Existing state recorded; service accounts remain separate |
-| Admin and SSH | Public-key SSH works as `ubuntu`; password and keyboard-interactive SSH auth are disabled; TCP forwarding is enabled. Root SSH is currently permitted by key (`PermitRootLogin without-password`). The local private key mode was corrected from 0644 to 0600. The observed ED25519 host key was accepted on first use but not independently compared with OCI console evidence. | SSH works; OCI source rule still permits all IPv4 |
+| Admin and SSH | Public-key SSH works as `ubuntu`; password and keyboard-interactive SSH auth are disabled; TCP forwarding is enabled. Root SSH is currently permitted by key (`PermitRootLogin without-password`). The local private key mode was corrected from 0644 to 0600. The observed ED25519 host key was accepted on first use but not independently compared with OCI console evidence. On 8 October a fresh SSH session succeeded from the owner's current public address after the owner reported narrowing the OCI TCP/22 source to that address. | Connection verified; source-rule value is owner-reported; root key login review remains |
 | Second session/private access | A separate SSH session successfully forwarded a temporary loopback-only listener on the VM to the workstation and returned the expected response. The listener exited afterward. This verifies SSH tunnel operation, not a separate recovery route. | Tunnel verified; OCI console remains the recovery path |
 | Host firewall | Effective nftables input accepts established traffic, loopback, ICMP, and new TCP/22; other new input is rejected. Egress is allowed except OCI metadata/service-specific restrictions. | Inspected |
 | Service identities | Created locked system accounts `investment-office` (no-login shell) and `openclaw`. They are distinct from pre-existing `ubuntu` and `opc` accounts. OpenClaw account has systemd lingering enabled. | Created and checked |
@@ -42,7 +42,7 @@ This record distinguishes owner-reported details from checks performed on the ho
 
 ## Remaining acceptance work
 
-1. Restrict the OCI SSH ingress source to the owner's stable administrative IP or replace public SSH with a verified private network; retain and test the OCI console recovery route before removing any working access.
+1. Confirm the saved OCI TCP/22 source CIDR in the console and retain the OCI console as the recovery path. The owner reports the source was narrowed to their current address and fresh SSH succeeds from that address; the console value was not independently inspected.
 2. Decide whether to disable direct root key login; effective SSH configuration currently permits root key authentication (`PermitRootLogin without-password`), while the verified admin path is `ubuntu` plus sudo.
 3. Confirm the intended model/search provider names. From the corresponding service account, test the selected endpoints after server-owned credentials are provisioned in Step 21; never record secret values.
 4. Verify Firebase Auth/Firestore with the intended project configuration and authorized server identity. Current unauthenticated HTTP responses only establish the network path.
