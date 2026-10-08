@@ -1,12 +1,12 @@
 # Step 21 — OpenClaw installation and supervision
 
-Assessment date: 7 October 2026
+Assessment date: 8 October 2026
 
-Status: **Preparation recorded; Step 20 runtime/accounts/storage are prepared, but OpenClaw installation and live acceptance remain pending.**
+Status: **Preparation recorded; Step 20 runtime/accounts/storage are prepared and direct root SSH is disabled, but OCI backup/recovery, provider credentials, OpenClaw installation, and live acceptance remain pending.**
 
-This record is a run plan, not evidence that OpenClaw is installed or connected. The configured Oracle private hostname does not resolve from this workstation; public-key SSH works and an SSH loopback tunnel was verified. OCI's shown TCP/22 ingress remains open to all IPv4 while source restriction is pending. See [Step 20 host readiness](./step-20-host-readiness.md).
+This record is a run plan, not evidence that OpenClaw is installed or connected. The configured Oracle private hostname does not resolve from this workstation; public-key SSH works and an SSH loopback tunnel was verified. The owner reports narrowing OCI TCP/22 ingress to the current administrative `/32`; a fresh connection succeeds from that address, but the saved console value is owner-reported. Direct root SSH is disabled; `ubuntu` login and sudo were reverified after the sshd reload. See [Step 20 host readiness](./step-20-host-readiness.md).
 
-SSH follow-up: authentication succeeds as `ubuntu`; Ubuntu 24.04.5 LTS/ARM64, 2 CPUs, 11 GiB RAM, 45.6 GB root filesystem, synchronized UTC, systemd lingering, separate service accounts, persistent paths, and Node `v26.10.0`/SQLite `3.53.4` were verified. No OpenClaw package, onboarding, provider credential, service, or agent turn has been run.
+SSH follow-up: fresh authentication succeeds as `ubuntu`, passwordless sudo works, and effective `PermitRootLogin` is `no`; Ubuntu 24.04.5 LTS/ARM64, 2 CPUs, 11 GiB RAM, 45.6 GB root filesystem, synchronized UTC, systemd lingering, separate service accounts, persistent paths, and Node `v26.10.0`/SQLite `3.53.4` were verified. No boot-volume backup has been created or restored. No OpenClaw package, onboarding, provider credential, service, or agent turn has been run.
 
 ## Known prerequisites
 
@@ -19,7 +19,7 @@ SSH follow-up: authentication succeeds as `ubuntu`; Ubuntu 24.04.5 LTS/ARM64, 2 
 ## Execution sequence after host verification
 
 1. **Read-only inventory.** Connect through the verified SSH target as an authorized administrator. Record OS/release, architecture, CPU and memory, active users, Node/npm paths and versions, OpenClaw executable/version/state directory, existing Gateway processes and service definitions, and available persistent storage. Inspect service status and ownership before considering any changes. Do not print or copy secrets. If an existing state or service is present, stop and document its owner, backup/recovery path, and migration plan before changing it.
-2. **Pin the runtime and release.** Confirm a supported Node runtime and safe linked SQLite. At installation time, select an exact stable OpenClaw package release from the official release source, verify its published artifact/package identity, and record the version. Do not use a moving `latest` tag for the installed version. The pin is intentionally deferred until VM verification because the install may occur later and the host architecture is unknown.
+2. **Pin the runtime and release.** The verified host is ARM64 with Node `26.10.0` and SQLite `3.53.4`. Recheck current compatibility when installation begins, then select an exact stable OpenClaw package release from the official release source, verify its published artifact/package identity, and record the version. Do not use a moving `latest` tag for the installed version. The OpenClaw release pin remains deferred until Step 21 begins so the installed version is current at execution time.
 3. **Install only if the inventory shows no conflicting installation.** Use the official installer as the dedicated nonroot `openclaw` service account, with the verified exact version, and skip onboarding in this pass. The installer supports a pinned npm release and a verification flag:
 
    ```bash
