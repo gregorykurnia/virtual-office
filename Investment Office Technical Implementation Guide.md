@@ -28,6 +28,24 @@ The four-agent workflow specification is authoritative for current requirements;
 
 Animation implementation: [Step 42 — avatar animation, movement, and UI motion](#step-42--implement-avatar-animation-movement-and-ui-motion).
 
+## Current acceptance ledger — 8 October 2026
+
+“Implemented” means source or a bounded artifact exists. “Accepted” applies only to the evidence-backed scope named here; it does not imply that the whole phase or a live app path is accepted.
+
+| Scope | Current state | Dated evidence | Remaining gate |
+| --- | --- | --- | --- |
+| Steps 1–13: demo | Accepted | [Step 13 handoff](./docs/verification/step-13-frontend-handoff.md) | Preserve demo/live separation; repeat affected checks only when those areas change. |
+| Steps 14–19: app foundation | Implemented; environment acceptance pending | [Progress](./docs/PROGRESS.md), [data model](./docs/DATA_MODEL.md) | Configure Firebase Auth and server identity; pass emulator owner-isolation checks; deploy Rules/indexes; review and run the migration; inspect the authenticated empty app. |
+| Step 20: host preparation | In progress | [Host readiness](./docs/verification/step-20-host-readiness.md) | Confirm the saved SSH ingress rule and choose/verify backup recovery, provider credentials, Firebase authorization, and app-service paths. Host preparation is separate from later laptop-off app acceptance. |
+| Steps 21–22: runtime install and contract discovery | Accepted within bounded scope | [Step 21](./docs/verification/step-21-openclaw-installation.md), [integration contract](./docs/OPENCLAW_INTEGRATION.md) | Verify capabilities again when implementing them. The observed webhook probes lacked auth headers; that did not test the configured `cron.webhookToken` path. |
+| Step 23: adapter | Implemented; fixture acceptance recorded | [Step 23 verification](./docs/verification/step-23-openclaw-adapter.md) | Add inventory/scheduler status, callback destination/readback, snapshot-bound dispatch, capability-gated activation, worker composition and reconciliation before provisioning workflows. |
+| Step 24: Rex | Accepted for instruction and permission boundary only | [Step 24 verification](./docs/verification/step-24-market-analyst.md) | The verified runtime mapping in `openclaw/deployments/market.json` is not an owner-scoped Firestore mapping. Research tools, an app report, and app ingestion remain pending. |
+| Steps 25–29: first app report | Planned; acceptance pending | [Progress](./docs/PROGRESS.md), [integration contract](./docs/OPENCLAW_INTEGRATION.md) | Complete the ordered C1, input, auth, receiver, report, worker, recovery, and laptop-off gates in §12.1. No real app report exists yet. |
+| Steps 30–41: four-role workflows and controls | Planned | [Four-agent specification](./docs/FOUR_AGENT_WORKFLOW_SPEC.md) | Build versioned research state and full inputs, then executable dependency occurrences, mapping reconciliation and truthful workflow acceptance. |
+| Steps 42–47: motion and operations | Foundations exist; remaining acceptance pending | [Progress](./docs/PROGRESS.md) | Deliver animation independently. Minimum private ingress, supervision, recovery choice and rollback must precede recurring activation; final restore/reboot proof remains later. |
+
+The current workflow roster is exactly Paz (`portfolio`), Rex (`market`), Cody (`research`), and Wolffe (`risk`) with the existing stable role IDs, responsibilities, and artwork keys. A Maul avatar/display-label change is present in the current workspace but conflicts with this approved roster; retain its historical design/evidence, and reconcile the presentation before deploying research workflows. It does not create a fifth identity or change the `research` role key. Risk analysis remains within the four roles.
+
 ## 1. Starting state and implementation decisions
 
 ### 1.1 What exists in this workspace
@@ -82,7 +100,7 @@ The Step 5 SVG set is the technical asset foundation: it establishes stable iden
 
 Preserve compatible existing choices if source code appears before this guide is implemented. Pin dependency versions in lockfiles after installation; do not treat `latest` as a reproducible production version.
 
-**Implementation update, 7 October 2026:** this workspace already has a registered Firebase web app and records Firestore as its selected application database. Steps 14 and 15 below implement Firebase Auth and Firestore instead of the guide's original Supabase/PostgreSQL proposal. The Firestore model and its constraint strategy are documented in [`docs/DATA_MODEL.md`](./docs/DATA_MODEL.md). Later SQL/PostgreSQL-specific directions in this roadmap remain proposed and must be translated before their steps are implemented.
+**Implementation update, 7 October 2026:** this workspace already has a registered Firebase web app and records Firestore as its selected application database. Steps 14 and 15 below implement Firebase Auth and Firestore instead of the guide's original Supabase/PostgreSQL proposal. The Firestore model and its constraint strategy are documented in [`docs/DATA_MODEL.md`](./docs/DATA_MODEL.md). The original PostgreSQL proposal is historical decision context; active implementation steps use Firestore.
 
 Current OpenClaw docs require Node 24.16+ or 26.1+, with compatible linked SQLite; Node 26 is their recommended runtime. The current Node 20 shell must therefore be upgraded or replaced for the live OpenClaw environment. Verify the pinned runtime on the server as well as in the interactive shell. [OpenClaw Node runtime requirements](https://docs.openclaw.ai/install/node)
 
@@ -274,6 +292,8 @@ Define root scripts as actual workspace commands:
 | `npm run tasks:apply` | Apply a reviewed task configuration using the adapter |
 
 The task scripts are proposed project scripts to implement later; they do not already exist.
+
+**Script status, checked 8 October 2026:** the root package currently defines `dev`, `dev:api`, `db:migrate`, `typecheck`, `lint`, `test`, `test:e2e`, and `build`. It does not define `dev:live`, `tasks:plan`, or `tasks:apply`. Workspace commands using `--if-present` may succeed without running a browser suite; a passing empty `test:e2e` invocation is not browser acceptance. Add and document each command when its implementation exists.
 
 **Deliverables:** installable workspace, clean typecheck, documented local commands.  
 **Done when:** the frontend can start locally and build without external credentials.
@@ -543,16 +563,6 @@ Keep Firestore migrations versioned and append-only. `npm run db:migrate` create
 
 The web app authenticates with Firebase Auth and sends its ID token to the API; no browser Firestore client is used for product records. Firestore Rules remain an additional boundary, not an authorization substitute for the Admin SDK.
 
-```sql
-alter table public.reports enable row level security;
-
-create policy reports_owner_read
-on public.reports
-for select
-to authenticated
-using (owner_id = (select auth.uid()));
-```
-
 Do not grant browser report inserts. Keep report ingestion and all Admin credentials in the backend. [Firestore Rules and Admin SDK behavior](https://firebase.google.com/docs/firestore/security/rules-conditions)
 
 **Deliverables:** ownership policies and repository checks.  
@@ -637,14 +647,14 @@ The adapter uses only data returned by the API. Report Markdown is rendered as t
 6. Configure time synchronization. Store UTC timestamps while displaying Asia/Jakarta.
 7. Reserve persistent storage for Gateway state/workspaces and app configuration.
 8. Give the app worker only the Gateway interface access it needs; do not mount Gateway credentials into the browser build or agent input directories.
-9. Verify outbound connectivity to the chosen model/search providers and Firebase Auth/Firestore.
+9. Check network reachability from the intended service accounts to candidate model/search and Firebase endpoints. Validate credentials and permitted operations later at the C1 environment gate; unauthenticated TLS reachability is not service authorization.
 
 Keep the Gateway on the server, not dependent on the owner's laptop or a laptop-hosted browser/search service. A remote Gateway can still become laptop-dependent if its credentials, tools, or local model endpoint require that laptop; explicitly inspect those dependencies. [OpenClaw Linux hosting guide](https://docs.openclaw.ai/vps)
 
 **Deliverables:** host inventory, private connectivity, runtime paths, storage paths.  
-**Done when:** the future research path has no required component running on the owner's device.
+**Done when:** the host, service accounts, storage and provider/tool topology do not require the owner's device or laptop-held credentials. Prove the actual app research path continues while the laptop is disconnected in Step 29.
 
-**Implementation assessment, 8 October 2026:** SSH access and a second loopback-tunnel session are verified. The host is Ubuntu 24.04.5 LTS/ARM64 with 2 CPUs, 11 GiB RAM and a 45.6 GB root filesystem. Separate locked `investment-office` and `openclaw` accounts and persistent paths are prepared. Node `v26.10.0` ARM64 was installed after SHA-256 verification; npm is `11.19.1` and linked SQLite is `3.53.4`, meeting the current OpenClaw Node/SQLite floor. UTC time synchronization is active. Root SSH was disabled, sshd syntax/effective settings passed, and a fresh `ubuntu` login with passwordless sudo succeeded. Basic unauthenticated TLS reachability from both service accounts to Firebase/Google, OpenAI, Anthropic and Brave endpoints was observed. The owner reports narrowing OCI TCP/22 ingress to the current administrative IPv4 `/32`, and a fresh SSH connection succeeded from that address; the saved rule was not independently inspected in the console. Home-region/backup recovery, provider selection/credentials, Firebase authorization and laptop-independent live-path acceptance remain pending. No OpenClaw package, application service, Gateway, job, or provider credential has been installed. See [`docs/verification/step-20-host-readiness.md`](./docs/verification/step-20-host-readiness.md).
+**Historical host-readiness assessment, 8 October 2026 (before Step 21):** SSH access and a second loopback-tunnel session were verified. The host is Ubuntu 24.04.5 LTS/ARM64 with 2 CPUs, 11 GiB RAM and a 45.6 GB root filesystem. Separate locked `investment-office` and `openclaw` accounts and persistent paths were prepared. Node `v26.10.0` ARM64 was installed after SHA-256 verification; npm is `11.19.1` and linked SQLite is `3.53.4`. UTC time synchronization is active. Root SSH was disabled and a fresh `ubuntu` login with passwordless sudo succeeded. The owner reported narrowing OCI TCP/22 ingress to the current administrative IPv4 `/32`; the saved rule was not independently inspected in the console. At this host-only checkpoint, provider credentials, Firebase authorization, OpenClaw, the app service, and laptop-independent live-path acceptance were not configured. Step 21 later installed and accepted OpenClaw; see [Step 21 evidence](./docs/verification/step-21-openclaw-installation.md). Step 20 remains in progress for host-specific backup/recovery, ingress confirmation, Firebase authorization, and app topology prerequisites. Basic TLS reachability is not credential or service authorization. See [`docs/verification/step-20-host-readiness.md`](./docs/verification/step-20-host-readiness.md).
 
 ### Step 21 — Install, onboard, and supervise OpenClaw
 
@@ -703,21 +713,23 @@ openclaw automations runs --help
 
 Current documentation presents `automations` and `cron` as equivalent CLI spellings. Do not rewrite an existing working integration solely for naming. The documentation also requires administrative authority for automation mutations. [OpenClaw automation CLI](https://docs.openclaw.ai/cli/cron)
 
-**Version gate — updated 8 October 2026:** the installed stable OpenClaw `2026.9.8` release, Node runtime, actual CLI surface, one configured bootstrap agent, scheduler state, manual run receipts, and sanitized success/failure webhook envelopes are recorded in [`docs/OPENCLAW_INTEGRATION.md`](./docs/OPENCLAW_INTEGRATION.md). CLI enqueue, run-history, and webhook payload fields are pinned for this release. The observed webhook requests have no authentication header and the CLI exposes no outbound auth option; the production receiver therefore needs an independently reviewed private authentication path before accepting callbacks. The Step 23 backend adapter is implemented, but the authenticated app receiver, run-input binding, adapter-to-worker integration, and persisted report path remain pending; end-to-end integration is not tested.
+**Version gate — updated 8 October 2026:** the installed stable OpenClaw `2026.9.8` release, Node runtime, actual CLI surface, bootstrap agent, scheduler state, manual run receipts, and sanitized success/failure webhook envelopes are recorded in [`docs/OPENCLAW_INTEGRATION.md`](./docs/OPENCLAW_INTEGRATION.md). The probes established payload and delivery behavior but sent no auth header. The installed release documents `cron.webhookToken` as bearer authentication; verify its supported secret handling and test configured delivery before deciding whether a bridge or other transport is needed. There is no per-job CLI auth flag. The Step 23 adapter is implemented with deliberately limited capabilities; the authenticated receiver, immutable input binding, adapter-to-worker composition, and persisted app report remain pending, so end-to-end integration is not tested.
 
 ### Step 23 — Implement one backend OpenClaw adapter
 
-Use this app-owned boundary:
+Use this app-owned boundary. The interface below is the target after the extensions listed here; it is not a claim about the Step 23 implementation already accepted.
 
 ```ts
 interface ResearchRuntimeAdapter {
   getCapabilities(): Promise<RuntimeCapabilities>;
   checkHealth(): Promise<RuntimeHealth>;
+  getSchedulerStatus(): Promise<ObservedSchedulerStatus>;
   listAgents(): Promise<ExternalAgent[]>;
+  listTasks(cursor?: string): Promise<ObservedTaskPage>;
   getTask(externalJobId: string): Promise<ObservedTask>;
   createTask(definition: AllowedTaskDefinition): Promise<ObservedTask>;
   updateTask(externalJobId: string, patch: AllowedTaskPatch): Promise<ObservedTask>;
-  requestRun(externalJobId: string): Promise<AcceptedExternalRun>;
+  requestRun(request: SnapshotBoundRunRequest): Promise<AcceptedExternalRun>;
   getRun(externalJobId: string, externalRunId: string): Promise<ObservedRun>;
   listRuns(externalJobId: string, cursor?: string): Promise<ObservedRunPage>;
 }
@@ -727,12 +739,12 @@ interface ResearchRuntimeAdapter {
 
 **Later alternative:** use the supported Gateway client and documented RPC methods if persistent events or remote connectivity justify it. Pin and test client/Gateway versions together; the client documentation's example package version is not proof it matches the deployed Gateway. [Gateway client guidance](https://docs.openclaw.ai/gateway/clients), [external-app interfaces](https://docs.openclaw.ai/gateway/external-apps)
 
-Map all external results into app-owned types. Keep raw observed statuses for debugging. Capability flags control the UI: unsupported cancellation, event streaming, input-snapshot binding, and schedule activation stay disabled.
+Map all external results into app-owned types. Keep raw observed statuses for debugging. Extend the adapter only for verified installed capabilities: bounded job inventory and scheduler status; disabled one-shot or disabled-cron smoke creation; server-owned completion destination and exact readback; snapshot-bound manual dispatch; mapping load/refresh; and controlled schedule activation. Capability flags keep unaccepted operations disabled. Do not let the app account read the isolated OpenClaw account's private files as its Gateway connection.
 
 **Deliverables:** version-specific adapter, mock adapter, sanitized fixture tests.  
 **Done when:** every live operation is accessible through one reviewed server boundary.
 
-**Implementation update, 8 October 2026 — Step 23 implemented:** added `ResearchRuntimeAdapter`, the `2026.9.8` CLI adapter, and an explicitly simulated in-memory adapter under `backend/src/integrations/openclaw/`. The CLI uses an absolute executable, `execFile` argument arrays, `shell: false`, a 512 KiB output cap, operation timeouts, and a minimal child environment with credentials supplied only through supported server-side configuration. It verifies both CLI and Gateway versions before reporting live capabilities. Task creation is isolated and disabled by default; updates can disable but not activate a schedule. Mutations and run/history operations require explicit owner-scoped agent mappings and exact job-to-agent pairs; no such Investment Office mappings exist yet. The adapter checks observed task ownership against the saved pair and refuses the bootstrap `main` agent. Mutations require exact readback, and uncertain outcomes require reconciliation before retry. Command jobs are also blocked from analyst-run requests. Cancellation, event streaming, schedule activation, and immutable input-snapshot binding are reported unsupported. Sanitized Step 22 fixtures and adapter tests cover the command contract. No live job or run was changed; the adapter is not connected to the durable worker until Step 29 and input delivery remains pending.
+**Implementation update, 8 October 2026 — Step 23 bounded implementation accepted:** added `ResearchRuntimeAdapter`, the `2026.9.8` CLI adapter, and an explicitly simulated in-memory adapter under `backend/src/integrations/openclaw/`. The CLI uses an absolute executable, `execFile` argument arrays, `shell: false`, a 512 KiB output cap, operation timeouts, and a minimal child environment with credentials supplied only through supported server-side configuration. It verifies CLI and Gateway versions. Task creation is isolated and disabled by default; updates can disable but not activate a schedule. Mutations and run/history operations require owner-scoped agent mappings and exact job-to-agent pairs. These mappings were empty when Step 23 was accepted; Step 24 later verified the `market` runtime mapping in `openclaw/deployments/market.json`, but no owner-scoped Firestore mapping exists. The adapter refuses the bootstrap `main` agent and command jobs for analyst runs. Mutations require exact readback, and uncertain outcomes require reconciliation. Cancellation, event streaming, schedule activation, job inventory, scheduler status and snapshot-bound dispatch are unsupported. Fixtures cover the observed command contract. No live job or run was changed and the adapter is not composed with the durable worker. The input-binding prerequisite now appears before Steps 28–29; finish these extensions and production worker composition as explicit Phase C gates.
 
 ### Step 24 — Create the first analyst and its operating instructions
 
@@ -791,13 +803,28 @@ failure convention and a concise safe explanation.
 
 **Implementation update, 8 October 2026 — Step 24 complete:** provisioned Rex with returned external ID `investment-market`, an isolated service-owned workspace, and seven reviewed instruction/contract files whose SHA-256 hashes match the source templates. The [deployment manifest](./openclaw/deployments/market.json) records the verified `market` mapping. The applied finite tool allowlist permits only workspace reads and restricts the native Codex surface; shell, writes, administration, messaging, and delegation are excluded. A bounded GPT-6.1 Sol low acceptance completed with only `read` exposed, three successful instruction reads, one failed outside-workspace read, no native Code Mode, and no fallback. Its honest limited JSON report passed the v2 schema without inventing market evidence or holdings. Fresh-session Gateway health passed and the scheduler remains disabled. The existing private SSH details were recovered and saved in a durable ignored project profile; see [VM access](./docs/SSH_ACCESS.md). The recorded mapping is not yet persisted to owner-scoped Firestore or supplied to the app worker; research access, report ingestion, and app integration remain later work. See [Step 24 verification](./docs/verification/step-24-market-analyst.md).
 
+### C1 environment-activation gate — complete before Steps 25–29 use live app services
+
+This gate was separated from host preparation because provider setup, Firebase deployment and owner-authenticated app acceptance are not Step 20 host checks. It must pass before creating an app-connected smoke task or accepting a live report.
+
+1. Verify the Firebase project/database and intended owner UID; configure the selected Auth provider and private application origin.
+2. Select the Oracle-host Firebase Admin credential mechanism and least permissions. ADC discovers credentials; it does not provide them on the VM. Record renewal, revocation and recovery.
+3. Run emulator checks for migration repeatability, owner isolation, unauthorized identities, uniqueness and relevant Rules behavior.
+4. Review then deploy Firestore Rules and indexes; review and execute the additive migration against the selected environment.
+5. Start the selected app/API topology and inspect the signed-in owner's empty live app. It must contain no demo records.
+6. Record migration rollback/recovery behavior before live ingestion.
+
+**Acceptance:** the actual server identity performs permitted app operations, unrelated identities are rejected, required indexes/Rules are active, migration state is known, and the owner-authenticated app starts with honest empty states. Link the dated evidence from `docs/PROGRESS.md` and `docs/DECISIONS.md`.
+
 ### Step 25 — Configure research tools and the permission ceiling
 
-1. Configure an explicit search provider using server credentials; validate both search and fetching of an official source.
+Before the first source-backed research run, apply the baseline spend, concurrency, timeout and queue limits in Step 36. Do not interpret the bounded Step 21/24 model turns as a researched or persisted app report.
+
+1. Configure an explicit search provider using server credentials; validate search and fetching of an official source.
 2. Discover the actual tool IDs exposed to the selected agent/runtime.
 3. Allow only required research/read/input tools. Add browser automation only if source access actually requires it.
 4. Deny schedule/configuration administration, cross-session delegation, messaging, broad filesystem access, and arbitrary shell execution unless a narrowly reviewed helper requires it.
-5. Put snapshots in a read-only input path or expose them through a restricted tool; do not expose database secrets to the agent.
+5. Put immutable run artifacts in a read-only input path or expose them through a restricted tool; do not expose database secrets to the agent.
 6. Test the scheduled execution environment separately from interactive chat.
 7. Choose model routes and fallback policy intentionally; do not permit silent escalation beyond the budget.
 
@@ -805,42 +832,18 @@ Use current OpenClaw configuration/schema discovery to translate the policy into
 
 Configure and test the selected search provider rather than relying on undocumented autodetection. A working model response does not prove that web research tools work. [OpenClaw web research setup](https://docs.openclaw.ai/tools/web)
 
-**Deliverables:** actual allowlist/denylist, source-fetch smoke, model/search capability record.  
-**Done when:** the agent can research an official source and cannot modify schedules or send messages.
+For each workflow, record the required data fields and approved sources, publication/retrieval/as-of dates, stale thresholds, units, currency and FX direction, adjusted-price/corporate-action treatment where needed, and ETF look-through coverage. Use reviewed deterministic code for calculations, preserve exact inputs and assumptions, and round only at stated presentation boundaries. Start with official releases and dated owner inputs; buy a data feed only when a required workflow cannot otherwise meet its evidence gate. Define limited/unavailable behavior for missing, stale, partial or conflicting data. A source-fetch smoke alone is not research-quality acceptance.
+
+**Deliverables:** actual allowlist/denylist, official-source fetch evidence, model/search capability record, data-quality and calculation requirements, and baseline run limits.
+**Done when:** the agent can retrieve an official source, cannot modify schedules or send messages, and produces an honest limited result when evidence is insufficient.
 
 **Implementation update, 8 October 2026 — Step 25 access acceptance complete; market research remains gated:** configured the explicit Codex Hosted Search provider and read-only fetch path for Rex, with the actual tool IDs `read`, `web_search`, and `web_fetch`; pinned GPT-6.1 Sol low with no fallback; set one Gateway-wide concurrent agent run and a 600-second default turn ceiling; and kept the scheduler disabled. Interactive and isolated scheduler-runner traces both show successful official OpenClaw source search/fetch with no delivery. Added versioned market data-quality/calculation rules and deployed the updated brief. The existing server auth profile has no configured/verified monthly USD cap, so the brief requires an approved budget before market-data searches; the two technical acceptance runs were limited to OpenClaw documentation and did not produce a market report. App dispatch and immutable input delivery remain pending. See [Step 25 verification](./docs/verification/step-25-market-research-access.md).
 
 ### Step 26 — Define and validate the report output contract
 
-Store `report-contract.md` with a versioned app-owned JSON schema. This is the agent's final output format, not the Gateway webhook envelope.
+Use the deployed `report-contract.v2.schema.json` as the starting point, not the earlier v1 illustration. The current v2 report is Rex/market-specific; keep that runtime contract as bounded Step 24 evidence while defining a generalized app-owned schema with shared fields and role-specific validation. This is the analyst's final output format, not the Gateway webhook envelope.
 
-```json
-{
-  "schema_version": "1.0",
-  "agent_role": "market",
-  "task_key": "market-morning-brief",
-  "input_snapshot_id": null,
-  "title": "Latest available US session: market briefing",
-  "summary": "A concise summary supported by the sources below.",
-  "data_as_of": null,
-  "market_session_date": null,
-  "coverage_status": "complete",
-  "body_markdown": "## Findings\n...\n## Interpretation\n...\n## Risks and uncertainty\n...\n## Missing information\n...",
-  "sources": [
-    {
-      "key": "S1",
-      "label": "Verified primary source title",
-      "url": "https://example.com/replace-with-verified-source",
-      "published_at": null,
-      "retrieved_at": "2026-10-02T00:00:00Z"
-    }
-  ],
-  "missing_inputs": [],
-  "assumptions": []
-}
-```
-
-The sample URL and content are placeholders, not evidence for any market claim. Proposed `coverage_status` values are `complete`, `limited`, and `no_material_update`.
+The original v1 example is retained only in version history and is not the live contract. Define the next generalized version from the deployed v2 schema; include all four stable `agent_role` values and shared report fields, then validate role-specific sections separately. The schema and sample content do not substantiate any financial claim.
 
 Implementation rules:
 
@@ -859,25 +862,39 @@ Prefer a clear processing error over a second automatic paid model call to repai
 **Deliverables:** report schema, prompt contract, valid/invalid fixture examples.  
 **Done when:** accepted reports have traceable sources/metadata and malformed output is recoverable.
 
-**Required Step 26 extension:** the JSON above illustrates the original minimal envelope. Add a new schema version with report type, coverage start/end, freshness/coverage explanations, changes since previous report, personal relevance, risks/contradictions, follow-up questions, related instruments/sectors/topics, proposed next step, canonical event references and specialist-report relations. Preserve compatible legacy readers. Store source publication dates as unknown when unavailable. Add owner-checked bookmark state and report type/topic/ticker/importance filters; make bounded search limitations visible. Digest metadata records dependency/input versions and failed/missing/late sections. Validate and persist reports/sources/run links atomically and idempotently using Firestore transactions and uniqueness claims; an approved schema does not establish factual correctness.
+**Required Step 26 extension:** define shared report fields plus role-specific rules for report type, coverage dates, freshness/coverage explanations, changes since prior report, personal relevance, risks/contradictions, follow-up questions, related instruments/sectors/topics, proposed next step, canonical event references and specialist-report relations. Attach trusted owner/agent/task/run/source-key relationships and input provenance at ingestion; do not trust model-supplied routing IDs. Explicitly decide how a snapshot reference is checked against the artifact acquired for that run. Add compatible Firestore migrations and API/UI readers before live v2 ingestion; preserve metadata through deterministic Markdown presentation. Add owner-checked bookmark state and report type/topic/ticker/importance filters; make bounded search limitations visible. Digest metadata records dependency/input versions and failed/missing/late sections. Validate and persist reports, sources and run links atomically and idempotently; an approved schema does not establish factual correctness. Firestore documents are limited to 1 MiB and map/array nesting to 20 levels; choose a lower aggregate encoded-payload budget that leaves room for document fields and indexes. Enforce bounded source/nested counts, payload index exemptions, visible rejection/quarantine behavior, and separate retention for raw events, normalized reports and referenced snapshots/history.
+
+**Acceptance:** representative valid outputs for all four roles round-trip through validation, persistence, API and UI with coverage, deltas, relations, source links and trusted input provenance intact. Shape validation remains separate from factual verification. Known-input DCA, concentration, dividend and overlap examples are added when those calculations are implemented; unavailable evidence must yield a limited report.
 
 **Implementation update, 8 October 2026 — Step 26 contract implemented; storage and UI round trip pending:** added the app-owned v3 analyst report contract in `shared/src/reportContract.ts`, covering all four stable roles and 13 task types. It includes trusted provenance and input-hash checks, citation and source validation, fail-closed portfolio gates, digest dependency checks, bounded quarantine without a repair call, and deterministic Markdown presentation. Structural fixtures and 59 backend tests pass. Persistence, Firestore migrations, owner-scoped readers, API/UI rendering, ingestion-time provenance attachment, bookmarks and filters remain open. The deployed Rex v2 runtime contract is unchanged. See the [contract reference](./docs/REPORT_CONTRACT.md) and [Step 26 verification](./docs/verification/step-26-report-contract.md).
+
+### C2 prerequisite — acquire and bind minimal immutable run inputs before Steps 28–29
+
+Extract the minimal input/provenance slice of Step 30 into Phase C2. Use the approved owner context and watchlists; explicitly represent holdings and allocation targets as absent until supplied and approved. Do not seed watchlists as holdings or invent positions, weights, targets, cash or FX inputs.
+
+1. Acquire one input version for each manual or scheduled run and write an immutable per-run artifact with captured time, source/as-of dates, schema version and content hash.
+2. Bind dispatch to that artifact and correlate the local run, external run and report to the same immutable reference. Snapshot edits during execution cannot affect the run.
+3. Resolve manual/scheduled overlap and concurrent input acquisition. A shared mutable `current.json` alone is not provenance; use a versioned immutable file/artifact or equivalent transactional record.
+4. If the adapter cannot provide custom input tools in time, use the reviewed snapshot-file fallback with a narrow read-only path.
+
+**Acceptance:** the first controlled run names the exact dated artifact/hash it read; missing holdings remain explicit; replay and concurrent acquisition cannot change the artifact selected for that run. Full portfolio editing, contributions, targets and theses remain in Step 30.
 
 ### Step 27 — Configure a private authenticated completion receiver
 
 1. Expose `POST /integrations/openclaw/report` on a private listener, e.g. `127.0.0.1:3101` on the VPS.
 2. Do not route this listener through the browser-facing API without a deliberate ingress policy.
-3. Configure a dedicated webhook bearer credential distinct from Gateway operator credentials.
-4. Require constant-time credential comparison, payload-size limits, content validation, and safe request logs.
-5. Allow only known external jobs; resolve their owner/agent/task through stored mappings.
-6. Capture one sanitized successful event and one controlled failure event.
+3. Verify the installed schema and supported secret handling for `cron.webhookToken`; configure a dedicated bearer credential distinct from Gateway operator credentials. The prior probes had no token and did not establish that native bearer authentication is unsupported.
+4. Require constant-time credential comparison, payload-size limits, content validation, and safe request logs. Prove missing and wrong credentials are rejected before durable acknowledgment.
+5. Allow only known external jobs; resolve their owner/agent/task through owner-scoped mappings.
+6. Capture one sanitized authenticated success event and one controlled failure event.
+7. Add only the exact-host/IP SSRF exception required by the private receiver. Build a bridge only if the configured native bearer path fails or cannot meet the boundary; document any fallback's sender-authentication limits.
 
 Configuration sketch to merge into the installed release's supported config, through its supported editing/validation mechanism:
 
 ```json5
 {
   cron: {
-    enabled: true,
+    enabled: false,
     webhookToken: "REPLACE_VIA_SUPPORTED_SECRET_CONFIGURATION",
     webhookSsrfPolicy: {
       allowedHostnames: ["127.0.0.1"]
@@ -886,7 +903,7 @@ Configuration sketch to merge into the installed release's supported config, thr
 }
 ```
 
-This illustrates field names, not a ready-to-deploy credential. Current docs describe the bearer field and narrow webhook target exceptions. Validate secret-reference support for that field before using a secret reference. [Automation configuration](https://docs.openclaw.ai/automation/cron-jobs/managing-jobs)
+This illustrates field names, not a ready-to-deploy credential. Keep the global scheduler disabled while testing callback authentication; do not alter pre-existing system jobs. The pinned release documents the bearer field and narrow webhook target exceptions. Validate secret-reference support for that field before using a secret reference. [Automation configuration](https://docs.openclaw.ai/automation/cron-jobs/managing-jobs)
 
 Private webhook destinations are blocked by the current outbound SSRF policy unless explicitly permitted. Use a narrowly allowed receiver hostname/IP; do not enable general private-network access just to make delivery work. Successful execution may suppress an empty final output, so task instructions must require a nonempty report. An ambiguous webhook timeout does not guarantee retry. [Automation delivery behavior](https://docs.openclaw.ai/automation/cron-jobs/delivery)
 
@@ -899,17 +916,18 @@ authenticate → validate bounded outer envelope → resolve known job
 
 If persistence fails, return non-2xx. Return 2xx for an already persisted duplicate. Report processing can finish asynchronously after durable receipt; expose its state separately from delivery acknowledgment.
 
-**Deliverables:** private receiver, dedicated auth, observed event fixtures.  
-**Done when:** unauthorized events are rejected and accepted events are durable before acknowledgment.
+**Deliverables:** private receiver, tested native bearer auth, observed authenticated event fixtures.
+**Done when:** unauthorized events are rejected before receipt and authorized events are durable before acknowledgment. Do not enable schedules until this gate passes.
 
 ### Step 28 — Create a controlled first task and ingest its report
 
-Use a one-shot development smoke task first, with a future execution time and manual triggering. Avoid enabling the recurring production schedule before ingestion is validated.
+After the C1 environment gate, minimal immutable input binding, authenticated receiver, baseline limits, and required adapter extensions pass, create one controlled smoke task through the reviewed backend boundary. Create it disabled atomically. Prefer a one-shot task only if the installed interface and adapter capability support it; otherwise use a disabled cron smoke task with a deliberately distant trigger. Confirm all CLI flags against pinned OpenClaw `2026.9.8` and expose the operation through the adapter. Do not enable a recurring production schedule before ingestion is validated.
 
 ```bash
 openclaw automations add \
   --name "Investment Office — market integration smoke" \
   --agent investment-market \
+  --disabled \
   --at "30m" \
   --session isolated \
   --message "Read research/market-brief.md and research/report-contract.md. Produce one short source-backed report as the specified JSON object." \
@@ -918,9 +936,9 @@ openclaw automations add \
   --keep-after-run
 ```
 
-Save the returned job ID, disable its scheduled trigger immediately, and invoke that disabled job manually after checking the receiver. Use the actual stored external ID, not a display-name lookup. Schedule/session/payload options must match the installed CLI. [Automation schedules](https://docs.openclaw.ai/automation/cron-jobs/schedules), [automation payloads](https://docs.openclaw.ai/automation/cron-jobs/payloads)
+Keep the job disabled and verify that state by exact readback before manually invoking it after the receiver is ready. Save the returned job ID; use the stored external ID, not a display-name lookup. Schedule/session/payload options must match the installed CLI. [Automation schedules](https://docs.openclaw.ai/automation/cron-jobs/schedules), [automation payloads](https://docs.openclaw.ai/automation/cron-jobs/payloads)
 
-1. Record accepted external run ID and local run mapping.
+1. Record accepted external run ID and local run mapping; persist the runtime mapping only after owner-scoped verification.
 2. Parse the observed completion envelope through the versioned adapter.
 3. Deduplicate by integration-instance/run identity and the established event identity; use a canonical digest only as a transport fallback.
 4. In one processing transaction, upsert the run projection, insert the canonical report/sources, update processing state, and create any notification outbox item.
@@ -930,12 +948,14 @@ Save the returned job ID, disable its scheduled trigger immediately, and invoke 
 8. Replay the captured event locally to prove one run/report/notification remains.
 9. Exercise failure and malformed-output processing with fixtures after one controlled real failure validates the outer contract.
 
+The current adapter does not yet implement bounded job inventory or scheduler status, create a supported one-shot task, configure/read back a server-owned completion destination, activate schedules, bind snapshot-bearing requests, load/refresh owner mappings, or compose/start/stop the worker. Add only the operations confirmed against the installed release. Choose one production worker topology (inside the API or a separate process), add one supervised entry point with orderly startup/shutdown, and prevent duplicate worker supervisors.
+
 **Deliverables:** first persisted real report, failure visibility, duplicate-event proof.  
-**Done when:** one real run becomes exactly one readable report with its actual execution identity.
+**Done when:** one real run becomes exactly one readable report with its actual execution identity, exact input artifact/hash, verified callback, and app-owned mapping. Shape validation and event idempotency alone do not establish factual research quality.
 
 ### Step 29 — Implement Run now, observation, and first unattended proof
 
-1. Connect the durable dispatch flow from Step 18 to the saved market job.
+1. After immutable input acquisition, connect the durable dispatch flow from Step 18 to the verified market job through a snapshot-bearing request and the completed adapter composition.
 2. Return acceptance as `queued`; mark `running` only after an observed start signal or reliable status field.
 3. Store `status_observed_at`, `last_gateway_success_at`, and external raw status.
 4. Poll supported run/history interfaces from the worker, not directly from every browser.
@@ -944,7 +964,7 @@ Save the returned job ID, disable its scheduled trigger immediately, and invoke 
 7. Preserve terminal states when stale observations arrive out of order.
 8. Do not infer a failed run from elapsed wall time alone; show overdue/unknown with the last observation.
 9. Verify the frontend's duplicate activation handling and backend idempotency together.
-10. Schedule one small live test, disconnect the laptop, and verify server-side completion/ingestion afterwards.
+10. After the C2 minimum operations gate and first report acceptance, enable one bounded nonrecurring scheduled smoke run (use a one-shot trigger if supported; otherwise a future trigger that is disabled/read back after one run), disconnect the owner's laptop, and verify server-side completion/ingestion. This does not activate recurring research; workflow schedules remain gated by Step 34.
 
 Suggested app mapping, refined against observed fixtures:
 
@@ -961,11 +981,23 @@ Suggested app mapping, refined against observed fixtures:
 
 The CLI's acceptance/history and whole-completion semantics are version-sensitive; capture them rather than treating a successful command exit as proof of a processed report. [Automation CLI reference](https://docs.openclaw.ai/cli/cron)
 
-**Phase C exit gate:** owner-only live app, one real report, one allowed manual task, visible failures, and server execution while the laptop is off.
+**Phase C exit gates:**
+
+1. C1 environment gate passes: verified Firebase/Auth/server identity, emulator invariants, deployed Rules/indexes, reviewed migration and owner-authenticated empty UI.
+2. The server-account Gateway connection and exact installed capabilities are provisioned/read back; the app owns the supported connection without reading the isolated OpenClaw account's private state.
+3. One disabled smoke task has verified owner, role, task, immutable dated input/hash and authenticated completion destination.
+4. One source-backed Rex report passes generalized validation and is persisted/rendered exactly once with sources, trusted provenance and actual execution identity.
+5. Fixture replay, malformed/failure handling, missing/wrong-token rejection, disconnect/restart recovery, and ambiguous dispatch reconciliation pass without blind resend.
+6. The app API, receiver and exactly one worker composition are supervised with private ingress, correlation logs, baseline limits, a documented recovery/backup choice and a rollback plan compatible with additive migrations and durable queues.
+7. One bounded, nonrecurring scheduled laptop-off run completes and is ingested; disable/read back the smoke trigger afterward. This proves the selected topology, not recurring workflow readiness.
+
+Only after these gates may Phase D provision roles and progressively activate reviewed recurring schedules. Animation and final operational polish do not block this private live slice.
 
 ## 7. Phase D: four analyst workflows and dependable schedules
 
 ### Step 30 — Build holdings, watchlist, and immutable input snapshots
+
+Step 30 owns the complete owner-input and persistent-research-state feature set. The minimal immutable input artifact and dispatch binding needed for the first report are a C2 prerequisite above; implement that narrow path first and reuse it here.
 
 1. Add owner-only holdings/watchlist screens and API validation.
 2. Identify instruments by symbol plus exchange/identifier where needed; do not assume every ticker is globally unique.
@@ -1001,6 +1033,8 @@ Bind the input acquisition to the external run using supported runtime metadata 
 
 **Deliverables:** validated input UI/API, snapshot schema, restricted input delivery.  
 **Done when:** reports can identify the exact dated inputs used, and missing sizes never become invented exposure figures.
+
+**Persistent research-state write path:** define validated proposals for theses, candidates, milestones, invalidation/removal criteria and canonical findings in report output or a narrowly scoped API. An app processor must check owner and referenced records, retain evidence/as-of dates, require expected-version checks, append an audit/version record and deduplicate by stable event key. Specify create/merge, duplicate and contradiction behavior so one canonical event can be reproduced. Research proposals cannot change holdings, approved targets or contribution settings; those remain owner-controlled inputs.
 
 **Required Step 30 extensions:** version editable stock watchlist MSFT, V, GOOG, AMZN, SPGI, META, NVDA, TSM, AVGO, ISRG, INTU, WM, NOW and ETF watchlist VOO, VXUS, AVUV, SGOV. Never seed these as holdings. Record IDR spending context, US-listed investments, 10–20+ year horizon and source preferences. Add owner-authenticated versioned thesis/candidate/approved-target/contribution APIs and additive Firestore migrations. Persist thesis evidence, milestones/invalidation, opportunity removal criteria and canonical shared event keys. Run snapshots include current dated portfolio, approved targets, contribution/cash/FX inputs and previous findings with versions/hashes. Monthly DCA/dividend proposals are blocked when required inputs are missing; declared payments and confirmed brokerage receipts remain distinct.
 
@@ -1083,11 +1117,15 @@ Morning collection and completion rows describe workflow stages, not an instruct
 
 Each desired task stores a stable definition key, owner role, instruction version/hash, enabled state, timezone, schedule or trigger, coverage policy, dependency keys, bounded deadline/cutoff, model route and research budget. Persist desired/applied versions, verified external job ID, observed next run, observation time and recent failure. These fields require additive schemas/migrations and are not claimed implemented.
 
-Use dependencies, not clock times alone. At cutoff Paz includes only successful reports matching the coverage window and input versions; list failed, missing and late sections. Older context retains its dates and stale label. Late results link as updates without silently rewriting a published digest. Tuesday's morning digest covers the preceding Monday US session; handle holidays and US daylight saving explicitly. Contribution-date edits move dependent monthly generation and review together.
+Implement a durable workflow occurrence keyed by workflow, coverage window and input version. It records expected child tasks, deadline/cutoff, eligibility, an assembly claim, publication state and links for late updates. The scheduled Paz run acquires an app-selected immutable dependency manifest. Verify supported runtime dependency/trigger behavior or use an app-owned dependency gate inside the OpenClaw-triggered workflow; clock separation alone cannot enforce eligibility. At cutoff Paz includes only successful reports matching coverage and input versions, listing failed, missing and late sections. Older context retains dates and stale labels. Late results link as updates without silently rewriting a published digest. Tuesday's morning digest covers the preceding Monday US session; handle holidays and US daylight saving explicitly. Contribution-date edits move dependent monthly generation and review together.
 
-OpenClaw is the sole intended recurring research scheduler. The app worker dispatches authorized work and reconciles observations; it must not become a second recurring scheduler. No jobs are created while the runtime is unavailable. Deadline, concurrency and budget policies require installed-interface evidence and do not guarantee provider cost caps.
+Define simultaneous monthly/weekly/AI work, scheduler and app-worker concurrency, queue priority and maximum durations before schedule activation. Measure whether workload can finish before the 06:40/07:00 and 09:00/10:00 WIB cutoffs; revise editable defaults when evidence requires it. Material-event alerts initially come from the stated scheduled screening cadence. Document that detection delay, event source/owner, materiality rules, stable event keys, cooldowns and delivery deduplication; do not imply continuous monitoring. Lightweight screening should gate expensive deep work.
+
+OpenClaw is the sole intended recurring research scheduler. The app worker dispatches authorized work and reconciles observations; it must not become a second recurring scheduler. No jobs are created while the runtime is unavailable. Step 23's bounded adapter cannot yet inventory all jobs or verify scheduler state, so Step 34 must add and accept those capabilities before reconciliation. Deadline, concurrency and budget policies require installed-interface evidence and do not guarantee provider cost caps.
 
 **Deliverables:** complete desired workflow manifest, dependency/coverage policy and editable WIB defaults.
+
+**Acceptance:** representative cases cover all-success, failed/missing/late children, deadline cutoff, restart, duplicate assembly and input-version mismatch. Each produces one honest digest with visible gaps and no ineligible report. Measure the workload against the proposed 06:40/07:00 and 09:00/10:00 WIB cutoffs, and adjust editable defaults if needed.
 
 **Done when:** every workflow maps to one of the four identities and dependency failures yield honest partial output rather than fabricated freshness.
 
@@ -1100,12 +1138,12 @@ Implement `tasks:plan` and `tasks:apply` using the adapter:
 3. Produce a diff: create, update, unchanged, disabled, missing, or ambiguous.
 4. Prefer stored external IDs for updates. A display name alone is not an identity.
 5. If app mappings were lost, require an unambiguous observed match or explicit mapping recovery; do not create duplicate workflow jobs blindly.
-6. Create or update tasks through supported interfaces.
-7. Keep schedules disabled while verifying their report/input/tool paths. Use atomic disabled creation if the installed interface supports it; otherwise use a safely future activation boundary and immediately disable/read back before scheduled fire.
+6. Create or update tasks through supported interfaces. Add bounded observed-job inventory, scheduler status, exact readback and app mapping refresh before running a full synchronization.
+7. Keep schedules disabled while verifying report/input/tool paths. Use atomic disabled creation if supported; the pinned CLI has a disabled-creation option, while the current adapter must first expose and validate it. Do not create enabled then immediately disable a smoke job.
 8. Read the actual saved definition and only then update the app projection.
 9. Save each mapping, prompt version/hash, timezone, next run, and synchronization time.
 10. Repeat the plan; it should show no unintended changes.
-11. Enable each verified task and inspect its next-run time.
+11. Activate only a reviewed small batch after Phase C's private ingress, supervision, baseline-limit, recovery-choice and rollback gates and Phase D's dependency/concurrency acceptance. Read back every enabled definition and next-run time. Keep other reviewed jobs disabled until the batch is observed successfully.
 
 Recurring creation example for the Market Analyst, once the policy and receiver are working:
 
@@ -1138,6 +1176,8 @@ CLI examples are deployment aids; production browser actions use the backend ada
 
 **Done when:** rerunning synchronization preserves one job per intended task and every next-run time is correct.
 
+Do not make Steps 32–34 recurring-workflow acceptance depend only on the presence of a desired manifest. The app must reconcile all observed jobs and scheduler state, detect conflicting/unmapped tasks, and enable capabilities only after that exact operation passes acceptance.
+
 ### Step 35 — Make status, reconciliation, and history dependable
 
 1. Store every observed scheduled run, including runs started while the app backend was offline.
@@ -1150,6 +1190,8 @@ CLI examples are deployment aids; production browser actions use the backend ada
 8. Keep `last_known_execution_status` separate from observation freshness; stale should not erase verified success.
 9. Show disabled/missing external tasks and schedule drift in Settings and profiles.
 10. Handle cancelled/interrupted/skipped runs explicitly instead of collapsing all into errors.
+
+The workflow-occurrence record from Step 33 is the durable source for expected children, one-time assembly claims, cutoff eligibility, publication freeze and late-result links. Reconciliation must preserve the selected input version and converge after restart or duplicate/late events.
 
 Proposed initial app policies, configurable after operational evidence:
 
@@ -1166,9 +1208,11 @@ Record the installed release's actual history/session retention and ensure recon
 
 ### Step 36 — Configure spending controls and verify the four-agent milestone
 
-1. Set provider-side monthly limits/alerts where supported.
+The baseline provider/run limits are a prerequisite to Step 25 research use and Step 28's report run. At minimum, set provider monthly limits/alerts where available, per-task model/fallback/deadline bounds, manual-run admission, queue size and research concurrency. Record what each provider limit can and cannot enforce. This step measures the expanded four-role workload and tunes those limits from observed usage; it must not be the first time a budget ceiling is applied.
+
+1. Recheck provider-side monthly limits/alerts before adding new roles or schedules.
 2. Set task-specific model routes, allowed fallbacks, deadlines, and research scope.
-3. Limit owner-triggered manual runs and queued work.
+3. Limit owner-triggered manual runs, queued work, concurrent research, and maximum task duration.
 4. Verify the selected model and search routes from observed usage; different models may use different credentials/cost paths.
 5. Avoid unnecessary autonomous heartbeat research or self-created schedules.
 6. Test schedule backlog behavior after downtime. Decide whether old research slots should be skipped or caught up using the installed scheduler's supported policy.
@@ -1177,7 +1221,7 @@ Record the installed release's actual history/session retention and ensure recon
 
 Compute cadence and cost from the expanded Step 33 manifest, including specialist screening, weekly/monthly reviews and digest assembly; four identities do not mean four jobs.  Estimate monthly expense from observed per-task model/search usage, not from the number of office animations. Separate measured provider usage, locally estimated cost, and unknown usage in the UI.
 
-**Phase D exit gate:** four approved role policies, dated/versioned owner inputs, persistent theses/candidates/findings, verified workflow schedules, dependency-aware daily/weekly digest assembly, monthly missing-input gates, accurate history and duplicate/failure recovery.
+**Phase D exit gate:** all four role reports pass generalized validation and round-trip; dated/versioned inputs and structured persistent research-state proposals preserve evidence and ownership; observed jobs/mappings reconcile without conflicts; dependency/cutoff/concurrency acceptance passes; reviewed WIB schedules activate incrementally; monthly calculations enforce missing-input gates; history, late updates, duplicate delivery and failure recovery remain accurate. Watchlists never become holdings, and research proposals cannot approve targets.
 
 ## 8. Phase E: editing, follow-up conversations, and notifications
 
@@ -1201,7 +1245,11 @@ Prompt changes must not grant new tools, alter webhook destinations, or modify o
 
 **Required Step 37 extension:** edit desired schedules, scan frequency, lengths, models, budgets and dependency cutoffs with owner authentication and version checks. Persist desired versus verified applied state; contribution-date changes update dependent monthly tasks together. Reconcile by integration ID, stable definition key and saved external job ID; inspect conflicts/ambiguous outcomes before retrying. Read back installed jobs and their next runs before showing an edit as applied.
 
-### Step 38 — Create report-specific conversation identity and context
+### Step 38 — Conversations and owner commands
+
+This step contains two separately accepted work packages. Report follow-ups can ship without coordinated cross-role commands; command orchestration must not be treated as a small extension to chat.
+
+#### 38A — Create report-specific conversation identity and context
 
 1. Authorize the report and select its known agent.
 2. Create a conversation row with immutable owner/agent/report references.
@@ -1217,7 +1265,9 @@ Keep these conversations separate from scheduled task sessions. Asking a follow-
 **Deliverables:** conversation/message schema, context builder, stable per-thread routing.  
 **Done when:** two reports produce distinct threads and each question reaches the correct analyst.
 
-**Required Step 38 extension — owner commands:** support explicit agent selection and automatic routing with a persisted routing explanation. Route portfolio/13-stock/ETF/DCA requests to Paz, rates/FX to Rex, emerging opportunities to Cody and AI worth-testing requests to Wolffe. Cross-role requests persist one owner-scoped command parent, coordinated child tasks/run/report links and progress; Paz consolidates combined briefings with visible failed/missing children. Explicit selection remains visible and any coordination is explained. Use app storage for coordination until native messaging is verified. Persist idempotent commands before dispatch and use immutable current-input snapshots. Research commands never authorize trades.
+#### 38B — Persist and coordinate owner commands
+
+Support explicit agent selection and automatic routing with a persisted routing explanation. Route portfolio/13-stock/ETF/DCA requests to Paz, rates/FX to Rex, emerging opportunities to Cody and AI worth-testing requests to Wolffe. Cross-role requests persist one owner-scoped command parent, coordinated child tasks/run/report links and progress; Paz consolidates combined briefings with visible failed/missing children. Explicit selection remains visible and any coordination is explained. Use app storage for coordination until native messaging is verified. Persist idempotent commands before dispatch and use immutable current-input snapshots. Research commands never authorize trades.
 
 ### Step 39 — Implement the supported turn interface and streaming
 
@@ -1282,6 +1332,8 @@ No messaging channel is required for the office's core report delivery. The app 
 **Phase E exit gate:** versioned owner edits and schedule readback agree, explicit/automatic/coordinated commands persist and route correctly, filters/bookmarks/source details work, follow-ups retain context, and optional deliveries/usage are truthful. Inspect affected UI at 360/390/768/1440 px with keyboard, loading, empty, error and focus states.
 
 ## 9. Phase F: animation, deployment, and operational verification
+
+Step 42 animation is an independent deliverable and is not a prerequisite for the private research release. The minimum C2 operations gate must supervise the API, receiver and one worker composition, provide private ingress, correlation logs, baseline limits, a documented recovery choice and a migration/queue-aware rollback before a controlled report; repeat it before recurring schedules. Steps 43–47 add full release hardening, visibility, restore rehearsal, reboot proof and final review.
 
 ### Step 42 — Implement avatar animation, movement, and UI motion
 
@@ -1384,6 +1436,8 @@ Run project typecheck, lint, build, and relevant behavior/browser tests. Record 
 
 ### Step 43 — Package and deploy the private application
 
+This step completes the hardened deployment. The first private deployment and minimum service supervision happen at the C2 gate before the first app-connected report; do not defer those prerequisites to Phase F.
+
 1. Build from a reviewed commit with pinned dependency/runtime versions.
 2. Apply app migrations against the explicitly selected database; record migration versions.
 3. Package frontend static output and compiled backend/worker code.
@@ -1423,7 +1477,7 @@ UMask=0077
 WantedBy=multi-user.target
 ```
 
-Create a separate worker unit targeting its compiled entry point. Grant only the filesystem/network access its chosen adapter actually needs; verify hardening does not prevent the intended connection. Do not supervise one Gateway twice with both an app-created unit and the supported OpenClaw installer.
+If the accepted topology uses a separate worker, create one worker unit targeting its compiled entry point; otherwise supervise the single worker inside the API process. Grant only the filesystem/network access its chosen adapter actually needs and verify hardening does not prevent the intended connection. Do not run two worker supervisors. Do not supervise one Gateway twice with both an app-created unit and the supported OpenClaw installer.
 
 Provider/model credentials and Gateway state belong to the OpenClaw account. API/worker credentials belong to the app's protected configuration. A CLI adapter needs its own supported connection identity/configuration, not a copied writable Gateway state directory. Pair it and grant required automation authority deliberately. Whitelist child-process environment variables so app database secrets are not inherited by agent processes.
 
@@ -1631,15 +1685,28 @@ Document what was tested, the environment/version, and what remains unverified. 
 | --- | --- | --- | --- |
 | A | 1–5 | Foundation, interaction design, asset contract | Existing brief and visual references |
 | B | 6–13 | Runnable simulated office and reports | Local frontend runtime |
-| C1 | 14–19 | Owner login, database, API, durable work, live empty UI | Selected database/Auth setup |
-| C2 | 20–29 | First real report and manual run on always-on host | Authorized server/model/search access |
-| D | 30–36 | Four analysts, inputs, schedules, reconciliation | Dated owner inputs and validated first slice |
+| C1 | 14–19 plus C1 environment-activation gate | Owner login, database, API, emulator and authenticated empty-app acceptance | Firebase project/Auth, owner UID, server identity, reviewed migration, deployed Rules/indexes |
+| C2-A | Step 20 host closeout; Steps 21–24 retain their bounded accepted evidence | Server Firebase authorization, research limits/tools, generalized v2 report persistence, immutable run input, tested callback auth, adapter and worker composition | C1 gate and installed OpenClaw capability checks |
+| C2-B | Steps 28–29 | One disabled smoke task produces exactly one source-backed app report; failure/replay/restart and laptop-off proof | C2-A gates and minimum private deployment/recovery/rollback |
+| D | Steps 30–36 | Full owner inputs and persistent findings, four roles, executable workflow occurrences, reconciled and incrementally activated schedules | Accepted C2 slice; dated owner inputs when portfolio calculations require them |
 | E | 37–41 | Saved controls, contextual chat, optional notification/usage | Stable execution and report lifecycle |
-| F | 42–47 | Polished private deployment and demonstrated recovery | All core live paths reliable |
+| F | 42–47 | Independent animation delivery; final private-release hardening, restore/reboot and accessibility/security proof | Core live paths for operations work; animation remains independent |
 
-Use the brief's effort ranges as rough planning estimates, not promises. The largest uncertainties are production artwork, selected provider access, exact OpenClaw release interfaces, and reliable financial input sources.
+Execute the corrected dependency sequence below. Step numbers remain for cross-reference and dated historical evidence; extracted C2 prerequisites are completed before the later-numbered task that consumes them.
 
-Although service supervision and private connectivity appear again in Phase F, they must already be sufficient for the Phase C unattended test. Phase F expands hardening, polish, backup restoration, and final verification.
+1. Reconcile this acceptance ledger, `docs/PROGRESS.md`, `docs/DECISIONS.md`, and `docs/OPENCLAW_INTEGRATION.md`; retain dated evidence and distinguish the runtime mapping from an app mapping.
+2. Close Step 20 host prerequisites and pass the C1 environment gate: Firebase owner/Auth/server authorization, emulator invariants, deployed Rules/indexes, reviewed migration, authenticated empty-app inspection, credential recovery and migration readiness.
+3. Apply baseline run/spend/concurrency limits, then complete Step 25 research permissions and official-source/data-quality acceptance.
+4. Generalize the existing Step 24 v2 report contract through Firestore/API/UI and immutable trusted provenance; acquire and bind the minimal per-run input artifact/hash before dispatch.
+5. Verify the installed native webhook bearer configuration and secret handling; implement the private durable receiver, exact-host SSRF exception, auth rejection and replay behavior.
+6. Extend the adapter only for verified capabilities: inventory/status, disabled smoke creation, completion destination/readback, mapping load/refresh, snapshot-bound dispatch and the chosen app-account Gateway connection. Compose and supervise exactly one worker.
+7. Through the reviewed boundary, create one disabled smoke task; ingest one source-backed Rex report and prove persistence, display, replay, malformed/failure handling, ambiguity recovery and restart behavior.
+8. Prove one bounded nonrecurring scheduled laptop-off run, disable/read back its trigger, and close Phase C with private ingress, correlation logs, operational recovery choice and queue/migration-aware rollback.
+9. Build full owner inputs and structured research-state proposals, deploy the other three roles, and validate one representative report per role.
+10. Implement durable workflow occurrences, immutable dependency manifests, cutoffs, material-event screening, job inventory/drift reconciliation, concurrency and cost behavior; activate WIB workflows in reviewed batches.
+11. Complete owner command coordination, editing, follow-ups, optional notifications and measured usage; finish full restore/reboot/accessibility acceptance. Deliver Step 42 animation independently.
+
+The exact implementation order of independent UI polish can move, but no recurring schedule may activate before the private service/recovery gate, executable dependency rules and bounded-cost/concurrency gate pass. The listed WIB times are editable defaults, not a performance promise; measure the workload and update them from evidence.
 
 ### 12.2 Progress checklist
 
@@ -1659,27 +1726,26 @@ Although service supervision and private connectivity appear again in Phase F, t
 - [x] Step 13 — Typecheck, lint, build, focused browser checks, required viewport screenshots, visual-fidelity comparison, and frontend handoff evidence recorded in `docs/verification/step-13-frontend-handoff.md`.
 - [x] Frontend demo runnable with four analysts and clickable desks.
 - [x] Reports, profile tabs, filters, unread state, back navigation, and demo runs verified.
-- [x] Steps 14–15 implementation added: private Fastify API, Firebase owner login/allowlist, versioned Firestore schema/migration, Rules, indexes, and data-model documentation.
-- [x] Steps 16–17 implemented: owner-context-only Firestore repositories and same-owner parent validation; authenticated agent/profile, report, read-state, run, and connection API contracts with stable cursors and documented errors.
-- [ ] Firebase Auth/Firestore project configuration and server ADC verified; emulator checks cover expired/nonowner auth, migration repeatability, duplicate claims, and cross-owner path rejection.
-- [ ] Step 16 repository isolation verified against a second authenticated identity in the Firestore emulator.
-- [ ] Durable manual-run requests and ambiguous-dispatch handling implemented.
-- [ ] Exact OpenClaw/server runtime and supported interface record captured.
-- [ ] First analyst, tool policy, and search access validated.
-- [ ] Authenticated private completion receiver and observed fixtures available.
-- [ ] One actual run becomes exactly one persisted report.
-- [ ] Live Run now/status and laptop-off execution verified.
-- [ ] Dated holdings/watchlist and immutable input delivery implemented.
-- [ ] Four role policies and all workflow instructions deployed with verified stable mappings.
-- [ ] All desired workflow schedules/dependencies saved and read back with correct WIB next-run times; no duplicate jobs.
-- [ ] Daily/weekly digest cutoffs, missing/late/stale sections, monthly contribution-date changes and unsupported-calculation gates verified.
-- [ ] Persistent theses/candidates, coordinated commands, report metadata, bookmarks and expanded filters verified.
-- [ ] Duplicate events, delivery failures, malformed output, and restart recovery verified.
-- [ ] Schedule edits match saved external state.
-- [ ] Contextual conversations persist and route correctly.
-- [ ] Optional notifications/usage clearly reflect actual behavior.
+- [x] Steps 14–19 source implementation: API, owner auth code, Firestore schemas/repositories, durable request records/leases, and live empty-state frontend. Cloud/environment acceptance and production worker composition remain pending.
+- [ ] Step 20 host-specific ingress confirmation and backup/recovery choice complete; Firebase setup is tracked by the separate C1 gate.
+- [x] Step 21 accepted within scope: pinned OpenClaw `2026.9.8`, supervised Gateway, server-owned bounded turn and restart/logout evidence.
+- [x] Step 22 accepted within scope: installed CLI/run/history and sanitized completion contract captured; prior unauthenticated probes did not test configured bearer auth.
+- [x] Step 23 adapter and fixture acceptance recorded; production inventory/scheduler/input/delivery/activation extensions and worker composition remain pending.
+- [x] Step 24 Rex instruction/permission acceptance recorded; `openclaw/deployments/market.json` is a verified runtime mapping only, not an owner-scoped Firestore mapping or app report.
+- [ ] C1 environment gate: Firebase/Auth/owner UID/server credential, emulator migration and owner isolation, deployed Rules/indexes, reviewed migration, authenticated empty live UI, credential recovery and migration readiness.
+- [ ] Baseline spending/concurrency/time limits and Step 25 research tool/source-quality acceptance.
+- [ ] Generalized app report contract based on deployed v2, migrations, trusted provenance, API/UI round-trip, payload limits and retention behavior.
+- [ ] Minimal immutable per-run input artifact/hash, snapshot-bound dispatch and manual/scheduled overlap policy before Steps 28–29.
+- [ ] Native webhook bearer/secret path tested; private authenticated receiver and success/failure fixtures persist before acknowledgment.
+- [ ] Adapter inventory/scheduler status, disabled smoke creation, callback destination/readback, mapping load/refresh, app-account connection, one supervised worker composition and reconciliation accepted.
+- [ ] One disabled smoke run produces exactly one persisted/rendered source-backed report; malformed/failure/replay/disconnect/restart and ambiguous dispatch cases recover without blind resend.
+- [ ] C2 laptop-off proof, private ingress, correlation logs, bounded limits, recovery choice and rollback for additive migrations/durable queues complete.
+- [ ] Full dated owner inputs, approved targets and structured thesis/candidate/finding proposals implemented with version/audit/idempotency controls.
+- [ ] Four versioned role policies/reports accepted with the authoritative stable roster; workflow occurrences, immutable dependency manifests, cutoffs, late/failed-child behavior, event screening, concurrency and cost measured.
+- [ ] Small reviewed schedule batch reconciles all observed jobs and scheduler status; correct WIB next runs read back and no duplicate/unmapped conflicts.
+- [ ] Persistent report metadata/bookmarks/filters, coordinated owner commands, schedule edits, contextual follow-ups, optional notifications and measured usage accepted in their separate work packages.
 - [ ] Step 42 — One-avatar walk/chair proof, four independent desk routines, safe excursions/social pairs, motion-free navigation, interruption/recovery tests, and measured asset/performance budgets verified. Stationary foundation exists; movement acceptance remains pending.
-- [ ] Private release, logs, backup restoration, and reboot verification complete.
+- [ ] Final private-release hardening, restore rehearsal, reboot verification and accessibility/security review complete. Step 42 animation may be delivered independently.
 - [ ] README, runbook, version record, and remaining limitations updated.
 
 ### 12.3 Required handoff artifacts
@@ -1787,16 +1853,17 @@ Follow the linked primary documentation at the relevant step. This list also ser
 | Item | Current evidence / implementation entry |
 | --- | --- |
 | Guide source inspection | Local brief and related Markdown files read in full |
-| Documentation review | Official OpenClaw, Vite, and Firebase Auth/Firestore docs rechecked on 7 October 2026 |
-| Local observed runtime | Node `v20.20.2`, npm `10.8.2`; no `openclaw` on this shell's PATH |
+| Documentation review | Official OpenClaw, Vite, and Firebase Auth/Firestore docs rechecked on 7 October 2026; pinned OpenClaw 2026.9.8 docs and current project acceptance records reconciled on 8 October 2026 |
+| Local observed runtime | At initial guide inspection: Node `v20.20.2`, npm `10.8.2`; no `openclaw` on that shell's PATH. This local observation is not the remote server state. |
 | Selected application Node version | Node `v26.10.0` pinned in `.node-version` and used for typecheck, lint, build, and local dev startup; revisit the production runtime choice before deployment. |
 | Workspace dependency baseline | Exact frontend/shared/backend/tooling versions are recorded in `package-lock.json`; Firebase Admin/Auth code is installed, but live credentials and project services are not configured by this implementation pass. |
-| Deployed OpenClaw version | Not yet verified |
+| Deployed OpenClaw version | `2026.9.8`, installed and boundedly accepted on 8 October 2026; see [Step 21](./docs/verification/step-21-openclaw-installation.md) |
 | Gateway client version, if used | Not yet selected; test against deployed Gateway |
-| Database/Auth environment | Firebase web config file exists locally and is ignored; Auth provider, server ADC, owner UID, Firestore rules/index deployment, and schema migration still require environment setup. |
-| Captured success/failure events | Required in Phase C; not yet captured |
-| First live report | Required in Phase C; not yet produced |
-| Verified workflow job IDs | Required for the complete Phase D manifest; not yet created |
+| Database/Auth environment | Firebase web config file exists locally and is ignored; Auth provider, server credential, owner UID, Firestore Rules/index deployment and migration execution remain pending. See the C1 gate. |
+| Verified runtime mapping | Rex / `market` → `investment-market` is recorded in `openclaw/deployments/market.json`; owner-scoped Firestore mapping and app-worker mapping remain pending. |
+| Captured success/failure events | Sanitized unauthenticated Step 22 envelopes are captured; configured bearer-auth delivery and receiver acceptance remain pending. |
+| First live app report | Not yet produced. Step 24's bounded limited report is runtime acceptance evidence, not a persisted app report or source-backed market report. |
+| Workflow job inventory / IDs | No Investment Office workflow job is provisioned; Step 23 lacks full inventory/scheduler support. The bootstrap/system inventory is recorded in the integration contract. |
 | Laptop-off proof and restore evidence | Required during implementation; not yet performed |
 
 Completion means the acceptance gates have actual evidence. Until then, this document is the technical roadmap for building and verifying the Investment Office.
