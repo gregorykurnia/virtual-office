@@ -787,6 +787,8 @@ failure convention and a concise safe explanation.
 **Deliverables:** one isolated analyst, reviewed instructions, explicit identity mapping.  
 **Done when:** the agent produces the required report structure and cannot perform out-of-scope operations.
 
+**Implementation update, 8 October 2026 — source templates prepared:** added a versioned Rex/`market` instruction set and the v2 report payload contract under [`openclaw/templates/`](./openclaw/templates/). This is reviewed source only; a template edit does not change a running OpenClaw agent. Live agent creation, workspace deployment, normalized-ID readback/mapping, bounded report acceptance, and effective tool-policy verification remain pending because this workspace has no current SSH target or saved connection profile. The policy is not a technical permission boundary; Step 25 must configure and verify the runtime's actual tool restrictions before Step 24 acceptance is claimed. See [Step 24 verification](./docs/verification/step-24-market-analyst.md).
+
 ### Step 25 — Configure research tools and the permission ceiling
 
 1. Configure an explicit search provider using server credentials; validate both search and fetching of an official source.

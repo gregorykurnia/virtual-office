@@ -1,0 +1,214 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "urn:investment-office:schemas:report-contract:v2",
+  "title": "Investment Office report contract v2",
+  "description": "Analyst-authored report payload. Trusted owner, app-agent, task, run, and ingestion metadata are attached by the application.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "agent_role",
+    "task_key",
+    "report_type",
+    "title",
+    "summary",
+    "coverage_start",
+    "coverage_end",
+    "market_session_date",
+    "coverage_status",
+    "coverage_explanation",
+    "data_freshness",
+    "changes_since_previous",
+    "personal_relevance",
+    "facts",
+    "interpretation",
+    "risks_uncertainties",
+    "contradictions",
+    "follow_up_questions",
+    "related",
+    "proposed_next_step",
+    "sources",
+    "missing_inputs",
+    "assumptions",
+    "canonical_event_refs",
+    "related_specialist_reports"
+  ],
+  "properties": {
+    "schema_version": { "const": "2.0" },
+    "agent_role": { "const": "market" },
+    "task_key": {
+      "enum": [
+        "market-morning-brief",
+        "market-weekly-outlook",
+        "market-material-alert"
+      ]
+    },
+    "report_type": {
+      "enum": ["market_briefing", "market_weekly_outlook", "market_material_alert"]
+    },
+    "title": { "type": "string", "minLength": 1, "maxLength": 240 },
+    "summary": { "type": "string", "minLength": 1, "maxLength": 3000 },
+    "coverage_start": { "$ref": "#/$defs/nullableDateTime" },
+    "coverage_end": { "$ref": "#/$defs/nullableDateTime" },
+    "market_session_date": { "$ref": "#/$defs/nullableDate" },
+    "coverage_status": {
+      "enum": ["complete", "limited", "no_material_update"]
+    },
+    "coverage_explanation": { "type": "string", "minLength": 1, "maxLength": 2000 },
+    "data_freshness": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["as_of", "explanation"],
+      "properties": {
+        "as_of": { "$ref": "#/$defs/nullableDateTime" },
+        "explanation": { "type": "string", "minLength": 1, "maxLength": 2000 }
+      }
+    },
+    "changes_since_previous": {
+      "type": "array",
+      "maxItems": 20,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["topic", "change", "prior_finding_ref"],
+        "properties": {
+          "topic": { "type": "string", "minLength": 1, "maxLength": 160 },
+          "change": { "type": "string", "minLength": 1, "maxLength": 1000 },
+          "prior_finding_ref": { "type": ["string", "null"], "maxLength": 160 }
+        }
+      }
+    },
+    "personal_relevance": { "type": "string", "minLength": 1, "maxLength": 3000 },
+    "facts": {
+      "type": "array",
+      "maxItems": 60,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["statement", "source_keys"],
+        "properties": {
+          "statement": { "type": "string", "minLength": 1, "maxLength": 2000 },
+          "source_keys": {
+            "type": "array",
+            "minItems": 1,
+            "uniqueItems": true,
+            "items": { "type": "string", "pattern": "^S[1-9][0-9]*$" }
+          }
+        }
+      }
+    },
+    "interpretation": { "type": "string", "minLength": 1, "maxLength": 6000 },
+    "risks_uncertainties": {
+      "type": "array",
+      "maxItems": 40,
+      "items": { "type": "string", "minLength": 1, "maxLength": 1500 }
+    },
+    "contradictions": {
+      "type": "array",
+      "maxItems": 20,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["topic", "accounts", "resolution_status"],
+        "properties": {
+          "topic": { "type": "string", "minLength": 1, "maxLength": 160 },
+          "accounts": {
+            "type": "array",
+            "minItems": 2,
+            "maxItems": 6,
+            "items": { "type": "string", "minLength": 1, "maxLength": 1500 }
+          },
+          "resolution_status": {
+            "enum": ["unresolved", "partially_resolved", "resolved_with_evidence"]
+          }
+        }
+      }
+    },
+    "follow_up_questions": {
+      "type": "array",
+      "maxItems": 20,
+      "items": { "type": "string", "minLength": 1, "maxLength": 1000 }
+    },
+    "related": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["holdings", "etfs", "sectors", "topics"],
+      "properties": {
+        "holdings": { "$ref": "#/$defs/stringList" },
+        "etfs": { "$ref": "#/$defs/stringList" },
+        "sectors": { "$ref": "#/$defs/stringList" },
+        "topics": { "$ref": "#/$defs/stringList" }
+      }
+    },
+    "proposed_next_step": { "type": "string", "minLength": 1, "maxLength": 2000 },
+    "sources": {
+      "type": "array",
+      "maxItems": 80,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["key", "label", "url", "published_at", "retrieved_at"],
+        "properties": {
+          "key": { "type": "string", "pattern": "^S[1-9][0-9]*$" },
+          "label": { "type": "string", "minLength": 1, "maxLength": 400 },
+          "url": { "type": "string", "format": "uri", "maxLength": 2048 },
+          "published_at": { "$ref": "#/$defs/nullablePublicationDate" },
+          "retrieved_at": { "$ref": "#/$defs/nullableDateTime" }
+        }
+      }
+    },
+    "missing_inputs": {
+      "type": "array",
+      "maxItems": 40,
+      "items": { "type": "string", "minLength": 1, "maxLength": 1000 }
+    },
+    "assumptions": {
+      "type": "array",
+      "maxItems": 40,
+      "items": { "type": "string", "minLength": 1, "maxLength": 1000 }
+    },
+    "canonical_event_refs": { "$ref": "#/$defs/stringList" },
+    "related_specialist_reports": { "$ref": "#/$defs/stringList" }
+  },
+  "allOf": [
+    {
+      "if": { "properties": { "task_key": { "const": "market-morning-brief" } } },
+      "then": { "properties": { "report_type": { "const": "market_briefing" } } }
+    },
+    {
+      "if": { "properties": { "task_key": { "const": "market-weekly-outlook" } } },
+      "then": { "properties": { "report_type": { "const": "market_weekly_outlook" } } }
+    },
+    {
+      "if": { "properties": { "task_key": { "const": "market-material-alert" } } },
+      "then": { "properties": { "report_type": { "const": "market_material_alert" } } }
+    }
+  ],
+  "$defs": {
+    "nullableDateTime": {
+      "anyOf": [
+        { "type": "null" },
+        { "type": "string", "format": "date-time" }
+      ]
+    },
+    "nullableDate": {
+      "anyOf": [
+        { "type": "null" },
+        { "type": "string", "format": "date" }
+      ]
+    },
+    "nullablePublicationDate": {
+      "anyOf": [
+        { "type": "null" },
+        { "type": "string", "format": "date" },
+        { "type": "string", "format": "date-time" }
+      ]
+    },
+    "stringList": {
+      "type": "array",
+      "maxItems": 40,
+      "uniqueItems": true,
+      "items": { "type": "string", "minLength": 1, "maxLength": 200 }
+    }
+  }
+}

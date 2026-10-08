@@ -109,3 +109,7 @@ Completed the [Wolffe design and replacement guide](../design-concepts/WOLFFE_AV
 All five poses are normalized into ten 352 × 352 RGBA PNG/WebP runtime files. They share a measured ground anchor of `324 / 352`; pose-specific alpha bounds and captures are recorded in [Wolffe replacement verification](verification/wolffe-avatar-replacement.md). The stable `risk` ID, `risk-bot` and `risk-console` keys, red accent, responsibilities, tasks, reports, runs, and schedules remain intact.
 
 The demo fixtures, saved-demo migration, HTTP presentation, report fallbacks, accessible labels, and asset gallery use Wolffe / AI & Technology Analyst. No external agent, scheduler, or owner-scoped record was recreated or dispatched. Typecheck, lint, build, and desktop/phone visual checks passed.
+
+## Step 24 market analyst preparation — 8 October 2026
+
+Added versioned workspace source templates for Rex (`market`), including the shared operating policy, identity and communication files, market task instructions, and a v2 JSON report contract. The schema parses as JSON and the content follows the authoritative four-agent workflow specification. These files are not deployed to OpenClaw. The recorded VM address/key path is intentionally private and is not configured in this workspace; no current SSH target or saved connection profile is available here. Agent creation, returned external-ID mapping, a bounded report, and actual tool-policy checks remain pending. Step 24 is therefore in progress. See [Step 24 verification](verification/step-24-market-analyst.md).
