@@ -1,6 +1,6 @@
 # Rendered 3D analyst avatar implementation plan
 
-> Requirements update — 8 October 2026: [Four-agent workflow specification](./FOUR_AGENT_WORKFLOW_SPEC.md) is authoritative for the revised roles, investor context, watchlists, reporting, coordination, editable WIB schedules, UI controls, and acceptance checks. Conflicting historical defaults below are superseded. Preserve Rex (`market`), Paz (`portfolio`), Clara (`research`), and Wolffe (`risk`) and their stable artwork keys. Paz is the approved cosmetic replacement for the portfolio display identity; Wolffe replaces the risk display identity, with linked responsibilities and records unchanged. This update records requirements; it does not claim implementation or live connectivity.
+> Requirements update — 8 October 2026: [Four-agent workflow specification](./FOUR_AGENT_WORKFLOW_SPEC.md) is authoritative for the revised roles, investor context, watchlists, reporting, coordination, editable WIB schedules, UI controls, and acceptance checks. Conflicting historical defaults below are superseded. Preserve Rex (`market`), Paz (`portfolio`), Cody (`research`), and Wolffe (`risk`) and their stable artwork keys. Paz, Cody, and Wolffe are approved cosmetic replacements for prior display identities; linked responsibilities and records remain unchanged. This update records requirements; it does not claim implementation or live connectivity.
 
 Status: implemented, 3 October 2026. This document records the reference-matched avatar work delivered after the rendered office environment. The fixed-camera character slice is complete; walking, roaming, camera rotation, and a real-time 3D engine remain outside scope.
 
@@ -52,8 +52,8 @@ If generation cannot keep the camera, silhouette, or pose alignment consistent, 
 | --- | --- | --- |
 | Rex / market | Blue `#3867e8` | Small headset and chart detail |
 | Paz / portfolio | Green `#16845b` | Blue armor with ledger/folio detail |
-| Clara / research | Violet `#7759c7` | Book/bookmark detail |
-| Wolffe / risk | Red `#c53b4a` | Slate/light rangefinder armor and shield detail |
+| Cody / research | Violet `#7759c7` | Ivory/orange armor, compact helmet equipment, and book badge |
+| Wolffe / risk | Red `#c53b4a` | Slate/light armor, side rangefinder, shield detail |
 
 Keep accessories subtle enough for the reference's simple rounded silhouette, but readable in larger roster/profile views. Identity must also remain available through text.
 

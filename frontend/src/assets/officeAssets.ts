@@ -71,8 +71,8 @@ export const OFFICE_ASSETS = {
     avatarKey: "research-bot",
     deskKey: "research-library",
     accent: "#7759c7",
-    accessory: "violet book badge and research bookmark",
-    accessibleName: "Clara, Investment Research Analyst"
+    accessory: "ivory and orange armor, compact helmet equipment, and violet book badge",
+    accessibleName: "Cody, Investment Research Analyst"
   },
   risk: {
     avatarKey: "risk-bot",
@@ -122,10 +122,10 @@ export const AVATAR_ASSETS = {
   }),
   research: createAvatarManifest("research-bot", {
     idle: 325 / 352,
-    reading: 326 / 352,
-    typing: 335 / 352,
-    "report-ready": 326 / 352,
-    attention: 326 / 352
+    reading: 325 / 352,
+    typing: 325 / 352,
+    "report-ready": 325 / 352,
+    attention: 325 / 352
   }),
   risk: createAvatarManifest("risk-bot", {
     idle: 324 / 352,

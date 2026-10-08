@@ -1,12 +1,12 @@
 # Maul → Cody avatar replacement plan
 
-Status: **planned, Markdown only**, 8 October 2026. This document follows the [Cody design guide](../design-concepts/CODY_AVATAR_DESIGN_GUIDE.md). No image generation, runtime replacement, identity migration, external configuration or deployment has occurred for Cody.
+Status: **implemented**, 8 October 2026. This document follows the [Cody design guide](../design-concepts/CODY_AVATAR_DESIGN_GUIDE.md). Cody artwork, runtime replacement, current display-name migration, and local acceptance checks are complete. No external identity, scheduler, dispatch, or deployment change was made.
 
 ## Intended result and scope
 
-After a later implementation instruction and approval of the shown idle artwork, the existing `research` analyst appears as **Cody** across the office, sidebar, profile, reports, accessible labels and asset gallery. All five poses share the supplied Commander Cody reference's ivory/orange helmet and armor, rendered in the same family as Rex, Paz and Wolffe.
+The existing `research` analyst now appears as **Cody** across the office, sidebar, profile, reports, accessible labels and asset gallery. All five poses share the supplied Commander Cody reference's ivory/orange helmet and armor, rendered in the same family as Rex, Paz and Wolffe.
 
-The requested future cosmetic roster is **Paz/portfolio, Rex/market, Cody/research, Wolffe/risk**. Current application and authoritative roster documentation remain Paz, Rex, Maul and Wolffe during this planning pass. The user's Cody request supersedes Maul name/artwork preservation for this future cosmetic replacement; the [four-agent specification](FOUR_AGENT_WORKFLOW_SPEC.md) continues to govern responsibilities and research behavior.
+The current cosmetic roster is **Paz/portfolio, Rex/market, Cody/research, Wolffe/risk**. Maul's guide, masters, replacement plan, and dated verification remain preserved as outgoing-character history. The [four-agent specification](FOUR_AGENT_WORKFLOW_SPEC.md) continues to govern responsibilities and research behavior.
 
 | Preserve | Constraint |
 | --- | --- |
@@ -25,7 +25,7 @@ The requested future cosmetic roster is **Paz/portfolio, Rex/market, Cody/resear
 - [Asset contract](ASSET_CONTRACT.md), [shared styles](../frontend/src/styles.css), [wireframes](../design-concepts/step-4-wireframes.html), [tokens](../design-concepts/step-4-tokens.css): existing rendering and responsive patterns.
 - [Product plan](../Investment%20Office%20Implementation%20Plan.md), [technical guide](../Investment%20Office%20Technical%20Implementation%20Guide.md), [progress](PROGRESS.md), [four-agent specification](FOUR_AGENT_WORKFLOW_SPEC.md): ownership and integration limits. Review their current versions before implementation.
 
-The current source has Maul labels in the research manifest, demo fixture, persisted-demo identity migration, HTTP presentation mapping and report fallbacks. A fixture-only rename would be overwritten by the existing migration or mapping. Inspect all these paths again at rollout time.
+The former source had Maul labels in the research manifest, demo fixture, persisted-demo identity migration, HTTP presentation mapping and report fallbacks. All of those current presentation paths now converge on Cody while retaining the stable research ID and keys.
 
 The working tree already contains unrelated and earlier avatar/workflow changes. Preserve them. Capture the **actual outgoing Maul files and manifest values** before replacement: Git HEAD alone may not contain the current uncommitted Maul baseline.
 
@@ -100,10 +100,10 @@ Verify WebP and PNG availability in the target deployed environment and cache be
 - [x] Supplied Cody photograph and current Rex/Paz/Wolffe/Maul artwork visually inspected.
 - [x] Cody design guide written before the replacement plan.
 - [x] Stable-slot rollout, saved-state/HTTP rename paths, mention audit and recovery specified.
-- [ ] Portable photo copy, generated idle and visible comparison board created.
-- [ ] Shown idle approved and approved master recorded.
-- [ ] Four additional poses produced; all ten runtime exports checked.
-- [ ] Research artwork/display identity and current roster documentation migrated.
-- [ ] Browser/state/data-source acceptance evidence recorded.
+- [x] Portable photo copy, generated idle, and visible comparison board created.
+- [x] Shown idle accepted as the implementation baseline and approved master recorded.
+- [x] Four additional poses produced; all ten runtime exports checked.
+- [x] Research artwork/display identity and current roster documentation migrated.
+- [x] Local browser route/asset, typecheck, lint, build, alpha, fallback, and identity acceptance evidence recorded. Fresh visual browser screenshots and keyboard/focus exercise remain unavailable because the CUA browser surface was not enabled in this session.
 
-Only the Markdown handoff is complete in this task. All unchecked items belong to a later authorized implementation.
+The Cody implementation is complete. Remaining live/external integration work is outside this cosmetic replacement: no external identity was recreated, no scheduler was configured, and demo/configured/live boundaries remain unchanged.

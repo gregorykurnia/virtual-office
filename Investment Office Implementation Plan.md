@@ -1,6 +1,6 @@
 # Investment Office — Product Brief and Implementation Plan
 
-> Requirements update — 8 October 2026: [Four-agent workflow specification](./docs/FOUR_AGENT_WORKFLOW_SPEC.md) is authoritative for the revised roles, investor context, watchlists, reporting, coordination, editable WIB schedules, UI controls, and acceptance checks. Conflicting historical defaults below are superseded. Preserve Rex (`market`), Paz (`portfolio`), Clara (`research`), and Wolffe (`risk`) and their stable artwork keys. Paz is the approved cosmetic replacement for the portfolio display identity; Wolffe replaces the risk display identity, with linked responsibilities and records unchanged. This update records requirements; it does not claim implementation or live connectivity.
+> Requirements update — 8 October 2026: [Four-agent workflow specification](./docs/FOUR_AGENT_WORKFLOW_SPEC.md) is authoritative for the revised roles, investor context, watchlists, reporting, coordination, editable WIB schedules, UI controls, and acceptance checks. Conflicting historical defaults below are superseded. Preserve Rex (`market`), Paz (`portfolio`), Cody (`research`), and Wolffe (`risk`) and their stable artwork keys. Paz, Cody, and Wolffe are approved cosmetic replacements for prior display identities; linked responsibilities and records remain unchanged. This update records requirements; it does not claim implementation or live connectivity.
 
 Version: 1.0 · Prepared: 2 October 2026
 
@@ -76,7 +76,7 @@ Names below are demonstration defaults and may be changed. Use stable technical 
 | --- | --- | --- | --- | --- |
 | market | Rex — Global Markets Analyst | Macro, rates, currencies, commodities and global markets | Dated official releases, market observations and owner context | Weekday briefing, weekly scenarios, material alerts |
 | portfolio | Paz — Portfolio Analyst | Existing stocks/ETFs, theses, dividends, allocation and digest assembly | Latest holdings, approved targets, contribution inputs and dated look-through | Weekly health, material thesis changes, monthly DCA/dividends, combined digest |
-| research | Clara — Opportunity Scout | Independent emerging-sector and company discovery | Adoption/financial evidence, valuation and catalyst assumptions | Up to three radar developments, justified deep dive, persistent candidate updates |
+| research | Cody — Opportunity Scout | Independent emerging-sector and company discovery | Adoption/financial evidence, valuation and catalyst assumptions | Up to three radar developments, justified deep dive, persistent candidate updates |
 | risk | Wolffe — AI & Technology Analyst | Models, coding agents, automation, AI economics and practical applications | Official docs, credible evaluations, pricing/availability and practical evidence | Use now/Watch/Investment implication, weekly worth-testing recommendation |
 
 Give characters individual clothing, silhouettes, accent colours, and desk props. Do not make colour the only differentiator. Avoid tying analytical ability to appearance or stereotypes.

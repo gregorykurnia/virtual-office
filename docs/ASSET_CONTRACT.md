@@ -1,6 +1,6 @@
 # Office production asset contract
 
-> Requirements update — 8 October 2026: [Four-agent workflow specification](./FOUR_AGENT_WORKFLOW_SPEC.md) is authoritative for the revised roles, investor context, watchlists, reporting, coordination, editable WIB schedules, UI controls, and acceptance checks. Conflicting historical defaults below are superseded. Preserve Rex (`market`), Paz (`portfolio`), Clara (`research`), and Wolffe (`risk`) and their stable artwork keys. Paz is the approved cosmetic replacement for the portfolio display identity; Wolffe replaces the risk display identity, with linked responsibilities and records unchanged. This update records requirements; it does not claim implementation or live connectivity.
+> Requirements update — 8 October 2026: [Four-agent workflow specification](./FOUR_AGENT_WORKFLOW_SPEC.md) is authoritative for the revised roles, investor context, watchlists, reporting, coordination, editable WIB schedules, UI controls, and acceptance checks. Conflicting historical defaults below are superseded. Preserve Rex (`market`), Paz (`portfolio`), Cody (`research`), and Wolffe (`risk`) and their stable artwork keys. Paz, Cody, and Wolffe are approved cosmetic replacements for prior display identities; linked responsibilities and records remain unchanged. This update records requirements; it does not claim implementation or live connectivity.
 
 The office uses a bot-free rendered environment with semantic HTML interaction layers and a reusable raster character set. The environment and avatars follow the visual concepts' soft, shallow-isometric direction with warm materials, visible furniture depth, glass, plants, rounded shells, glossy face panels, role badges, and consistent diffuse lighting. The concept PNGs remain references; the production assets are separate runtime files.
 
@@ -26,12 +26,14 @@ The TypeScript manifest is the application-facing record. The scene renders the 
 | --- | --- | --- | --- | --- |
 | Rex — Global Markets Analyst | `market-bot` | `market-terminal` | Blue `#3867e8` | Rex helmet/armor and market-chart badge |
 | Paz — Portfolio Analyst | `portfolio-bot` | `portfolio-ledger` | Green `#16845b` | Blue armored helmet, green ledger badge, and portfolio folio |
-| Clara — Opportunity Scout | `research-bot` | `research-library` | Violet `#7759c7` | Book badge and bookmark/book desk prop |
-| Wolffe — AI & Technology Analyst | `risk-bot` | `risk-console` | Red `#c53b4a` | Slate/light armor, side rangefinder, red shield badge and console alert light |
-
-The current `risk-bot` set is Wolffe. Its five normalized poses share a measured `groundAnchorY` of `324 / 352`; alpha bounds are `x: 90–272, y: 15/16–324` for idle, reading, and typing, `x: 72–272, y: 15–324` for report-ready, and `x: 59–272, y: 15–324` for attention. High-resolution masters and the unchanged photo reference are preserved in `design-concepts/`.
+| Cody — Opportunity Scout | `research-bot` | `research-library` | Violet `#7759c7` | Ivory/orange armor, compact helmet equipment, and book badge |
+| Wolffe — AI & Technology Analyst | `risk-bot` | `risk-console` | Red `#c53b4a` | Light/slate armor, side rangefinder, red shield badge and console alert light |
 
 Each avatar key exposes these static images: `idle`, `reading`, `typing`, `report-ready`, and `attention`. The set has 20 rendered 352 × 352 transparent WebPs with matching PNG fallbacks and four desk symbols. The source masters were authored at larger square resolution and exported into the runtime box. Walking frames are intentionally deferred, as specified in Step 5.
+
+The current `risk-bot` set is Wolffe. Its five normalized poses share a measured `groundAnchorY` of `324 / 352`; meaningful alpha bounds are `x: 90–272, y: 15/16–324` for idle, reading, and typing, `x: 72–272, y: 15–324` for report-ready, and `x: 59–272, y: 15–324` for attention. High-resolution masters, the unchanged armor reference, and the comparison board are kept in `design-concepts/`.
+
+The current `research-bot` set is Cody. Its five normalized poses share a measured `groundAnchorY` of `325 / 352`; meaningful alpha bounds are `x: 73–278` for idle, `x: 81–270` for reading, `x: 83–268` for typing, `x: 84–267` for report-ready, and `x: 69–282` for attention, all with `y: 15–324`. The high-resolution masters, unchanged costume reference, and comparison board are kept in `design-concepts/`.
 
 ## Geometry and export rules
 

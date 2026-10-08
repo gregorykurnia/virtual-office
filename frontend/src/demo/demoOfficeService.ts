@@ -146,6 +146,10 @@ function loadState(storage: Storage | null): DemoSnapshot | null {
         identityChanged = true;
         return { ...agent, displayName: "Paz" };
       }
+      if (agent.id === "research" && agent.displayName !== "Cody") {
+        identityChanged = true;
+        return { ...agent, displayName: "Cody" };
+      }
       if (agent.id === "risk" && (agent.displayName !== "Wolffe" || agent.title !== "AI & Technology Analyst")) {
         identityChanged = true;
         return { ...agent, displayName: "Wolffe", title: "AI & Technology Analyst" };

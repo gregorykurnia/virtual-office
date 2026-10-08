@@ -101,7 +101,7 @@ const agents: Agent[] = [
   AgentSchema.parse({
     id: "research",
     role: "research",
-    displayName: "Clara",
+    displayName: "Cody",
     title: "Investment Research Analyst",
     responsibility: "Company and fund research with explicit assumptions",
     avatarKey: "research-bot",

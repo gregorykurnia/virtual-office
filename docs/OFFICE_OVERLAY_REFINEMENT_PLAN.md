@@ -1,6 +1,6 @@
 # Office overlay refinement plan
 
-> Requirements update — 8 October 2026: [Four-agent workflow specification](./FOUR_AGENT_WORKFLOW_SPEC.md) is authoritative for the revised roles, investor context, watchlists, reporting, coordination, editable WIB schedules, UI controls, and acceptance checks. Conflicting historical defaults below are superseded. Preserve Rex (`market`), Paz (`portfolio`), Clara (`research`), and Wolffe (`risk`) and their stable artwork keys. Paz is the approved cosmetic replacement for the portfolio display identity; Wolffe replaces the risk display identity, with linked responsibilities and records unchanged. This update records requirements; it does not claim implementation or live connectivity.
+> Requirements update — 8 October 2026: [Four-agent workflow specification](./FOUR_AGENT_WORKFLOW_SPEC.md) is authoritative for the revised roles, investor context, watchlists, reporting, coordination, editable WIB schedules, UI controls, and acceptance checks. Conflicting historical defaults below are superseded. Preserve Rex (`market`), Paz (`portfolio`), Cody (`research`), and Wolffe (`risk`) and their stable artwork keys. Paz, Cody, and Wolffe are approved cosmetic replacements for prior display identities; linked responsibilities and records remain unchanged. This update records requirements; it does not claim implementation or live connectivity.
 
 Status: implemented on 4 October 2026. The office scene now uses the recommended
 compact identity and report overlays described below.
@@ -15,7 +15,7 @@ This plan follows the visual audit of the supplied office screenshot and the cur
 
 ## Current issues
 
-- Name/status bubbles overlap the avatars' heads, especially Maya and Clara. Their visual weight exceeds that of the characters.
+- Name/status bubbles overlap the avatars' heads, especially Maya and Cody. Their visual weight exceeds that of the characters.
 - Four floating “New”/“Read” buttons compete with the desks and characters. “Read” is ambiguous between an action and a report state, and shortcut ownership is not immediately obvious.
 - Five persistent room labels make decorative areas compete with interactive controls.
 - Room subtitles repeat information already visible in the artwork, such as “Office entrance” and “Four analyst stations.”

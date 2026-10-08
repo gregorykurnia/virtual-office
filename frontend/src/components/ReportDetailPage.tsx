@@ -11,7 +11,7 @@ import type { ReportNavigationState } from "./reportNavigation";
 const AGENT_LABELS: Record<AgentId, string> = {
   market: "Rex · Market Analyst",
   portfolio: "Paz · Portfolio Analyst",
-  research: "Clara · Investment Research Analyst",
+  research: "Cody · Investment Research Analyst",
   risk: "Wolffe · AI & Technology Analyst"
 };
 

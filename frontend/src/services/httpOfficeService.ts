@@ -87,8 +87,8 @@ function agentFromApi(value: ApiAgent, tasks: Task[] = []): Agent {
   return {
     id: value.id,
     role: value.roleKey,
-    // Keep the visible identity aligned with approved cosmetic replacements if a saved live record still has its former name.
-    displayName: value.roleKey === "portfolio" ? "Paz" : value.roleKey === "risk" ? "Wolffe" : value.displayName,
+    // Keep the visible identity aligned with approved cosmetic replacements if a saved record still has its former name.
+    displayName: value.roleKey === "portfolio" ? "Paz" : value.roleKey === "research" ? "Cody" : value.roleKey === "risk" ? "Wolffe" : value.displayName,
     title: value.roleKey === "risk" ? "AI & Technology Analyst" : value.title,
     responsibility: value.responsibility,
     avatarKey: value.avatarKey,

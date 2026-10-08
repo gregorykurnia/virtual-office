@@ -8,7 +8,7 @@ Status: **Step 22 contract discovery and Step 23 adapter implementation complete
 
 Use the installed OpenClaw `2026.9.8` instance as the contract authority. The official online CLI and Gateway references are useful discovery aids, but can change independently of the installed release and do not substitute for its command output or runtime envelopes. The server's sanitized installation and controlled-turn record is [Step 21 acceptance evidence](./verification/step-21-openclaw-installation.md).
 
-The OpenClaw service is an isolated bootstrap installation. Its `main` agent is not one of the four Investment Office analysts. Preserve the app identities `portfolio` (Paz), `market` (Rex), `research` (Maul), and `risk` (Wolffe); no external identity mapping is currently verified. No Investment Office research automation is configured. Recurring automation remains disabled.
+The OpenClaw service is an isolated bootstrap installation. Its `main` agent is not one of the four Investment Office analysts. Preserve the app identities `portfolio` (Paz), `market` (Rex), `research` (Cody), and `risk` (Wolffe); no external identity mapping is currently verified. No Investment Office research automation is configured. Recurring automation remains disabled.
 
 ## Verified installation facts
 
@@ -49,7 +49,7 @@ The pinned binary reported `OpenClaw 2026.9.8 (fc23bc8)` and Node `v26.10.0`, ma
 | --- | --- | --- | --- | --- |
 | `main` | `main` | `/var/lib/openclaw/.openclaw/workspace` | `/var/lib/openclaw/.openclaw/agents/main/agent` | Yes |
 
-This bootstrap agent is not an Investment Office analyst. Do not map it to Paz, Rex, Maul, or Wolffe.
+This bootstrap agent is not an Investment Office analyst. Do not map it to Paz, Rex, Cody, or Wolffe.
 
 The automation CLI reports `Usage: openclaw cron|automations`. Its commands are `add`, `disable`, `edit`, `enable`, `get`, `list`, `rm`, `run`, `runs`, `scratch`, `show`, and `status`. Relevant observed options include:
 

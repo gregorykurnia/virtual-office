@@ -32,9 +32,17 @@ The shared rounded bot shape remains recognizable while state, role details, and
 
 The [Paz avatar design and replacement guide](PAZ_AVATAR_DESIGN_AND_REPLACEMENT_GUIDE.md) records the completed staged replacement. The [Paz avatar review](paz-avatar-preview.html) shows the transparent idle master, the approved pose family, and the matched comparisons beside production Rex and the former portfolio avatar.
 
-## Maul design and replacement handoff
+## Cody design and replacement handoff
 
-The [Maul design guide](MAUL_AVATAR_DESIGN_GUIDE.md) and [Clara → Maul replacement plan](../docs/MAUL_AVATAR_REPLACEMENT_PLAN.md) specify the third research avatar's photo-to-style translation and later complete display-name migration. Open the [Maul visual reference board](maul-avatar-preview.html) in a browser, or view its [saved PNG](maul-design-reference-board.png), to see the supplied photo beside production Rex, Paz, and the current research avatar. The original input is preserved as [maul-photo-reference.jpeg](maul-photo-reference.jpeg). Image generation rejected the first idle request; no actual Maul candidate or runtime replacement is claimed.
+The [Cody design guide](CODY_AVATAR_DESIGN_GUIDE.md) and [Cody replacement plan](../docs/CODY_AVATAR_REPLACEMENT_PLAN.md) document the completed research-slot cosmetic replacement. Open the [Cody visual reference board](cody-avatar-preview.html) in a browser to see the supplied costume reference, production family, five Cody poses, light/dark checks, and actual CSS-size samples. The unchanged input is preserved as [cody-photo-reference.jpeg](cody-photo-reference.jpeg); the runtime key remains `research-bot`.
+
+## Maul outgoing-character record
+
+The [Maul design guide](MAUL_AVATAR_DESIGN_GUIDE.md), [Maul replacement plan](../docs/MAUL_AVATAR_REPLACEMENT_PLAN.md), dated verification, and concept masters remain preserved as the outgoing research-character record. The current runtime research slot is Cody.
+
+## Wolffe design and replacement handoff
+
+The [Wolffe design and replacement guide](WOLFFE_AVATAR_DESIGN_AND_REPLACEMENT_GUIDE.md) records the approved photo-to-style translation and completed fifth-pose runtime replacement for the stable `risk` slot. Open the [Wolffe visual reference board](wolffe-avatar-preview.html) in a browser to see the supplied photo, outgoing Theo comparison, production peers, five Wolffe poses, light/dark checks, and actual CSS-size samples. The unchanged input is preserved as [wolffe-photo-reference.jpeg](wolffe-photo-reference.jpeg).
 
 ## 4. Desktop UI
 
@@ -67,7 +75,3 @@ This establishes the color hierarchy, status shapes, selected states, readable c
 - Make the rounded bot style compact enough for dense scenes.
 - Treat every status color as a color-plus-shape or motion cue.
 - Build around one clear office canvas that scales down to a mobile bottom-sheet pattern.
-
-## Wolffe design and replacement handoff
-
-The [Wolffe design and replacement guide](WOLFFE_AVATAR_DESIGN_AND_REPLACEMENT_GUIDE.md) records the approved photo-to-style translation and completed pose-family replacement for the stable `risk` slot. Open the [Wolffe visual reference board](wolffe-avatar-preview.html) to see the supplied photo, production peers, five poses, light/dark checks, and actual CSS-size samples. The unchanged input photo is preserved as [wolffe-photo-reference.jpeg](wolffe-photo-reference.jpeg).

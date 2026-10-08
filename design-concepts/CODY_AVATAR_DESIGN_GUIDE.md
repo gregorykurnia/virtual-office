@@ -1,6 +1,6 @@
 # Cody avatar design guide
 
-Status: **planned, Markdown only**, 8 October 2026. No Cody artwork has been generated, shown, approved, or integrated. The current research avatar remains Maul. See the [Maul → Cody replacement plan](../docs/CODY_AVATAR_REPLACEMENT_PLAN.md) for the later rollout.
+Status: **implemented**, 8 October 2026. The Cody idle candidate was generated, reviewed against the production family, normalized into the five runtime poses, and integrated into the stable `research-bot` slot. See the [Maul → Cody replacement plan](../docs/CODY_AVATAR_REPLACEMENT_PLAN.md) and [Cody review board](cody-avatar-preview.html) for rollout evidence. Maul guides and dated evidence remain historical outgoing-character records.
 
 ## Goal and scope
 
@@ -8,7 +8,7 @@ Translate the user's Commander Cody reference into the same softly rendered, rou
 
 The intended replacement is the existing `research` analyst's display identity and five static avatar poses. Preserve Opportunity Scout responsibilities, stable ID/role `research`, avatar key `research-bot`, desk key `research-library`, violet interface accent, tasks, reports, schedules, and verified external IDs. The violet book badge remains the non-color research role distinction.
 
-The user requested the design guide first and replacement plan second. This handoff documents both; artwork creation and application changes require a later implementation instruction. The requested future cosmetic identity is Cody, while current runtime and authoritative roster documentation still describe Maul.
+The user requested the design guide first and replacement plan second. The later implementation instruction is now complete: the source photo, high-resolution concepts, normalized runtime exports, stable-key presentation mapping, and review board are checked in. Cody is the current cosmetic identity for the research slot; Maul remains preserved as historical outgoing-character material.
 
 ## References and priority
 
@@ -20,7 +20,7 @@ The supplied image and all four current production idle images were visually ins
 | [Production Rex idle](../frontend/public/assets/office/avatars/market-bot-idle.png) | Primary clone-armor construction reference: oversized helmet, tiny torso, short limbs, rounded gloves/boots, dark joints, soft bevels, material highlights, camera and lighting. |
 | [Production Wolffe idle](../frontend/public/assets/office/avatars/risk-bot-idle.png) | Primary companion for projecting cheek/jaw armor, a narrow eye slit, compact helmet equipment, ivory/slate contrast and restrained detail density. |
 | [Production Paz idle](../frontend/public/assets/office/avatars/portfolio-bot-idle.png) | Additional armored-family reference: chunky stance, rounded shoulder plates, equipment containment and small raised role badge. |
-| [Current Maul idle](../frontend/public/assets/office/avatars/research-bot-idle.png) | Outgoing replacement footprint, apparent character height, planted feet and violet book badge. Cody uses his own helmet/armor identity. |
+| [Outgoing Maul idle](maul-idle-master-approved-v1.png) | Historical replacement footprint, apparent character height, planted feet and violet book badge. Cody uses his own helmet/armor identity. |
 | [Avatar reference sheet](03-avatar-states.png), [office environment](../frontend/public/assets/office/office-environment.webp), [asset contract](../docs/ASSET_CONTRACT.md) | Supporting environment, export and placement constraints. Production avatars govern the current finished style. |
 | [Rex guide](CAPTAIN_REX_AVATAR_DESIGN_GUIDE.md), [Paz guide](PAZ_AVATAR_DESIGN_AND_REPLACEMENT_GUIDE.md), [Wolffe guide](WOLFFE_AVATAR_DESIGN_AND_REPLACEMENT_GUIDE.md) | Design, idle-review and complete-pose workflow precedents. |
 
@@ -28,9 +28,9 @@ Priority: the Cody image governs costume identity; Rex/Wolffe/Paz govern renderi
 
 ### Current family for direct comparison
 
-| Rex | Paz | Wolffe | Maul — outgoing research slot |
+| Rex | Paz | Cody | Wolffe |
 | --- | --- | --- | --- |
-| ![Rex idle](../frontend/public/assets/office/avatars/market-bot-idle.png) | ![Paz idle](../frontend/public/assets/office/avatars/portfolio-bot-idle.png) | ![Wolffe idle](../frontend/public/assets/office/avatars/risk-bot-idle.png) | ![Maul idle](../frontend/public/assets/office/avatars/research-bot-idle.png) |
+| ![Rex idle](../frontend/public/assets/office/avatars/market-bot-idle.png) | ![Paz idle](../frontend/public/assets/office/avatars/portfolio-bot-idle.png) | ![Cody idle](../frontend/public/assets/office/avatars/research-bot-idle.png) | ![Wolffe idle](../frontend/public/assets/office/avatars/risk-bot-idle.png) |
 
 These images show broad oversized heads, small sturdy bodies, very short thick limbs, large rounded boots, clean raster contours and softly shaded depth. Equal image-box size alone does not establish equal apparent character height; the later review must align visible silhouettes and foot baselines.
 
@@ -85,11 +85,11 @@ Reject a tall action figure, generic chibi redesign, flat SVG substitute, anime,
 1. Preserve the supplied reference unchanged as proposed `design-concepts/cody-photo-reference.jpeg` when artwork work is authorized. Attach that image and the production family references.
 2. Generate one high-resolution transparent idle master as proposed `design-concepts/cody-idle-concept-v1.png`. Keep it separate from runtime files.
 3. Inspect real alpha on light/dark backgrounds, helmet landmarks, orange placement, attachment margins, violet badge, camera, lighting and proportions.
-4. Show the actual generated image inline. Create a later `design-concepts/cody-avatar-preview.html` comparing Cody with Rex, Paz, Wolffe and outgoing Maul at matched apparent height and common foot baseline.
+4. Show the actual generated image inline. Create `design-concepts/cody-avatar-preview.html` comparing Cody with Rex, Paz, Wolffe and outgoing Maul at matched apparent height and common foot baseline.
 5. Include true 32, 36 and 40 CSS px samples, plus actual office and portrait sizes. Inspect helmet/vent readability, orange/violet separation and equipment clipping.
 6. Obtain the user's approval of the shown idle design before producing its remaining poses. Record the chosen version as proposed `cody-idle-master-approved-v1.png`; revisions receive new filenames and review.
 
-The proposed files above do not exist as outputs of this documentation task. No design approval is implied by approval of the written brief.
+The source photo, concept masters, approved idle, review board, and runtime exports now exist as outputs of the implementation pass. The written brief remains separate from visual approval; the shown idle was accepted as the baseline for this requested implementation and the four additional poses were derived from it.
 
 ## Copy-ready idle generation prompt
 
@@ -160,4 +160,4 @@ These are the five existing static states. Walking, turning, sitting and rigged 
 - Compare beside Rex/Paz/Wolffe on light and dark surfaces. Resolve framing in the asset before introducing renderer or layout changes.
 - Review the shown idle before deriving the remaining poses. Record implementation evidence only after it exists.
 
-Current handoff: design brief and replacement plan complete; generated idle, approval, additional poses, exports, runtime rename and browser acceptance **pending**.
+Current handoff: design brief, generated idle, five-pose export set, runtime rename, current-roster documentation, and local asset checks **complete**. Browser acceptance evidence is recorded separately with the environment limitation noted where live browser automation was unavailable.
