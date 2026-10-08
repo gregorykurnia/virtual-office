@@ -1,0 +1,50 @@
+{
+  "schema_version": "3.0",
+  "agent_role": "risk",
+  "task_key": "risk-worth-testing",
+  "report_type": "ai_worth_testing",
+  "title": "Structural fixture: AI worth-testing recommendation",
+  "summary": "Fixture only. The recommendation shows cost basis and limitations separately from benefit [S1].",
+  "coverage_start": "2026-10-01T00:00:00Z",
+  "coverage_end": "2026-10-07T00:00:00Z",
+  "market_session_date": null,
+  "coverage_status": "limited",
+  "coverage_explanation": "Fixture window; no product evidence was reviewed.",
+  "data_freshness": {
+    "as_of": null,
+    "explanation": "No as-of instant exists for this placeholder."
+  },
+  "changes_since_previous": [],
+  "personal_relevance": "Fixture: a possible internal test for a development workflow.",
+  "facts": [],
+  "interpretation": "Fixture interpretation: the expected benefit is a hypothesis to test, not a finding.",
+  "risks_uncertainties": ["Fixture uncertainty: benchmark results are not evaluated."],
+  "contradictions": [],
+  "follow_up_questions": [],
+  "related": { "holdings": [], "etfs": [], "sectors": [], "topics": ["fixture tooling"] },
+  "proposed_next_step": "Test the candidate in a bounded sandbox before any adoption decision.",
+  "sources": [
+    {
+      "key": "S1",
+      "label": "Placeholder source for the fixture",
+      "url": "https://example.com/fixtures/risk-worth-testing",
+      "published_at": null,
+      "retrieved_at": null
+    }
+  ],
+  "missing_inputs": ["Vendor pricing for the fixture candidate."],
+  "assumptions": ["Cost is unknown until a published price is retrieved."],
+  "canonical_event_refs": [],
+  "related_specialist_reports": [],
+  "input_artifact_sha256": null,
+  "details": {
+    "use_case": "Fixture: a bounded test of an automation step in a development workflow.",
+    "applies_to": ["development"],
+    "availability": "unknown",
+    "expected_benefit": "Fixture: a hypothesis about reduced manual steps, not a measured result.",
+    "cost_estimate": "Unknown until a published price is retrieved.",
+    "cost_basis": "No published pricing was retrieved for this fixture.",
+    "limitations": ["Fixture: no benchmark was reviewed."],
+    "source_keys": ["S1"]
+  }
+}

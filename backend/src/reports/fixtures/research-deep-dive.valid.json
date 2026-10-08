@@ -1,0 +1,70 @@
+{
+  "schema_version": "3.0",
+  "agent_role": "research",
+  "task_key": "research-deep-dive",
+  "report_type": "opportunity_deep_dive",
+  "title": "Structural fixture: opportunity deep dive",
+  "summary": "Fixture only. The candidate shows every required answer for a serious candidate [S1].",
+  "coverage_start": "2026-10-01T00:00:00Z",
+  "coverage_end": "2026-10-07T00:00:00Z",
+  "market_session_date": null,
+  "coverage_status": "limited",
+  "coverage_explanation": "Fixture window with placeholder evidence only.",
+  "data_freshness": {
+    "as_of": "2026-10-07T00:00:00Z",
+    "explanation": "The fixture states a placeholder as-of instant for shape checking only."
+  },
+  "changes_since_previous": [],
+  "personal_relevance": "Independent of existing holdings. Not a recommendation.",
+  "facts": [
+    {
+      "statement": "The fixture cites a placeholder source for the candidate question set [S1].",
+      "source_keys": ["S1"]
+    }
+  ],
+  "interpretation": "Fixture interpretation. Attractive industry and attractive investment at today's price are assessed separately.",
+  "risks_uncertainties": ["Fixture uncertainty: no primary filings were reviewed."],
+  "contradictions": [],
+  "follow_up_questions": ["Which primary filings would confirm the placeholder evidence?"],
+  "related": { "holdings": [], "etfs": ["VOO"], "sectors": ["fixture sector"], "topics": [] },
+  "proposed_next_step": "Collect primary sources before any evidence-based watchlist update.",
+  "sources": [
+    {
+      "key": "S1",
+      "label": "Placeholder source for the fixture",
+      "url": "https://example.com/fixtures/research-deep-dive",
+      "published_at": null,
+      "retrieved_at": null
+    }
+  ],
+  "missing_inputs": ["Primary filings for the fixture candidate."],
+  "assumptions": ["Fixture scenarios are illustrative only."],
+  "canonical_event_refs": [],
+  "related_specialist_reports": [],
+  "input_artifact_sha256": null,
+  "details": {
+    "candidates": [
+      {
+        "subject_type": "sector",
+        "subject": "Fixture sector",
+        "ticker": null,
+        "why_business": "Fixture: the business case is described qualitatively.",
+        "why_now": "Fixture: the timing trigger is a placeholder catalyst.",
+        "source_keys": ["S1"],
+        "market_may_underestimate": "Fixture: a placeholder underestimated driver.",
+        "growth_priced_in": "Fixture: valuation was not assessed.",
+        "scenarios": {
+          "bull": "Fixture bull scenario.",
+          "base": "Fixture base scenario.",
+          "bear": "Fixture bear scenario."
+        },
+        "thesis_invalidation": ["Fixture: the placeholder driver does not appear in primary filings."],
+        "next_monitoring_steps": ["Review the next primary filing."],
+        "catalysts": [{ "description": "Fixture catalyst", "expected_window": "Unknown" }],
+        "valuation_note": "Fixture: valuation is not assessed by this example.",
+        "etf_alternatives": ["VOO"],
+        "removal_criteria": ["Fixture: removed when the placeholder driver is not evidenced."]
+      }
+    ]
+  }
+}

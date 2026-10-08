@@ -1,0 +1,44 @@
+{
+  "schema_version": "3.0",
+  "agent_role": "portfolio",
+  "task_key": "portfolio-combined-digest",
+  "report_type": "combined_digest",
+  "title": "Structural fixture: combined digest with a late dependency",
+  "summary": "Fixture only. The digest includes one successful specialist report and lists one late report as a visible gap [S1].",
+  "coverage_start": "2026-10-05T00:00:00Z",
+  "coverage_end": "2026-10-06T00:00:00Z",
+  "market_session_date": "2026-10-05",
+  "coverage_status": "limited",
+  "coverage_explanation": "One dependency was late at the assembly cutoff and is listed in missing inputs.",
+  "data_freshness": {
+    "as_of": null,
+    "explanation": "The fixture has no as-of instant; the included dependency's own freshness is not restated here."
+  },
+  "changes_since_previous": [],
+  "personal_relevance": "Fixture: relevance is limited to supplied inputs.",
+  "facts": [],
+  "interpretation": "Fixture: the digest records dependency status rather than filling the gap.",
+  "risks_uncertainties": ["Fixture: the late report may change the summary when it completes."],
+  "contradictions": [],
+  "follow_up_questions": [],
+  "related": { "holdings": [], "etfs": [], "sectors": [], "topics": [] },
+  "proposed_next_step": "Link the late report as an update when it completes.",
+  "sources": [
+    {
+      "key": "S1",
+      "label": "Placeholder source for the fixture",
+      "url": "https://example.com/fixtures/combined-digest",
+      "published_at": null,
+      "retrieved_at": null
+    }
+  ],
+  "missing_inputs": ["rpt-risk-1 was late at the assembly cutoff."],
+  "assumptions": [],
+  "canonical_event_refs": [],
+  "related_specialist_reports": ["rpt-market-1", "rpt-risk-1"],
+  "input_artifact_sha256": null,
+  "details": {
+    "included_reports": ["rpt-market-1"],
+    "section_notes": [{ "role": "market", "note": "Fixture: the included market report is summarized above." }]
+  }
+}

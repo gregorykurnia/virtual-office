@@ -1,0 +1,42 @@
+{
+  "schema_version": "3.0",
+  "agent_role": "portfolio",
+  "task_key": "portfolio-monthly-review",
+  "report_type": "portfolio_monthly_review",
+  "title": "Structural fixture: monthly review with absent inputs",
+  "summary": "Fixture only. Holdings, approved targets, contribution and cash/FX inputs are absent, so the review gives no allocation, DCA or dividend proposal.",
+  "coverage_start": null,
+  "coverage_end": null,
+  "market_session_date": null,
+  "coverage_status": "limited",
+  "coverage_explanation": "Required portfolio inputs are absent. The review is limited to stating the gap.",
+  "data_freshness": {
+    "as_of": null,
+    "explanation": "No dated portfolio input was supplied, so freshness cannot be established."
+  },
+  "changes_since_previous": [],
+  "personal_relevance": "Watchlist entries are research context only and are not treated as holdings.",
+  "facts": [],
+  "interpretation": "Without dated holdings and approved targets, no allocation calculation is supported.",
+  "risks_uncertainties": ["Allocation and DCA cannot be calculated from absent inputs."],
+  "contradictions": [],
+  "follow_up_questions": ["Please supply dated holdings, approved targets, the contribution amount and date, and available cash/FX assumptions."],
+  "related": { "holdings": [], "etfs": [], "sectors": [], "topics": [] },
+  "proposed_next_step": "Supply the missing portfolio inputs before the next monthly review.",
+  "sources": [],
+  "missing_inputs": ["Dated holdings", "Approved targets", "Contribution amount and date", "Cash and FX assumptions"],
+  "assumptions": [],
+  "canonical_event_refs": [],
+  "related_specialist_reports": [],
+  "input_artifact_sha256": null,
+  "details": {
+    "input_gates": {
+      "holdings": { "status": "absent", "as_of": null, "version": null },
+      "approved_targets": { "status": "absent", "as_of": null, "version": null },
+      "contribution": { "status": "absent", "as_of": null, "version": null },
+      "cash_fx": { "status": "absent", "as_of": null, "version": null }
+    },
+    "proposals": [],
+    "dividends": []
+  }
+}

@@ -1,0 +1,46 @@
+{
+  "schema_version": "3.0",
+  "agent_role": "market",
+  "task_key": "market-morning-brief",
+  "report_type": "market_briefing",
+  "title": "Structural fixture: market morning brief",
+  "summary": "Fixture only. This example shows the report shape and citation handling [S1]; it makes no market claim.",
+  "coverage_start": "2026-10-05T00:00:00Z",
+  "coverage_end": "2026-10-06T00:00:00Z",
+  "market_session_date": "2026-10-05",
+  "coverage_status": "limited",
+  "coverage_explanation": "Fixture coverage window. No live market data was acquired for this example.",
+  "data_freshness": {
+    "as_of": null,
+    "explanation": "Fixture data has no as-of instant; freshness cannot be established."
+  },
+  "changes_since_previous": [],
+  "personal_relevance": "Fixture relevance text. Real reports relate findings only to supplied holdings and watchlists.",
+  "facts": [
+    {
+      "statement": "The fixture cites a placeholder source for the report-shape check [S1].",
+      "source_keys": ["S1"]
+    }
+  ],
+  "interpretation": "Fixture interpretation. Interpretation is kept separate from facts.",
+  "risks_uncertainties": ["Fixture uncertainty: no live evidence was acquired."],
+  "contradictions": [],
+  "follow_up_questions": [],
+  "related": { "holdings": [], "etfs": [], "sectors": [], "topics": ["fixture topic"] },
+  "proposed_next_step": "No action needed for a fixture.",
+  "sources": [
+    {
+      "key": "S1",
+      "label": "Placeholder source for the fixture",
+      "url": "https://example.com/fixtures/market-morning-brief",
+      "published_at": null,
+      "retrieved_at": null
+    }
+  ],
+  "missing_inputs": ["Fixture: live market data was not supplied."],
+  "assumptions": [],
+  "canonical_event_refs": [],
+  "related_specialist_reports": [],
+  "input_artifact_sha256": null,
+  "details": {}
+}
