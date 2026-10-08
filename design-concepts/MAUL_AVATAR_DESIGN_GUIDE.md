@@ -36,7 +36,7 @@ Priority: photo governs Maul's face; production Rex/Paz govern style; asset cont
 | Black upper clothing | Simple charcoal layered neckline/tunic. The photo does not show a complete outfit: belt, short split hem, gloves, and boots are explicitly an office-style extrapolation, not photographed costume evidence. |
 | Research distinction | Small violet book badge on the chest, matching the existing research badge's scale and visual language. Keep it legible against the dark outfit in every pose. |
 
-The tattoo shape relationships matter more than fine surface detail. At small size, the first-read cues are the red/black head, amber eyes, short horn crown, dark outfit, and violet book badge. Do not repaint the whole uniform red or change the UI accent to red: Theo retains the red role accent.
+The tattoo shape relationships matter more than fine surface detail. At small size, the first-read cues are the red/black head, amber eyes, short horn crown, dark outfit, and violet book badge. Do not repaint the whole uniform red or change the UI accent to red: Wolffe retains the red role accent.
 
 Suggested artwork colors: red `#C92D3D`, black markings `#17191E`, charcoal cloth `#26303B`, amber eyes `#D6A344`, ivory-gray horns `#B8B5A6`. Tune against the supplied photo and lighting; these are art starting points, not new CSS tokens. Retain the research UI accent `#7759C7`.
 

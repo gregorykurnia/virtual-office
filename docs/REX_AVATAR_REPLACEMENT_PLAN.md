@@ -1,6 +1,6 @@
 # Maya → Rex avatar replacement plan
 
-> Requirements update — 7 October 2026: [Four-agent workflow specification](./FOUR_AGENT_WORKFLOW_SPEC.md) is authoritative for the revised roles, investor context, watchlists, reporting, coordination, editable WIB schedules, UI controls, and acceptance checks. Conflicting historical defaults below are superseded. Preserve Rex (`market`), Paz (`portfolio`), Clara (`research`), and Theo (`risk`) and their stable artwork keys. Paz is the approved cosmetic replacement for the portfolio display identity; linked responsibilities and records remain unchanged. This update records requirements; it does not claim implementation or live connectivity.
+> Requirements update — 8 October 2026: [Four-agent workflow specification](./FOUR_AGENT_WORKFLOW_SPEC.md) is authoritative for the revised roles, investor context, watchlists, reporting, coordination, editable WIB schedules, UI controls, and acceptance checks. Conflicting historical defaults below are superseded. Preserve Rex (`market`), Paz (`portfolio`), Clara (`research`), and Wolffe (`risk`) and their stable artwork keys. Paz is the approved cosmetic replacement for the portfolio display identity; Wolffe replaces the risk display identity, with linked responsibilities and records unchanged. This update records requirements; it does not claim implementation or live connectivity.
 
 Status: implemented, 4 October 2026. This change replaces Maya's display identity and artwork with Rex, using the supplied Captain Rex preview and design guide. The internal `market-bot` asset key and market analyst relationships remain unchanged.
 
@@ -84,6 +84,6 @@ Reuse the shared avatar renderer, image loading treatment, WebP-to-PNG fallback,
 
 ## Completion criteria
 
-Rex is recognizable as the supplied preview in every pose, belongs visually beside Paz, Clara, and Theo, remains clearly the Market Analyst, and appears consistently across active names and fallback states. Existing market assignments, reports, scene interactions, and status behavior still work. Desktop and phone inspection shows no clipping, floor jitter, mismatched lighting, transparency halos, or new overlap.
+Rex is recognizable as the supplied preview in every pose, belongs visually beside Paz, Clara, and Wolffe, remains clearly the Market Analyst, and appears consistently across active names and fallback states. Existing market assignments, reports, scene interactions, and status behavior still work. Desktop and phone inspection shows no clipping, floor jitter, mismatched lighting, transparency halos, or new overlap.
 
 The design guide has an existing local move from `docs` to `design-concepts`. Leave that user change outside this plan-only commit. During implementation, repair its relative asset-contract links if the move is retained, so the art handoff resolves correctly from its final location.

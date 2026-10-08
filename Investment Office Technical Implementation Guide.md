@@ -1,6 +1,6 @@
 # Investment Office — Step-by-Step Technical Implementation Guide
 
-> Requirements update — 7 October 2026: [Four-agent workflow specification](./docs/FOUR_AGENT_WORKFLOW_SPEC.md) is authoritative for the revised roles, investor context, watchlists, reporting, coordination, editable WIB schedules, UI controls, and acceptance checks. The active workflow instructions below are aligned with this specification; dated implementation records remain historical evidence. Preserve Rex (`market`), Paz (`portfolio`), Clara (`research`), and Theo (`risk`) and their stable artwork keys. Paz is the approved cosmetic replacement for the portfolio display identity; linked responsibilities and records remain unchanged. This update records requirements; it does not claim implementation or live connectivity.
+> Requirements update — 8 October 2026: [Four-agent workflow specification](./docs/FOUR_AGENT_WORKFLOW_SPEC.md) is authoritative for the revised roles, investor context, watchlists, reporting, coordination, editable WIB schedules, UI controls, and acceptance checks. The active workflow instructions below are aligned with this specification; dated implementation records remain historical evidence. Preserve Rex (`market`), Paz (`portfolio`), Clara (`research`), and Wolffe (`risk`) and their stable artwork keys. Paz is the approved cosmetic replacement for the portfolio display identity; Wolffe replaces the risk display identity, with linked responsibilities and records unchanged. This update records requirements; it does not claim implementation or live connectivity.
 
 Prepared: 2 October 2026  
 Scope: frontend demonstration, private live application, OpenClaw integration, four analyst identities with multiple workflows, dependency scheduling, coordinated commands, conversations, deployment, and ongoing operation.
@@ -1003,9 +1003,9 @@ Inspect existing identities and mappings before provisioning. Keep exactly four 
 | `portfolio` / Paz | Portfolio Analyst and combined digest assembler | `portfolio-bot` / `portfolio-ledger` | Dated holdings, watchlists, theses, approved targets, contribution/cash/FX inputs, completed specialist reports |
 | `market` / Rex | Global Markets Analyst | `market-bot` / `market-terminal` | Research universe, macro/FX preferences, relevant instrument context |
 | `research` / Clara | Opportunity Scout | `research-bot` / `research-library` | Investment criteria, sectors, persisted candidates, milestones and previous findings |
-| `risk` / Theo | AI & Technology Analyst | `risk-bot` / `risk-console` | AI/tool preferences, DEUS/development use cases, technology evidence and previous findings |
+| `risk` / Wolffe | AI & Technology Analyst | `risk-bot` / `risk-console` | AI/tool preferences, DEUS/development use cases, technology evidence and previous findings |
 
-The legacy `risk` ID identifies Theo; it does not assign a standalone portfolio-risk role. Risk analysis belongs within each specialist's responsibilities. Record actual external IDs from installed-interface readback, not invented mappings. Provision separate effective tool policies and reviewed instructions without copying administrator credentials. Prior reports are context, not independent primary evidence or authoritative current holdings. Shared owner-scoped app storage is the coordination boundary until native messaging is verified.
+The legacy `risk` ID identifies Wolffe; it does not assign a standalone portfolio-risk role. Risk analysis belongs within each specialist's responsibilities. Record actual external IDs from installed-interface readback, not invented mappings. Provision separate effective tool policies and reviewed instructions without copying administrator credentials. Prior reports are context, not independent primary evidence or authoritative current holdings. Shared owner-scoped app storage is the coordination boundary until native messaging is verified.
 
 **Deliverables:** four verified identity mappings, versioned role policies and restricted input access.
 
@@ -1035,7 +1035,7 @@ Every serious candidate answers: why this business/sector; why now; supporting e
 
 Outputs: weekly radar with at most three meaningful developments; one weekly deep investigation when justified; evidence-triggered watchlist updates. “No compelling new opportunity” is valid. Do not force recommendations or promise multibagger returns.
 
-#### Theo: AI & Technology Analyst
+#### Wolffe: AI & Technology Analyst
 
 Track meaningful models, capabilities, pricing, APIs, limits and availability; coding agents, automation, OpenClaw and infrastructure; official documentation, credible independent evaluations and practical evidence. Explain benchmark limitations. Track infrastructure spending, inference costs, adoption and monetization. Identify concrete applications for DEUS, development and solo software businesses. Distinguish announcement from general availability. Share investment implications with Paz/Clara through the app data layer.
 
@@ -1045,7 +1045,7 @@ Classify findings as Use now, Watch, or Investment implication. Outputs: concise
 
 Every report includes title, agent, type, generation time, coverage period, data freshness, changes since previous report, personal relevance, linked sources with publication dates, facts distinct from interpretation, risks/uncertainty/contradictions, follow-up questions, related holdings/ETFs/sectors/topics and proposed next step (including no action needed). Unknown publication dates must remain unknown. Prefer filings, IR, ETF issuers, central banks, official statistics and product docs; supplement with credible reporting. Never fabricate research, citations or activity. Label demo, stale, unavailable and missing data distinctly.
 
-Primary ownership: portfolio/ETFs → Paz; macro/rates/FX/commodities → Rex; new investment opportunities → Clara; AI tools/models/industry → Theo. Share persistent findings with event keys, primary owner and linked specialist reports through owner-scoped storage; native agent messaging is unverified. One event appears once in the 400–700 word combined digest with links to specialist analysis. Paz assembles it from completed reports; no fifth agent. Store previous findings and research deltas. Lightweight screening precedes deeper work; scan frequency, report length, research budgets and model selection are editable.
+Primary ownership: portfolio/ETFs → Paz; macro/rates/FX/commodities → Rex; new investment opportunities → Clara; AI tools/models/industry → Wolffe. Share persistent findings with event keys, primary owner and linked specialist reports through owner-scoped storage; native agent messaging is unverified. One event appears once in the 400–700 word combined digest with links to specialist analysis. Paz assembles it from completed reports; no fifth agent. Store previous findings and research deltas. Lightweight screening precedes deeper work; scan frequency, report length, research budgets and model selection are editable.
 
 For each role, validate a representative report for correct scope, primary sources, dated inputs, research deltas, uncertainty and missing-input handling. A quiet period may produce a no-material-update report; Clara may find no compelling opportunity. Technical failure and a useful limited-input report are distinct outcomes. Never fabricate activity, sources, freshness, allocations or recommendations to fill a scheduled slot.
 
@@ -1066,7 +1066,7 @@ Create versioned app-owned desired definitions; these are not raw OpenClaw confi
 | Combined weekly review | Paz | Sat 10:00 WIB | 0 10 * * 6 |
 | Monthly portfolio inputs/review generation | Paz | Day 1, 09:00 WIB | 0 9 1 * * |
 | Monthly portfolio/DCA review | Paz | Day 1, 10:00 WIB | 0 10 1 * * |
-| AI digest | Theo | Mon/Wed/Fri 09:00 WIB | 0 9 * * 1,3,5 |
+| AI digest | Wolffe | Mon/Wed/Fri 09:00 WIB | 0 9 * * 1,3,5 |
 | Opportunity deep dive, when justified | Clara | Fri 17:00 WIB | 0 17 * * 5 |
 
 Morning collection and completion rows describe workflow stages, not an instruction to rerun research at 06:40. Model completion as a bounded prerequisite deadline unless a separately justified task is needed. Expand relevant owners into explicit specialist tasks using lightweight screening and configured budgets. Weekly radar and worth-testing recommendations feed the Saturday review. Material alerts are evidence-triggered, not promised real-time coverage.
@@ -1207,7 +1207,7 @@ Keep these conversations separate from scheduled task sessions. Asking a follow-
 **Deliverables:** conversation/message schema, context builder, stable per-thread routing.  
 **Done when:** two reports produce distinct threads and each question reaches the correct analyst.
 
-**Required Step 38 extension — owner commands:** support explicit agent selection and automatic routing with a persisted routing explanation. Route portfolio/13-stock/ETF/DCA requests to Paz, rates/FX to Rex, emerging opportunities to Clara and AI worth-testing requests to Theo. Cross-role requests persist one owner-scoped command parent, coordinated child tasks/run/report links and progress; Paz consolidates combined briefings with visible failed/missing children. Explicit selection remains visible and any coordination is explained. Use app storage for coordination until native messaging is verified. Persist idempotent commands before dispatch and use immutable current-input snapshots. Research commands never authorize trades.
+**Required Step 38 extension — owner commands:** support explicit agent selection and automatic routing with a persisted routing explanation. Route portfolio/13-stock/ETF/DCA requests to Paz, rates/FX to Rex, emerging opportunities to Clara and AI worth-testing requests to Wolffe. Cross-role requests persist one owner-scoped command parent, coordinated child tasks/run/report links and progress; Paz consolidates combined briefings with visible failed/missing children. Explicit selection remains visible and any coordination is explained. Use app storage for coordination until native messaging is verified. Persist idempotent commands before dispatch and use immutable current-input snapshots. Research commands never authorize trades.
 
 ### Step 39 — Implement the supported turn interface and streaming
 

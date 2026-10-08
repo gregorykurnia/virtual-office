@@ -160,7 +160,7 @@ Before editing UI, inspect [shared styles](../frontend/src/styles.css), [wirefra
 
 Inspect persisted `portfolio` data if the environment uses a backend rather than fixtures. A fixture change alone does not rename persisted data. Update only the relevant display identity through the supported owner-scoped path, preserving linked records. Do not recreate agents, reseed unrelated data, or invent external identity mappings. Reconcile verified external display labels only if they fall within the authorized rollout.
 
-Search active legacy references beyond this table. Most office/profile/sidebar labels derive from `agent.displayName`; verify those surfaces instead of introducing duplicate hardcoded names. Preserve Rex, Clara, and Theo's names/artwork. Keep green portfolio interface accents; no new UI palette or layout is needed.
+Search active legacy references beyond this table. Most office/profile/sidebar labels derive from `agent.displayName`; verify those surfaces instead of introducing duplicate hardcoded names. Preserve Rex, Clara, and Wolffe's names/artwork. Keep green portfolio interface accents; no new UI palette or layout is needed.
 
 ### 4. Verify and deliver
 

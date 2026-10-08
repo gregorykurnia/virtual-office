@@ -11,7 +11,7 @@ The owner earns/spends IDR, invests in US-listed stocks and ETFs, seeks wealth a
 | portfolio | Paz | Portfolio Analyst; combined digest assembler | portfolio-bot / portfolio-ledger |
 | market | Rex | Global Markets Analyst | market-bot / market-terminal |
 | research | Clara | Opportunity Scout | research-bot / research-library |
-| risk | Theo | AI & Technology Analyst | risk-bot / risk-console |
+| risk | Wolffe | AI & Technology Analyst | risk-bot / risk-console |
 
 Keep four agents only. Legacy IDs and avatar keys are identity references, not new role descriptions. Preserve external IDs where verified. Update instructions and display labels without recreating identities. Risk analysis remains a responsibility across the four roles.
 
@@ -39,7 +39,7 @@ Every serious candidate answers: why this business/sector; why now; supporting e
 
 Outputs: weekly radar with at most three meaningful developments; one weekly deep investigation when justified; evidence-triggered watchlist updates. “No compelling new opportunity” is valid. Do not force recommendations or promise multibagger returns.
 
-### Theo: AI & Technology Analyst
+### Wolffe: AI & Technology Analyst
 
 Track meaningful models, capabilities, pricing, APIs, limits and availability; coding agents, automation, OpenClaw and infrastructure; official documentation, credible independent evaluations and practical evidence. Explain benchmark limitations. Track infrastructure spending, inference costs, adoption and monetization. Identify concrete applications for DEUS, development and solo software businesses. Distinguish announcement from general availability. Share investment implications with Paz/Clara through the app data layer.
 
@@ -49,7 +49,7 @@ Classify findings as Use now, Watch, or Investment implication. Outputs: concise
 
 Every report includes title, agent, type, generation time, coverage period, data freshness, changes since previous report, personal relevance, linked sources with publication dates, facts distinct from interpretation, risks/uncertainty/contradictions, follow-up questions, related holdings/ETFs/sectors/topics and proposed next step (including no action needed). Unknown publication dates must remain unknown. Prefer filings, IR, ETF issuers, central banks, official statistics and product docs; supplement with credible reporting. Never fabricate research, citations or activity. Label demo, stale, unavailable and missing data distinctly.
 
-Primary ownership: portfolio/ETFs → Paz; macro/rates/FX/commodities → Rex; new investment opportunities → Clara; AI tools/models/industry → Theo. Share persistent findings with event keys, primary owner and linked specialist reports through owner-scoped storage; native agent messaging is unverified. One event appears once in the 400–700 word combined digest with links to specialist analysis. Paz assembles it from completed reports; no fifth agent. Store previous findings and research deltas. Lightweight screening precedes deeper work; scan frequency, report length, research budgets and model selection are editable.
+Primary ownership: portfolio/ETFs → Paz; macro/rates/FX/commodities → Rex; new investment opportunities → Clara; AI tools/models/industry → Wolffe. Share persistent findings with event keys, primary owner and linked specialist reports through owner-scoped storage; native agent messaging is unverified. One event appears once in the 400–700 word combined digest with links to specialist analysis. Paz assembles it from completed reports; no fifth agent. Store previous findings and research deltas. Lightweight screening precedes deeper work; scan frequency, report length, research budgets and model selection are editable.
 
 ## Editable schedules and dependency handling
 
@@ -64,7 +64,7 @@ All cron expressions below are desired application defaults in Asia/Jakarta, not
 | Combined weekly review | Paz | Sat 10:00 WIB | 0 10 * * 6 |
 | Monthly portfolio inputs/review generation | Paz | Day 1, 09:00 WIB | 0 9 1 * * |
 | Monthly portfolio/DCA review | Paz | Day 1, 10:00 WIB | 0 10 1 * * |
-| AI digest | Theo | Mon/Wed/Fri 09:00 WIB | 0 9 * * 1,3,5 |
+| AI digest | Wolffe | Mon/Wed/Fri 09:00 WIB | 0 9 * * 1,3,5 |
 | Opportunity deep dive, when justified | Clara | Fri 17:00 WIB | 0 17 * * 5 |
 
 Prerequisite times are editable engineering defaults. Contribution-date edits must move dependent monthly generation with the review. Capture coverage windows explicitly; Tuesday covers the preceding Monday US session. Weekly radar and worth-testing recommendation feed the Saturday review. Material alerts are event-triggered, not routine notifications or promised real-time coverage.
@@ -79,7 +79,7 @@ Preserve the existing React/TypeScript/Vite, Fastify, Zod and owner-scoped Fires
 
 Feed: agent/type/topic or ticker/importance/date filters, search, source-rich details, related reports, bookmarks/read state and distinct digest/deep-dive/alert/portfolio-review types. Keep current bounded search limitations explicit until expanded.
 
-Commands accept explicit agent selection or automatic routing. Persist owner, routing explanation, coordinated child tasks, progress and resulting report. Cross-role requests create one parent and consolidated answer, with failed/missing children visible. Route weekly 13-stock review and ETF changes to Paz; Treasury yields to Rex; emerging themes to Clara; AI worth-testing requests to Theo; DCA to Paz with missing-input gates; combined briefing to coordinated specialist tasks and Paz assembly. An explicit selection remains visible; requests beyond that role require transparent coordination. Never interpret a research command as trade authorization.
+Commands accept explicit agent selection or automatic routing. Persist owner, routing explanation, coordinated child tasks, progress and resulting report. Cross-role requests create one parent and consolidated answer, with failed/missing children visible. Route weekly 13-stock review and ETF changes to Paz; Treasury yields to Rex; emerging themes to Clara; AI worth-testing requests to Wolffe; DCA to Paz with missing-input gates; combined briefing to coordinated specialist tasks and Paz assembly. An explicit selection remains visible; requests beyond that role require transparent coordination. Never interpret a research command as trade authorization.
 
 ## Technical delivery sequence and acceptance checklist
 

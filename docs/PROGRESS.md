@@ -1,8 +1,8 @@
 # Implementation progress
 
-> Requirements update — 7 October 2026: [Four-agent workflow specification](./FOUR_AGENT_WORKFLOW_SPEC.md) is authoritative for the revised roles, investor context, watchlists, reporting, coordination, editable WIB schedules, UI controls, and acceptance checks. Conflicting historical defaults below are superseded. Preserve Rex (`market`), Paz (`portfolio`), Clara (`research`), and Theo (`risk`) and their stable artwork keys. Paz is the approved cosmetic replacement for the portfolio display identity; linked responsibilities and records remain unchanged. This update records requirements; it does not claim implementation or live connectivity.
+> Requirements update — 8 October 2026: [Four-agent workflow specification](./FOUR_AGENT_WORKFLOW_SPEC.md) is authoritative for the revised roles, investor context, watchlists, reporting, coordination, editable WIB schedules, UI controls, and acceptance checks. Conflicting historical defaults below are superseded. Preserve Rex (`market`), Paz (`portfolio`), Clara (`research`), and Wolffe (`risk`) and their stable artwork keys. Paz is the approved cosmetic replacement for the portfolio display identity; Wolffe replaces the risk display identity, with linked responsibilities and records unchanged. This update records requirements; it does not claim implementation or live connectivity.
 
-Last updated: 7 October 2026
+Last updated: 8 October 2026
 
 ## Milestones
 
@@ -24,7 +24,7 @@ Last updated: 7 October 2026
 - Completed Step 2 with the Node-pinned npm workspace, lockfile, React/TypeScript/Vite frontend shell, inactive backend package, shared Zod schema, strict TypeScript, and lint configuration.
 - Completed Step 3 with the route and interaction contract in `INTERACTIONS.md`, including mobile/back behavior and loading/empty/error states.
 - Completed Step 4 with annotated, browser-openable desktop and 360 px mobile wireframes for Office, analyst profile, Reports, and report detail in `design-concepts/step-4-wireframes.html`. The related CSS tokens are in `design-concepts/step-4-tokens.css`.
-- Completed Step 5 with a coherent rendered asset set for Rex, Paz, Clara, and Theo: four distinct desk assets plus idle, reading, typing, report-ready, and attention poses. The manifest, normalized anchor/export rules, accessibility boundary, and local preview are documented in `docs/ASSET_CONTRACT.md`.
+- Completed Step 5 with a coherent rendered asset set for Rex, Paz, Clara, and Wolffe: four distinct desk assets plus idle, reading, typing, report-ready, and attention poses. The manifest, normalized anchor/export rules, accessibility boundary, and local preview are documented in `docs/ASSET_CONTRACT.md`.
 - Completed Step 6 with Zod-validated app-owned agent/task/report/run/preferences contracts, an `OfficeService` interface with data-mode and observed-time envelopes, filter/page shapes, and separate execution, delivery, and report-processing transition rules.
 - Completed Step 7 with a fixed-clock demo fixture set, four analysts and tasks, eight complete illustrative reports, fictional sample symbols, a failed run, offline/no-report/failing-run scenarios, local-only idempotent run simulation, and versioned `investment-office:demo:v1` persistence. The app shell now exposes a scenario selector and Reset demo control.
 - Completed Step 8 with the application shell, header/demo/preferences controls, Reports list and stable detail routes, URL-preserving analyst/unread/date filters, debounced search, safe Markdown rendering with controlled links, source and run metadata, detail-time read tracking, and loading/empty/not-found/unavailable states. The affected screens were inspected at desktop and phone widths.
@@ -95,3 +95,11 @@ Step 21 is complete: exact stable OpenClaw `2026.9.8`, dedicated server account,
 ## Step 22 OpenClaw integration contract discovery — 8 October 2026
 
 Completed Step 22 contract discovery against installed OpenClaw `2026.9.8`: captured the CLI surface, `main` bootstrap roster, automation inventory and disabled scheduler status, exact successful/active/failed manual run receipts, and sanitized success/failure completion webhook envelopes with run IDs. Three no-delivery lifecycle probes and two webhook probes were removed and verified absent. Both temporary webhook callbacks returned HTTP 204; neither included authentication headers, and the CLI exposes no outbound webhook-auth option. The exact-host SSRF exception used only for the loopback receiver was restored to its original unset state; the scheduler stayed disabled and existing system jobs were unchanged. No probe invoked a model or recurring schedule. The app receiver, independent authentication path, adapter/reconciliation and first persisted report remain pending. Evidence: [OpenClaw integration contract](OPENCLAW_INTEGRATION.md). Step 23 implementation is not started.
+
+## Wolffe avatar replacement — 8 October 2026
+
+Completed the [Wolffe design and replacement guide](../design-concepts/WOLFFE_AVATAR_DESIGN_AND_REPLACEMENT_GUIDE.md), preserved the supplied photo at `design-concepts/wolffe-photo-reference.jpeg`, and published the [visual review board](../design-concepts/wolffe-avatar-preview.html). The approved idle design was reviewed before the four remaining poses were derived.
+
+All five poses are normalized into ten 352 × 352 RGBA PNG/WebP runtime files. They share a measured ground anchor of `324 / 352`; pose-specific alpha bounds and captures are recorded in [Wolffe replacement verification](verification/wolffe-avatar-replacement.md). The stable `risk` ID, `risk-bot` and `risk-console` keys, red accent, responsibilities, tasks, reports, runs, and schedules remain intact.
+
+The demo fixtures, saved-demo migration, HTTP presentation, report fallbacks, accessible labels, and asset gallery use Wolffe / AI & Technology Analyst. No external agent, scheduler, or owner-scoped record was recreated or dispatched. Typecheck, lint, build, and desktop/phone visual checks passed.

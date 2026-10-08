@@ -114,8 +114,8 @@ const agents: Agent[] = [
   AgentSchema.parse({
     id: "risk",
     role: "risk",
-    displayName: "Theo",
-    title: "Risk Analyst",
+    displayName: "Wolffe",
+    title: "AI & Technology Analyst",
     responsibility: "Challenge assumptions and identify exposure or data gaps",
     avatarKey: "risk-bot",
     deskKey: "risk-console",

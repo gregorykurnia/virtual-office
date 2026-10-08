@@ -78,8 +78,8 @@ export const OFFICE_ASSETS = {
     avatarKey: "risk-bot",
     deskKey: "risk-console",
     accent: "#c53b4a",
-    accessory: "red shield badge and risk-console alert light",
-    accessibleName: "Theo, Risk Analyst"
+    accessory: "slate and light armor, side rangefinder, red shield badge and risk-console alert light",
+    accessibleName: "Wolffe, AI & Technology Analyst"
   }
 } as const satisfies Record<AgentId, AnalystOfficeAsset>;
 
@@ -128,11 +128,11 @@ export const AVATAR_ASSETS = {
     attention: 326 / 352
   }),
   risk: createAvatarManifest("risk-bot", {
-    idle: 340 / 352,
-    reading: 326 / 352,
-    typing: 326 / 352,
-    "report-ready": 326 / 352,
-    attention: 326 / 352
+    idle: 324 / 352,
+    reading: 324 / 352,
+    typing: 324 / 352,
+    "report-ready": 324 / 352,
+    attention: 324 / 352
   })
 } satisfies Record<AgentId, AvatarAssetManifest>;
 

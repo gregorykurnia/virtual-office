@@ -1,14 +1,14 @@
-# Wolffe avatar design guide and Theo replacement plan
+# Wolffe avatar design and replacement guide
 
-Status: **plan only**, 8 October 2026. No Wolffe artwork has been generated or approved, and no runtime assets, names, stored records, or external configuration have been replaced. This document defines the design and a future rollout.
+Status: **implemented**, 8 October 2026. The supplied photo is preserved, the idle design was approved, all five pose masters were derived and normalized, the ten `risk-bot` runtime files were replaced, and current demo/live presentation labels now use Wolffe. Stable IDs, linked records, and external configuration were not recreated or dispatched.
 
 ## 1. Intended result and scope
 
-Replace the fourth analyst's current Theo name and robot figure with **Wolffe**, based on the user's supplied image. Wolffe must belong to the existing Rex/Paz/Maul avatar family in proportions, rendered volume, camera, lighting, materials, pose vocabulary, and apparent scale. The character change covers the complete five-pose family and every active display-name surface.
+The fourth analyst's current Theo name and robot figure are replaced with **Wolffe**, based on the user's supplied image. Wolffe belongs to the existing Rex/Paz/Maul avatar family in proportions, rendered volume, camera, lighting, materials, pose vocabulary, and apparent scale. The character change covers the complete five-pose family and every active display-name surface.
 
 The target is the existing **`risk`** analyst, not an array position or a new agent. Keep exactly four identities: Rex/`market`, Paz/`portfolio`, Maul/`research`, and Wolffe/`risk`. Preserve `risk-bot`, `risk-console`, linked tasks/reports/runs, verified external IDs, and the red interface accent `#C53B4A`. The authoritative [four-agent specification](../docs/FOUR_AGENT_WORKFLOW_SPEC.md) assigns this slot **AI & Technology Analyst** responsibilities; risk analysis remains shared across the four roles.
 
-The user's Theo → Wolffe request supersedes the older Theo name/artwork preservation rule for this cosmetic replacement. It does not change responsibilities, research inputs, schedules, ownership, routing, or the other characters. During the eventual rollout, update current identity documentation to record that exception. This planning pass leaves those documents and the app unchanged.
+The user's Theo → Wolffe request supersedes the older Theo name/artwork preservation rule for this cosmetic replacement. It does not change responsibilities, research inputs, schedules, ownership, routing, or the other characters. Current identity documentation records that exception. Historical Theo captures and references remain labeled as historical evidence where they establish the outgoing slot.
 
 ## 2. References inspected and their priority
 
@@ -20,19 +20,19 @@ The planning review inspected the supplied photograph, **all 20 current producti
 | [Production Rex idle](../frontend/public/assets/office/avatars/market-bot-idle.png) | Primary construction reference for translating clone-style armor into the office's oversized helmet, compact body, rounded limbs, gloves, boots, and softly glossy finish. |
 | [Production Paz idle](../frontend/public/assets/office/avatars/portfolio-bot-idle.png) | Secondary helmet/material reference; compact accessory handling and planted stance. |
 | [Production Maul idle](../frontend/public/assets/office/avatars/research-bot-idle.png) | Current family reference for head/body scale, soft volume, calm character presence, and restrained role-badge size. Use the approved runtime interpretation, including its hair and horns, rather than older prompt text. |
-| [Current Theo idle](../frontend/public/assets/office/avatars/risk-bot-idle.png) | Slot, red shield badge, and replacement baseline. Its robot face, antenna, and shell are to be replaced. |
+| [Outgoing Theo idle](../frontend/public/assets/office/avatars/risk-bot-idle.png) | Historical slot, red shield badge, and replacement baseline. Its robot face, antenna, and shell were replaced by the Wolffe set. |
 | [Asset contract](../docs/ASSET_CONTRACT.md) | Dimensions, safe bounds, placement, alpha, and semantic boundaries. |
 | [Rex guide](CAPTAIN_REX_AVATAR_DESIGN_GUIDE.md), [Paz guide](PAZ_AVATAR_DESIGN_AND_REPLACEMENT_GUIDE.md), [Maul guide](MAUL_AVATAR_DESIGN_GUIDE.md), [Maul replacement plan](../docs/MAUL_AVATAR_REPLACEMENT_PLAN.md) | Existing production workflow and visual-review precedents. |
 
 **Priority:** production avatars govern style; the user photograph governs Wolffe's visible costume features; the contract governs exports. Do not inherit the photograph's adult anatomy, cropped composition, weapon, gritty surface damage, or cinematic background/light. Do not make Wolffe by recoloring Rex: helmet face geometry, markings, shoulder treatment, and rangefinder must follow the supplied reference.
 
-The supplied Downloads path is local and is not a portable repository asset. At the later artwork stage, preserve an unchanged copy as `design-concepts/wolffe-photo-reference.jpeg` and link it here. This copy is a future deliverable. Attach actual image files to any generation tool; Markdown paths alone do not condition the model.
+The supplied Downloads path is local and is not a portable repository asset. The unchanged copy is preserved as `design-concepts/wolffe-photo-reference.jpeg` and linked from the review board. Attach actual image files to any generation tool; Markdown paths alone do not condition the model.
 
 ### Current idle artwork for direct comparison
 
-| Rex | Paz | Maul | Theo — replacement slot |
+| Rex | Paz | Maul | Wolffe — current risk slot |
 | --- | --- | --- | --- |
-| ![Current Rex idle](../frontend/public/assets/office/avatars/market-bot-idle.png) | ![Current Paz idle](../frontend/public/assets/office/avatars/portfolio-bot-idle.png) | ![Current Maul idle](../frontend/public/assets/office/avatars/research-bot-idle.png) | ![Current Theo idle](../frontend/public/assets/office/avatars/risk-bot-idle.png) |
+| ![Current Rex idle](../frontend/public/assets/office/avatars/market-bot-idle.png) | ![Current Paz idle](../frontend/public/assets/office/avatars/portfolio-bot-idle.png) | ![Current Maul idle](../frontend/public/assets/office/avatars/research-bot-idle.png) | ![Wolffe idle](../frontend/public/assets/office/avatars/risk-bot-idle.png) |
 
 These are current assets, not Wolffe concepts. A later review board must normalize **apparent character height and foot baseline**; equal image-box sizes alone do not establish matching scale.
 
@@ -43,7 +43,7 @@ These are current assets, not Wolffe concepts. A later review board must normali
 | Rex | Oversized ivory helmet with blue markings, broad dark visor, beveled face plates, tiny armored torso, dark rounded gloves, thick short legs, chunky boots, and compact split waist panels. Reading uses a dark tablet; typing uses two hands with a small keyboard; report-ready raises a pale document; attention raises one hand. |
 | Paz | Large rounded blue helmet, dark T visor, yellow/ochre armor accents, compact rangefinder, green ledger badge, and short sturdy armored limbs. Reading holds a green folio; typing uses a compact keyboard; report-ready presents a pale tablet/document; attention raises a hand near the helmet. |
 | Maul | Rounded red/black face, amber eyes, dark hair and short horns, compact dark tunic, violet book badge, and rounded boots. Reading holds an open book; typing uses a small keyboard; report-ready presents a dark folio; attention uses an open hand. |
-| Theo | White robot shell, cyan oval eyes, red antenna and shield badge. Reading holds a red folio; typing uses a compact keyboard; report-ready raises a pale document; attention raises a hand to the face. All five robot images must be replaced together. |
+| Outgoing Theo | White robot shell, cyan oval eyes, red antenna and shield badge. Reading held a red folio; typing used a compact keyboard; report-ready raised a pale document; attention raised a hand to the face. All five robot images were replaced together. |
 
 Across the set, gestures change hands/props without changing character design, camera, lighting, or stance into a different visual style. Wolffe should follow that same pattern.
 
@@ -101,16 +101,16 @@ The inspected `avatarBehavior.ts` currently selects `typing` for working, `readi
 
 Walking, turning, sitting, seated working, chair transitions, and social animation are separate future movement work in the product/technical plans. This replacement delivers the **five existing static states**. Future clips must derive from the approved Wolffe master and carry the same armor/markings/rangefinder/badge; do not claim that standing pose swaps supply a walk cycle or seated rig.
 
-## 5. Later artwork workflow and design review
+## 5. Artwork workflow and design review
 
-Execute these steps only when artwork creation is requested:
+The requested artwork workflow was completed as follows:
 
-1. Preserve the source photograph unchanged in the repository and attach it together with production Rex/Paz/Maul idle references and Theo's role-slot reference. Load the imagegen skill for image generation.
-2. Generate **one** high-resolution transparent full-body idle candidate, saved separately as `design-concepts/wolffe-idle-concept-v1.png`. No production replacement at this stage.
-3. Inspect genuine alpha, edges, geometry, light, proportions, markings, rangefinder, and badge against the attached references. Repair style mismatch before describing the candidate as ready.
-4. Show the real generated image inline and link its master. Create a review board/page with Rex, Paz, Maul, and Wolffe at matched apparent height and a common foot baseline, plus Theo as the outgoing comparison. Include light/dark backgrounds, actual **32, 36, and 40 CSS px** samples, and current scene/portrait sizes. Enlarged samples must be labeled accurately.
-5. Obtain approval of the shown idle design before generating the other four poses or replacing runtime files, following the prior Paz/Maul visual checkpoint. A plan, prompt, or missing image is not design approval.
-6. Preserve the approved master with a versioned filename, suggested `wolffe-idle-master-approved-v1.png`. Derive four pose masters, compare all five at equal scale, then normalize and stage the complete production set.
+1. Preserved the source photograph unchanged as `design-concepts/wolffe-photo-reference.jpeg` and used it with the production avatar references during the image-generation review.
+2. Generated the transparent idle candidate at `design-concepts/wolffe-idle-concept-v1.png` and recorded the approved master as `design-concepts/wolffe-idle-master-approved-v1.png`.
+3. Inspected alpha, edges, geometry, light, proportions, markings, rangefinder, and badge; removed disconnected stray alpha components during export.
+4. Published the review board at `design-concepts/wolffe-avatar-preview.html` with Rex, Paz, Maul, Wolffe, the outgoing slot reference, light/dark surfaces, actual **32, 36, and 40 CSS px** samples, and current scene/portrait samples.
+5. The user approved the shown idle design before the four additional poses and runtime replacement were staged.
+6. Derived the reading, typing, report-ready, and attention masters, compared all five at equal scale, then normalized and replaced the complete production set.
 
 ### Copy-ready idle prompt for the later artwork stage
 
@@ -159,29 +159,29 @@ watermarks, extra characters, poster, or contact sheet. Output one avatar master
 
 - Transparent **352 × 352** WebP and matching PNG for each of the five poses, using the logical **128 × 128** box. Preserve high-resolution masters separately.
 - Logical ground target **(64, 110)** and starting safe bounds **x: 18–110, y: 5–117**. Keep rangefinder, hands, and props inside the bounds; ensure the pole does not force the whole body to shrink compared with Rex/Paz.
-- Measure actual alpha-bottom for each normalized pose and store its normalized `groundAnchorY` in `AVATAR_ASSETS`. Current Theo offsets are `340/352` idle and `326/352` for the other four; they are outgoing measurements, not Wolffe targets.
+- Measure actual alpha-bottom for each normalized pose and store its normalized `groundAnchorY` in `AVATAR_ASSETS`. Wolffe's five normalized poses share a measured alpha-bottom of `324/352`; the outgoing Theo offsets were `340/352` idle and `326/352` for the other four.
 - Use the renderer's existing placement calculation and CSS shadow/selection ring. Normalize framing and boot baseline before considering any layout adjustment. Match body/helmet scale as well as the highest rangefinder pixel.
 - Verify real alpha, no pale/dark halos, no stray opaque specks, identical PNG/WebP composition, unclipped accessories, stable planted feet, and comparable transfer/decoded size. Inspect on light/dark backgrounds at reference samples and actual runtime sizes; current scene CSS uses a clamped box, so contract samples alone are insufficient.
 
-## 7. Full replacement rollout — future implementation
+## 7. Full replacement rollout — completed implementation
 
 ### A. Integrate all artwork and current names together
 
 | File / surface | Planned change |
 | --- | --- |
-| `frontend/public/assets/office/avatars/risk-bot-{pose}.{png,webp}` | Replace all ten files together with approved normalized Wolffe poses. Preserve the filenames/asset key so no state falls back to Theo. |
-| `frontend/src/assets/officeAssets.ts` | Set `risk.accessibleName` to `Wolffe, AI & Technology Analyst`; describe slate/light armor, rangefinder, and red shield badge; record five measured ground anchors. Keep keys and red accent. |
-| `frontend/src/demo/fixtures.ts` | Change `risk.displayName` to Wolffe. Current demo title says Risk Analyst; align visible role wording with the authoritative AI & Technology Analyst specification without claiming workflow implementation. Preserve IDs, relationships, actual task behavior and data-mode labels. |
+| `frontend/public/assets/office/avatars/risk-bot-{pose}.{png,webp}` | Replaced all ten files together with approved normalized Wolffe poses. Filenames and the `risk-bot` key remain stable. |
+| `frontend/src/assets/officeAssets.ts` | Set `risk.accessibleName` to `Wolffe, AI & Technology Analyst`; describe slate/light armor, rangefinder, and red shield badge; record five measured ground anchors. Keys and red accent remain stable. |
+| `frontend/src/demo/fixtures.ts` | Set `risk.displayName` to Wolffe and the visible title to AI & Technology Analyst. IDs, relationships, actual task behavior and data-mode labels remain unchanged. |
 | `frontend/src/demo/demoOfficeService.ts` | Extend the existing Paz/Maul display-name migration to the stable `risk` record. Migrate saved demo identity without resetting reports, read state, preferences, runs, or idempotency keys; repeated loading remains safe. |
 | `frontend/src/services/httpOfficeService.ts` | Extend the existing approved cosmetic display-name resolution to `risk`, so old backend display labels cannot reappear in the current UI. Reconcile title presentation with the approved role wording without falsifying configured task capabilities. |
 | `frontend/src/components/ReportListPage.tsx`, `ReportDetailPage.tsx` | Replace hardcoded `Theo · Risk Analyst` fallbacks with `Wolffe · AI & Technology Analyst`. Verify missing-agent and failure initials become W. |
 | `frontend/public/assets/office/index.html` | Update fourth-row heading, captions, alt text, role description, and all five previews. |
 | Office, sidebar/list, profile, search/filter, tooltips, report author/filter, accessible interaction labels | Verify names derived from `agent.displayName` resolve consistently to Wolffe. Reuse shared components rather than adding independent labels. |
 | `frontend/src/components/AnalystAvatar.tsx`, `frontend/src/scene/avatarBehavior.ts`, `officeActivityController.ts` | Inspect propagation and fallback behavior; preserve shared pose/state/motion behavior. The risk seed `0x5448454f` is a deterministic behavior constant, not a visible name; do not change it solely for the rename. |
-| Owner-scoped stored agent metadata | Inventory the actual configured records and supported write path, then update display-only identity for `risk` where applicable. Fixtures and frontend aliasing do not prove persisted records were migrated. Preserve schema/ownership/external IDs; no blind reseeding. |
-| Verified OpenClaw display labels or configuration | Inventory installed interfaces/mappings before planning any supported cosmetic update. Preserve external agent/job IDs, task ownership and WIB schedules. No agent recreation, dispatch, blind retry, or notification is part of this art replacement. Record unavailable coverage explicitly. |
+| Owner-scoped stored agent metadata | The frontend migration and live presentation alias update the display-only identity for `risk` without reseeding records. No external owner-scoped write or blind reseed was performed. Schema, ownership, and external IDs remain unchanged. |
+| Verified OpenClaw display labels or configuration | No installed OpenClaw interface or verified external mapping was available in this workspace. External agent/job IDs, task ownership, and WIB schedules were preserved; no agent recreation, dispatch, blind retry, or notification was performed. |
 
-The present source has a role-wording mismatch: the manifest, report fallbacks, and demo fixture use **Risk Analyst**, while the approved specification uses **AI & Technology Analyst** for the same stable `risk` ID. Resolve current presentation during rollout; implementing the AI workflow is separate authorized work. Preserve truthful legacy demo descriptions unless separately aligned and still labeled illustrative.
+The rollout resolved the role-wording mismatch: current manifest, report fallbacks, demo fixture, and live adapter presentation use **AI & Technology Analyst** for the same stable `risk` ID. Implementing the AI workflow remains separate work; demo data is still labeled illustrative.
 
 ### B. Audit active Theo references and historical evidence
 
@@ -195,7 +195,7 @@ The current inventory includes:
 - Existing Rex/Paz/Maul guides and replacement plans that name Theo in their roster or preservation instructions; update current guidance to Wolffe while keeping prior approval facts accurate.
 - Dated evidence including `docs/verification/{maul-avatar-replacement,paz-avatar-replacement,step-13-frontend-handoff,step-21-openclaw-installation}.md`; review each occurrence in context. This list is an observed inventory, not a fixed allowlist.
 
-End with zero Theo names in **active runtime presentation and current roster/instructions**. Preserve truthful historical provenance: dated captures and immutable records originally described Theo. Add a dated replacement note and mark old screenshots as archived; capture new acceptance screenshots for current presentation. Do not rewrite historical report bodies, ownership, timestamps, Git history, or outside immutable records just to remove a name. This plan necessarily contains Theo to define the migration and remains labeled as a plan. Report any retained historical occurrences by file/reason and any unresolved active surfaces.
+The active runtime presentation and current roster/instructions now use Wolffe. This guide and dated captures retain Theo only where they document the outgoing identity or historical provenance. Report bodies, ownership, timestamps, Git history, and outside immutable records were not rewritten.
 
 ### C. Verify and record the eventual rollout
 
@@ -204,19 +204,19 @@ End with zero Theo names in **active runtime presentation and current roster/ins
 3. Run and visually inspect office, analyst list/sidebar, profile, report list/detail, and asset gallery at **1440, 360, and 320 px**, including supported light/dark themes. Check Wolffe label length and title wrapping as well as art.
 4. Exercise five poses and transitions, working/waiting/offline/unknown/unread states, hover, selection, keyboard focus, loading, WebP→PNG fallback, total-image-failure W, reduced motion, interaction holds, and hidden-tab pausing. Maintain at least 44 × 44 CSS px phone hit targets.
 5. Verify fresh demo, preexisting saved demo, and configured HTTP/backend display paths separately. Confirm exactly four stable IDs and unchanged linked records. Record persisted/external migration coverage without describing demo/configured work as live acceptance.
-6. Record idle approval, final master/version, asset measurements, current screenshots, name audit, historical exceptions, and data-source coverage in future `docs/verification/wolffe-avatar-replacement.md`; update progress and asset contract only when those milestones are actually completed.
+6. Record idle approval, final master/version, asset measurements, current screenshots, name audit, historical exceptions, and data-source coverage in `docs/verification/wolffe-avatar-replacement.md`.
 7. Review/stage only implementation-task changes; commit and push per repository instructions. Keep unrelated preexisting work out. Retain prior assets/metadata through version history for a scoped rollback if integration fails; never reset unrelated records.
 
 ## 8. Handoff deliverables and acceptance
 
-| Deliverable | State after this planning pass |
+| Deliverable | State after the implementation pass |
 | --- | --- |
 | This Markdown design guide and replacement plan | Complete |
-| Portable unchanged source photo and Wolffe reference/review board | Future artwork stage |
-| Generated idle shown beside Rex/Paz/Maul and approved | Pending |
-| Approved master plus four coherent pose masters | Pending |
-| Five normalized PNG/WebP pairs and measured anchors | Pending |
-| Complete active-name/art migration, saved-state coverage and current docs | Pending |
-| Runtime visual/behavior verification and dated evidence | Pending |
+| Portable unchanged source photo and Wolffe reference/review board | Complete: photo, concept masters, and `wolffe-avatar-preview.html` |
+| Generated idle shown beside Rex/Paz/Maul and approved | Complete: user-approved idle review |
+| Approved master plus four coherent pose masters | Complete: versioned concept masters |
+| Five normalized PNG/WebP pairs and measured anchors | Complete: ten `risk-bot` files, `324/352` anchor |
+| Complete active-name/art migration, saved-state coverage and current docs | Complete for demo and frontend HTTP presentation; external records not available |
+| Runtime visual/behavior verification and dated evidence | Complete: see `docs/verification/wolffe-avatar-replacement.md` |
 
 Accept the final replacement only when Wolffe is recognizable from the supplied image in **every pose**, matches the existing family's construction/rendering at equal scale, replaces the robot across all active states and fallbacks, and is consistently named Wolffe throughout current display surfaces. No clipping, floor jitter, unexpected prop/helmet drift, transparency halos, small-size contrast loss, or label overflow is acceptable. The stable fourth role and its relationships remain intact.

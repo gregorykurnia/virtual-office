@@ -1,6 +1,6 @@
 # Natural avatar behavior plan
 
-> Requirements update — 7 October 2026: [Four-agent workflow specification](./FOUR_AGENT_WORKFLOW_SPEC.md) is authoritative for the revised roles, investor context, watchlists, reporting, coordination, editable WIB schedules, UI controls, and acceptance checks. Conflicting historical defaults below are superseded. Preserve Rex (`market`), Paz (`portfolio`), Clara (`research`), and Theo (`risk`) and their stable artwork keys. Paz is the approved cosmetic replacement for the portfolio display identity; linked responsibilities and records remain unchanged. This update records requirements; it does not claim implementation or live connectivity.
+> Requirements update — 8 October 2026: [Four-agent workflow specification](./FOUR_AGENT_WORKFLOW_SPEC.md) is authoritative for the revised roles, investor context, watchlists, reporting, coordination, editable WIB schedules, UI controls, and acceptance checks. Conflicting historical defaults below are superseded. Preserve Rex (`market`), Paz (`portfolio`), Clara (`research`), and Wolffe (`risk`) and their stable artwork keys. Paz is the approved cosmetic replacement for the portfolio display identity; Wolffe replaces the risk display identity, with linked responsibilities and records unchanged. This update records requirements; it does not claim implementation or live connectivity.
 
 Status: foundation implemented, 4 October 2026. The first runtime slice adds deterministic stationary ambient behavior; walking, chair compositing, and social sessions remain pending the required artwork and measured scene geometry.
 
@@ -12,7 +12,7 @@ Make the four analysts feel like inhabitants of a calm, living office. They shou
 
 **Sitting means sitting in a desk chair, never on the tabletop.** The robot approaches the chair, faces the workstation, lowers onto the seat, and later stands before walking away.
 
-Example: Paz finishes a seated work interval, stands, takes a few steps into the aisle, pauses and looks toward Clara. Clara turns and gives a small wave. They return to their own routines after a short exchange. Paz keeps reading while Theo shifts his weight. Everyone has a different rhythm.
+Example: Paz finishes a seated work interval, stands, takes a few steps into the aisle, pauses and looks toward Clara. Clara turns and gives a small wave. They return to their own routines after a short exchange. Paz keeps reading while Wolffe shifts his weight. Everyone has a different rhythm.
 
 ## Current project constraints
 
@@ -42,7 +42,7 @@ The following are starting values for visual tuning, not fixed product requireme
 
 Initial crowd limits: at most one social pair and two walking avatars at once. Give all four different start delays and per-agent seeds. Avoid repeated waves, large bounces, constant pacing, and synchronized movement.
 
-Small personality weights can distinguish them without changing their identity: Paz glances toward colleagues a little more, Paz favors desk time, Clara favors reading, and Theo takes shorter breaks. These are decorative preferences, not claims about their capabilities or real work.
+Small personality weights can distinguish them without changing their identity: Paz glances toward colleagues a little more, Paz favors desk time, Clara favors reading, and Wolffe takes shorter breaks. These are decorative preferences, not claims about their capabilities or real work.
 
 ## Keep real work and ambient activity separate
 

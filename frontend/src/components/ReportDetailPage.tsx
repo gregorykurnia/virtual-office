@@ -12,7 +12,7 @@ const AGENT_LABELS: Record<AgentId, string> = {
   market: "Rex · Market Analyst",
   portfolio: "Paz · Portfolio Analyst",
   research: "Clara · Investment Research Analyst",
-  risk: "Theo · Risk Analyst"
+  risk: "Wolffe · AI & Technology Analyst"
 };
 
 function getAgentLabel(agentId: AgentId, agents: Agent[]): string {

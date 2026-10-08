@@ -67,3 +67,7 @@ This establishes the color hierarchy, status shapes, selected states, readable c
 - Make the rounded bot style compact enough for dense scenes.
 - Treat every status color as a color-plus-shape or motion cue.
 - Build around one clear office canvas that scales down to a mobile bottom-sheet pattern.
+
+## Wolffe design and replacement handoff
+
+The [Wolffe design and replacement guide](WOLFFE_AVATAR_DESIGN_AND_REPLACEMENT_GUIDE.md) records the approved photo-to-style translation and completed pose-family replacement for the stable `risk` slot. Open the [Wolffe visual reference board](wolffe-avatar-preview.html) to see the supplied photo, production peers, five poses, light/dark checks, and actual CSS-size samples. The unchanged input photo is preserved as [wolffe-photo-reference.jpeg](wolffe-photo-reference.jpeg).
