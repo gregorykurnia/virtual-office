@@ -672,7 +672,7 @@ Onboarding may itself make a verification model call. Keep that in the authorize
 **Deliverables:** healthy supervised Gateway and sanitized installation notes.  
 **Done when:** one controlled agent turn works using server credentials and the service survives logout.
 
-**Preparation update, 8 October 2026:** the Oracle VM and authorized SSH access are verified, but Step 21 installation, onboarding/model call, and service setup have not started. The host-independent execution sequence, release/runtime gates, service checks, and acceptance evidence are recorded in [`docs/verification/step-21-openclaw-installation.md`](./docs/verification/step-21-openclaw-installation.md). Step 21 is pending provider choice/credentials, Firebase server authorization, and the boot-volume recovery/access plan.
+**Implementation update, 8 October 2026:** Step 21 is complete. Stable OpenClaw `2026.9.8` runs under the dedicated service account with supported systemd supervision, loopback token authentication and verified logout/reboot persistence. Server-owned ChatGPT OAuth and the supported isolated Codex `0.161.0` executable override enabled a successful bounded GPT-6.1 Sol low turn; final Gateway health passed from a fresh SSH session. Recurring research remains disabled. Exact versions, paths, credential renewal and sanitized acceptance evidence are recorded in [`docs/verification/step-21-openclaw-installation.md`](./docs/verification/step-21-openclaw-installation.md). App integration, Firebase server authorization and research reports remain later milestones.
 
 ### Step 22 — Discover and pin the real integration contract
 
