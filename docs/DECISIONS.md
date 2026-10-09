@@ -33,3 +33,10 @@ This file records reversible implementation defaults and facts observed in the w
 The official Node release page lists Node 26.10.0 as Current and 24.21.0 as LTS as of this baseline. The package engine range permits Node 24.x for Vercel builds and Node 26.x locally for the planned OpenClaw runtime. See [Node.js releases](https://nodejs.org/en/about/previous-releases).
 
 The selected Vite 8 line supports Node 20.19+ and 22.12+; this project pins Node 26 per the guide. See the [Vite 8 release notes](https://vite.dev/blog/announcing-vite8).
+
+## Research analyst identity: Maul on hold — 9 October 2026
+
+- The owner designed a Maul avatar for the research analyst and then decided not to use it. Maul is on hold and is not an active identity.
+- Cody remains the research analyst's display identity. The stable IDs (`research` role and agent, `research-bot` and `research-library` keys) are unchanged.
+- The Maul design files are kept, not deleted: `design-concepts/MAUL_AVATAR_DESIGN_GUIDE.md`, `design-concepts/maul-*`, `docs/MAUL_AVATAR_REPLACEMENT_PLAN.md`, and `docs/verification/maul-avatar-replacement*`. Their "implemented" status lines are stale and are superseded by this entry.
+- The uncommitted Maul-only activity seed in `frontend/src/scene/officeActivityController.ts` was reverted to the committed value.
