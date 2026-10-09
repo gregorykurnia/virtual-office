@@ -2,7 +2,7 @@
 
 Assessment date: 8 October 2026
 
-Status: **In progress — host identity, service accounts, persistent paths, clock synchronization, listeners, host firewall, and root SSH hardening were re-verified on 8 October 2026 (UTC). Step 20 is not accepted: OCI ingress, recovery route, home region, backup creation, and restore feasibility require OCI read access and remain open.** Provider and Firebase authentication belong to later gates.
+Status: **In progress — host identity, service accounts, persistent paths, clock synchronization, listeners, host firewall, and root SSH hardening were re-verified on 8 October 2026 (UTC). A read-only OCI pass on 9 October 2026 confirmed the home region, the single instance, the public network path, and an existing available boot-volume backup. Step 20 is not accepted. Still open: a second TCP 22 source that the owner has not explained, an untested restore, an untested recovery route for security-list edits, and approval for the reboot, `rpcbind`, and backup actions.** Provider and Firebase authentication belong to later gates.
 
 This record distinguishes owner-reported details from checks performed on the host. It does not claim that OpenClaw or the application is installed, that provider credentials work, or that live research is running.
 
@@ -39,7 +39,7 @@ This pass used the existing ignored SSH profile and read-only host and instance-
 
 ### OCI items still open
 
-These checks need OCI read access (CLI or console), not host access:
+Status after the 9 October read-only pass (see the OCI section below): items 1 to 3 were checked, and item 4 was found to exist. The remaining work is items 5 and 6 and the approval-dependent actions. The original list is kept as the pre-pass record:
 
 1. The saved TCP 22 source in each applicable security list and NSG, the source address range, and any broader overlapping rule. The owner-reported `/32` change still has no saved-rule evidence.
 2. The tenancy home region. Oracle's Always Free A1 allowance applies only to compute created in the home region. This instance uses the full 2 OCPU and 12 GB allowance, so another A1 instance would exceed it, and a non-home-region instance may not be free.
@@ -61,7 +61,50 @@ These checks need OCI read access (CLI or console), not host access:
 
 Later gates, not Step 20 host items: C1 Firebase Admin authorization, Auth/Rules/indexes/migration, authenticated empty-app acceptance, app-to-Gateway worker composition (C2), provider credential and endpoint tests (Steps 21 and 25), and laptop-off application-report proof (Step 29).
 
-## Owner-provided Oracle setup details
+## OCI read-only verification — 9 October 2026
+
+Access: an OCI CLI session created through the browser sign-in, using the profile `investment-office-readonly`. The profile name does not limit permissions. The results below come from reads that this identity actually performed. No create, modify, or delete action was run. Identifiers and addresses are private in `.env.step20.oci.local`.
+
+| Item | Result | Status |
+| --- | --- | --- |
+| Home region | `ap-batam-1` is the tenancy home region and is `READY`. The VM is in the same region. | Verified |
+| Instance | Running `VM.Standard.A1.Flex`, 2 OCPU, 12 GB, in availability domain 1. An OCI Search query across the tenancy finds this as the only instance. | Verified; uses the full A1 Always Free allowance |
+| Network path | Public subnet. The VNIC has a public address and no NSG is attached. One security list applies: `Default Security List for investment-office-vcn`. | Verified |
+| TCP 22 ingress | Two `/32` sources are allowed. One matches this workstation's current public address, and recent SSH logins on the VM came from that address. The other `/32` is not explained by the owner's reports. ICMP is also allowed from `0.0.0.0/0` and from the VCN range. That rule does not open TCP 22. | Partly verified; the extra `/32` needs an owner decision |
+| Boot volume | 47 GB, `AVAILABLE`, with no backup policy assigned. | Verified |
+| Backup | One manual full boot-volume backup, `AVAILABLE`, created 8 October 2026 at 02:31 UTC. It has about 5 GB of unique data. | Backup exists. Restore not tested. |
+| Always Free backup count | 1 of the 5 Always Free volume backups allowed in the home region, per Oracle's documentation. | Within limit |
+| Block volumes | None in the instance compartment. | Verified |
+| Recovery route | The Oracle sign-in for this tenancy works. The VM has no serial or VNC console connection configured. Editing security lists was not tested, because this profile is read-only. | Partly verified |
+
+### Restore feasibility (not tested)
+
+- A restore creates a new boot volume in the same availability domain. The combined block and boot storage would be about 94 GB, which fits within the 200 GB Always Free storage limit. I did not verify whether backup storage counts toward that limit.
+- A restored volume proves only that the backup is readable and restorable. It doesn't prove the volume boots. A bootable test needs a second instance, and this VM already uses the whole A1 allowance, so that test would be billable or would replace this VM.
+- The proposed non-disruptive test is to restore to a volume only, confirm that it becomes `AVAILABLE` with the expected size, and then delete the test volume after approval. The running boot volume is not touched.
+
+### Approval packets (nothing below has been run)
+
+**A. Restore test (volume only).** Creates one restored boot volume in the same availability domain, then deletes it after the check. Cost: within the free storage limit, but the cost is not fully verified. Rollback: delete the test volume.
+
+**B. Extra TCP 22 source.** Remove the `/32` that does not match this workstation, only after the owner confirms it is no longer needed. Keep the current address. Rollback: re-add the rule. Before this edit, confirm that a write-capable Oracle sign-in works, because that is the recovery path.
+
+**C. Disable `rpcbind`.**
+
+- Command: `sudo systemctl disable --now rpcbind.socket rpcbind.service`
+- Impact: port 111 stops listening. `rpc-statd`, used only for NFS locking, can no longer start. No NFS mounts or NFS fstab entries exist, and `nfs-client.target` does not depend on `rpcbind`.
+- Rollback: `sudo systemctl enable --now rpcbind.socket rpcbind.service`
+
+**D. Reboot to kernel `7.0.0-1012-oracle`.** This is disruptive. Before approval, the following must be in place:
+
+- A serial console connection for the VM, created through OCI. This lets the owner pick the previous kernel `6.17.0-1020-oracle` at the boot menu if the new kernel fails. Without it, a failed boot can't be rolled back from the console. Creating the connection is a write action, so it needs approval.
+- A fresh boot-volume backup taken before the reboot, which also needs approval.
+- Pre-reboot checks: the Gateway is active, the `investment-office` and `openclaw` accounts are intact, and `automations status --json` shows `enabled: false`.
+- Post-boot checks: `uname -r` shows the new kernel. The `openclaw` user's `openclaw-gateway.service` is active. `openclaw gateway status --deep` and `openclaw health` pass. `ss -tulnp` shows the Gateway only on loopback. `nft list ruleset` and `sshd -T` match the recorded settings. `systemctl --failed` is empty. `timedatectl` reports NTP synchronized.
+
+**E. Memory-core dreaming job.** No action now. It must be resolved before any scheduler activation, as the instruction for this task says. It does not block host readiness.
+
+**F. SSH TCP forwarding.** Stays enabled, because the private tunnel access depends on it.
 
 ## Owner-provided Oracle setup details
 
