@@ -9,7 +9,8 @@
     "build": "tsc -p tsconfig.json",
     "typecheck": "tsc --noEmit -p tsconfig.json",
     "lint": "eslint .",
-    "test": "node --import tsx/esm --test src/app.test.ts src/integrations/openclaw/cliAdapter.test.ts src/integrations/openclaw/mockAdapter.test.ts src/reports/reportContract.test.ts"
+    "test": "node --import tsx/esm --test src/app.test.ts src/integrations/openclaw/cliAdapter.test.ts src/integrations/openclaw/mockAdapter.test.ts src/reports/reportContract.test.ts",
+    "test:emulator": "node --import tsx/esm --test src/ownerIsolation.emulator.test.ts"
   },
   "devDependencies": {
     "@types/node": "^22.0.0",
