@@ -40,3 +40,17 @@ The selected Vite 8 line supports Node 20.19+ and 22.12+; this project pins Node
 - Cody remains the research analyst's display identity. The stable IDs (`research` role and agent, `research-bot` and `research-library` keys) are unchanged.
 - The Maul design files are kept, not deleted: `design-concepts/MAUL_AVATAR_DESIGN_GUIDE.md`, `design-concepts/maul-*`, `docs/MAUL_AVATAR_REPLACEMENT_PLAN.md`, and `docs/verification/maul-avatar-replacement*`. Their "implemented" status lines are stale and are superseded by this entry.
 - The uncommitted Maul-only activity seed in `frontend/src/scene/officeActivityController.ts` was reverted to the committed value.
+
+## Firebase server access (D1) — 10 October 2026
+
+- The API's Firebase Admin credential is the dedicated service account `investment-office-api@virtual-office-77c1d.iam.gserviceaccount.com`. The owner created it in project `virtual-office-77c1d` and confirmed its roles on 10 October 2026. This record is based on that confirmation; the account was not inspected from the repository.
+- Roles: Cloud Datastore User (Firestore data) and Firebase Authentication Viewer (read-only, for revoked-token checks). No other roles.
+- Not used by the API: the default `firebase-adminsdk-fbsvc@virtual-office-77c1d.iam.gserviceaccount.com` account, which has Firebase Admin SDK Administrator Service Agent, Firebase Authentication Admin and Service Account Token Creator. No key is to be created for it for the API.
+- Status: one JSON key for the new account exists on the owner's laptop, outside the repository. It is not on the Oracle server. Placement is pending the owner's approval (resume item 1.2). The server has not yet authenticated with it.
+- Key lifecycle, to follow once the key is placed:
+  - **Location:** a root-owned file, mode 600, outside the repository (for example under `/etc/investment-office/`). Supplied to the API service only, through `GOOGLE_APPLICATION_CREDENTIALS` in the service environment. Never in `VITE_` variables, Git, or chat.
+  - **Rotation (proposed interval, owner to confirm):** create a second key for the same account, place it beside the current key, restart the API, confirm sign-in and an owner read succeed, then delete the old key in Google Cloud and remove the old file.
+  - **Revocation (if a key leaks or the host is compromised):** delete the key in IAM & Admin → Service Accounts → Keys, or disable the account, then remove the file from the server.
+  - **Recovery (if the file is lost):** create a new key for the same account, place it, and delete the old key once the API works with the new one.
+  - **Laptop copy:** delete the Downloads copy after the server holds the key and the server check passes.
+- Open question: the Viewer role may not be enough for the revoked-token check. If the server check fails for that reason, the next narrowest read role is needed, and it will be recorded here before any change.
