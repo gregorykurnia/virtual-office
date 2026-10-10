@@ -159,10 +159,10 @@ The owner's decisions on the open items were: leave the unexplained TCP/22 `/32`
 - **`rpcbind` disabled (done).** `sudo systemctl disable --now rpcbind.socket rpcbind.service`. Both units are now `disabled` and `inactive`, nothing listens on TCP or UDP 111, the Gateway stayed `active`, and `systemctl --failed` is empty. Rollback: `sudo systemctl enable --now rpcbind.socket rpcbind.service`.
 - **Memory dreaming job disabled (done).** `openclaw automations disable` on `memory-core:memory-dreaming-promotion` (job ID `0a4c5b07-…`). Afterwards all five automation records show `enabled=false`, and the scheduler status still reports `enabled: false`. The job's label says it is managed by the memory plugin, so re-check its state after any Gateway restart or plugin update.
 - **TCP/22 source (unchanged).** The owner asked to leave it as is. The unexplained `/32` remains open.
-- **Restore test (not run).** Approved, but blocked. The only OCI profile on the workstation (`investment-office-readonly`) has an expired session token (last refreshed 9 October 2026 08:05 UTC). It is also read-only, so the restore needs a separate write-capable sign-in, to be performed by the owner. Nothing was created or deleted in OCI.
+- **Restore test (done, volume-only).** The owner signed in with a write-capable profile (`investment-office-write`). The 8 October backup (`investment-office-step20-2026-10-08`, `AVAILABLE`, 47 GB) was restored to a new boot volume `restore-test-2026-10-10` in the same availability domain. It became `AVAILABLE` at 47 GB, then was deleted with `--force` and reached `TERMINATED`. Afterwards the server was `RUNNING`, its own boot volume was `AVAILABLE`, and the backup was still `AVAILABLE`. This proves the backup can be restored to a readable volume. It does not prove the restored disk boots. Charges for the temporary volume were not verified.
 - **Reboot (deferred).** Not approved yet. Requires a serial console and a fresh boot-volume backup first.
 
-Step 20 remains **not accepted**. The restore test, the reboot, and the TCP/22 decision are still open.
+Step 20 remains **not accepted**. The reboot (deferred), the TCP/22 decision (left unchanged at owner request), and a bootable recovery test are still open.
 
 ## References
 
