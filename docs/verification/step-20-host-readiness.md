@@ -152,6 +152,18 @@ Access: an OCI CLI session created through the browser sign-in, using the profil
 
 No recurring jobs or public application listener have been created. The app, OpenClaw Gateway, provider authentication, and live-research path are not installed or configured.
 
+## Owner-approved host and job changes — 10 October 2026 (WIB)
+
+The owner's decisions on the open items were: leave the unexplained TCP/22 `/32` unchanged for now; approve the volume-only restore test; approve disabling `rpcbind`; defer the reboot; and turn off the enabled memory job.
+
+- **`rpcbind` disabled (done).** `sudo systemctl disable --now rpcbind.socket rpcbind.service`. Both units are now `disabled` and `inactive`, nothing listens on TCP or UDP 111, the Gateway stayed `active`, and `systemctl --failed` is empty. Rollback: `sudo systemctl enable --now rpcbind.socket rpcbind.service`.
+- **Memory dreaming job disabled (done).** `openclaw automations disable` on `memory-core:memory-dreaming-promotion` (job ID `0a4c5b07-…`). Afterwards all five automation records show `enabled=false`, and the scheduler status still reports `enabled: false`. The job's label says it is managed by the memory plugin, so re-check its state after any Gateway restart or plugin update.
+- **TCP/22 source (unchanged).** The owner asked to leave it as is. The unexplained `/32` remains open.
+- **Restore test (not run).** Approved, but blocked. The only OCI profile on the workstation (`investment-office-readonly`) has an expired session token (last refreshed 9 October 2026 08:05 UTC). It is also read-only, so the restore needs a separate write-capable sign-in, to be performed by the owner. Nothing was created or deleted in OCI.
+- **Reboot (deferred).** Not approved yet. Requires a serial console and a fresh boot-volume backup first.
+
+Step 20 remains **not accepted**. The restore test, the reboot, and the TCP/22 decision are still open.
+
 ## References
 
 The host/network sequence was checked against Oracle's [instance details](https://docs.oracle.com/en-us/iaas/Content/Compute/Tasks/inst-get.htm), [public IP requirements](https://docs.oracle.com/en-us/iaas/Content/Network/Tasks/managingpublicIPs.htm), [security list rules](https://docs.oracle.com/en-us/iaas/Content/Network/Concepts/creating-securitylist.htm), [Always Free resource limits](https://docs.oracle.com/en-us/iaas/Content/FreeTier/freetier_topic-Always_Free_Resources.htm), [boot-volume backup](https://docs.oracle.com/en-us/iaas/Content/Block/Concepts/bootvolumebackups.htm), and [restore procedure](https://docs.oracle.com/en-us/iaas/Content/Block/Tasks/create-restore-bv-boot-volume-backup.htm). Node/SQLite compatibility and the private Gateway posture were checked against the current [OpenClaw Node requirements](https://docs.openclaw.ai/install/node), [Node compatibility table](https://docs.openclaw.ai/install/node-compatibility), and [Linux server guide](https://docs.openclaw.ai/vps).
