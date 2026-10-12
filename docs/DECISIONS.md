@@ -47,6 +47,14 @@ The selected Vite 8 line supports Node 20.19+ and 22.12+; this project pins Node
 - Roles: Cloud Datastore User (Firestore data) and Firebase Authentication Viewer (read-only, for revoked-token checks). No other roles.
 - Not used by the API: the default `firebase-adminsdk-fbsvc@virtual-office-77c1d.iam.gserviceaccount.com` account, which has Firebase Admin SDK Administrator Service Agent, Firebase Authentication Admin and Service Account Token Creator. No key is to be created for it for the API.
 - Status: the key is on the Oracle server at `/etc/investment-office/firebase-admin.json`, owned by `investment-office` with mode 600. It was placed on 10 October 2026 at the owner's request. The `investment-office` user can read it; the `openclaw` user cannot. The temporary copy in the server's home folder was shredded. The owner's Downloads copy remains until the owner removes it. The server has not yet authenticated to Firebase with the key; that check needs the owner's separate approval (resume item 1.2).
+
+## Private access to the app (D3) — 12 October 2026
+
+- Decision: Tailscale on the free Personal plan, so only the owner's own devices reach the app. Nothing is exposed to the public internet. The owner chose it over an SSH tunnel because the planned PWA must run on the owner's phone.
+- Installed and signed in as the owner's account: the owner's Mac and iPhone, and the Oracle server as `investment-office-oracle`. The server was installed from Tailscale's official apt repository (package 1.104.1, service `tailscaled`).
+- Server settings: accept routes off, DNS changes off, Tailscale SSH off, no subnet routes advertised, no exit node. Existing SSH and the loopback-only OpenClaw gateway are unchanged. No public port was opened.
+- Verified on 12 October 2026: the server appears in the tailnet, and the Mac reaches it over Tailscale's relay. A direct connection has not been established yet. `tailscaled` opened an internal listener on the Tailscale interface only; its purpose is not documented here.
+- Not yet done: the app itself is not deployed, so nothing serves on the private route. When the API is deployed (resume item 1.7), its listener will be bound to the tailnet address and the binding recorded here.
 - Key lifecycle, to follow once the key is placed:
   - **Location:** `/etc/investment-office/firebase-admin.json`, owned by the `investment-office` service user with mode 600, so the API can read it and the `openclaw` user cannot. Outside the repository. Supplied to the API service only, through `GOOGLE_APPLICATION_CREDENTIALS` in the service environment, once the API runs on the server (not yet deployed). Never in `VITE_` variables, Git, or chat.
   - **Rotation (proposed interval, owner to confirm):** create a second key for the same account, place it beside the current key, restart the API, confirm sign-in and an owner read succeed, then delete the old key in Google Cloud and remove the old file.
